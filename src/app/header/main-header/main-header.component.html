@@ -1,0 +1,78 @@
+<div id="header">
+    <div class="header-left float-left d-none">
+        <i id="toggle-left-menu" class="">==</i>
+    </div>
+    <div class="calendarbox d-flex align-items-center">
+        <img src="../../../assets/images/calendar.png" class="me-3" alt="">
+        <span>{{curretDate | customDate}}</span>
+    </div>
+    <div class="searchnotifybox float-end d-flex align-items-center me-3">
+        <div class="col-auto">
+            <label class="visually-hidden" for="autoSizingInputGroup">Username</label>
+            <div class="input-group" (click)="$event.stopPropagation()">
+                <input type="text" class="form-control" id="autoSizingInputGroup"
+                    placeholder="Search by Order Number..." [(ngModel)]="searchInput" (input)="onSearchInputChange()">
+                <div class="input-group-text">
+                    <img src="../../../assets/images/search.png" alt="">
+                </div>
+                <div class="box_searchresult position-absolute" *ngIf="isListOpen">
+                    <div class="container-fluid">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <app-new-loader *ngIf="isLoader"></app-new-loader>
+                        </div>
+                        <div class="row" *ngIf="!isLoader">
+                            <div class="col-sm-6 my-1" *ngFor="let item of searchList | slice:0:6; index as i"
+                                (click)="goToOrderDetailPage(item.orderId,item.isActive)">
+                                <div class="card">
+                                    <div class="px-2 pt-2 pb-1">
+                                        <div class="customer-num mb-0">#{{item.orderNo}}</div>
+                                    </div>
+
+                                    <div class="d-flex justify-space-between px-2 pt-2 pb-1 clr-theme">
+                                        <p class="mb-0">FROM: {{item.sourcePincode}}</p>
+                                        <p class="mb-0">TO: {{item.destinationPincode}}</p>
+                                    </div>
+                                    <div
+                                        class="d-flex justify-space-between px-2 pb-2 align-items-center border-bottom">
+                                        <h5 class="mb-0">{{item.sourceCity}}</h5>
+                                        <img src="../../../assets/images/right-gray-arrow.png" alt="">
+                                        <h5 class="mb-0">{{item.destinationCity}}</h5>
+                                    </div>
+                                    <div class="d-flex justify-space-between px-2 pt-2 pb-1 ">
+                                        <p class="mb-0 clr-theme fs-14">Delivered Date</p>
+                                        <p class="mb-0 clr-theme fs-14">Status</p>
+                                    </div>
+                                    <div class="d-flex justify-space-between px-2 pb-2 align-items-center">
+                                        <h5 class="mb-0 fs-14">{{item.orderDate | dateFormat}}</h5>
+                                        <span class="mb-0 status-badge text-white fs-12">{{item.orderStatus}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center mt-3" *ngIf="searchList.length !==0 && totalSearchListItem > 6">
+                                <a (click)="goToOrderListPage()"
+                                    style="color: blue; text-decoration: underline; cursor: pointer;">Show
+                                    All
+                                    Orders</a>
+                            </div>
+                            <div *ngIf="searchList.length === 0" class="text-center my-3">
+                                <p>No items found.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="notification mx-3">
+            <img src="../../../assets/images/notification.png" alt="">
+        </div> -->
+        <div class="separateborder mx-2"></div>
+        <div class="userprofile-img mx-3 dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="../../../assets/images/user-img.png" alt="">
+        </div>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+            <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+        </ul>
+
+    </div>
+</div>

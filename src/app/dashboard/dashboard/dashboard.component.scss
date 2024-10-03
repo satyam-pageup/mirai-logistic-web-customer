@@ -1,0 +1,82 @@
+// #chart {
+//     max-width: 650px;
+//     margin: 35px auto;
+//   }
+
+
+.iconbox-dash {
+    align-items: center;
+    border-radius: 20px;
+  }
+  
+  .icon-cont {
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    background: #f5f5f5;
+    text-align: center;
+    border-radius: 50%;
+  }
+  
+  .textbox-dash p {
+    color: #808080;
+    margin-bottom: .5rem !important;
+  }
+  
+  .textbox-dash h3 {
+    color: #6161f3;
+  }
+  
+  
+  .quarter-chart, .pie-chart{
+    border-radius: 20px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  
+  // -------------------------
+  
+  .order-status {
+    font-family: Arial, sans-serif;
+  }
+  
+  .status,
+  .total-order {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+    border-bottom: 1px solid #ddd;
+    color: #808080;
+  }
+  
+  .total-order {
+    border: none;
+  }
+  
+  .dot {
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  .in-transit {
+    background-color: rgb(0, 143, 251);
+  }
+  
+  .out-of-delivery {
+    background-color: rgb(0, 227, 150);
+  }
+  
+  .delivered {
+    background-color: rgb(254, 176, 25);
+  }
+  
+  .count {
+    font-weight: bold;
+  }

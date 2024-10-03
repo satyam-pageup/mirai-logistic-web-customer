@@ -1,0 +1,104 @@
+<div id="logo" [routerLink]="appRoute.login">
+    <span class="big-logo">
+        <img src="../../../assets/images/mirai-logo.png" alt="">
+    </span>
+    <span class="small-logo">
+        <img src="../../../assets/images/single-logo.png" alt="">
+    </span>
+</div>
+
+<div id="left-menu">
+    <ul class="left-menu-ul">
+        <li class="borderbottom" [routerLinkActive]="'active'"><a [routerLink]="appRoute.login">
+                <img src="../../../assets/images/dashboard.png" class="active-icon" alt="">
+                <img src="../../../assets/images/dashboard-gray.png" class="none-onactive" alt="">
+                <span>Dashboard</span>
+            </a></li>
+        <li class="borderbottom" [routerLinkActive]="'active'"><a
+                [routerLink]="appRoute.login">
+                <img src="../../../assets/images/order-management.png" class="none-onactive" alt="">
+                <img src="../../../assets/images/order-management-white.png" class="active-icon" alt="">
+                <span>Order Management</span>
+            </a>
+        </li>
+        <li class="borderbottom" [routerLinkActive]="'active'"><a
+                [routerLink]="appRoute.login">
+                <img src="../../../assets/images/expense-management.png" class="none-onactive" alt="">
+                <img src="../../../assets/images/expense-category-white.png" class="active-icon" alt="">
+                <span>Expense Management</span>
+            </a>
+        </li>
+        <li class="borderbottom" [routerLinkActive]="'active'"><a
+                [routerLink]="appRoute.login">
+                <img src="../../../assets/images/expense-management.png" class="none-onactive" alt="">
+                <img src="../../../assets/images/expense-category-white.png" class="active-icon" alt="">
+                <span>Pickup Management</span>
+            </a>
+        </li>
+        <li class="borderbottom"  [routerLinkActive]="'active'"><a
+                [routerLink]="appRoute.login">
+                <img src="../../../assets/images/expense-management.png" class="none-onactive" alt="">
+                <img src="../../../assets/images/expense-category-white.png" class="active-icon" alt="">
+                <span>Sales Executive</span>
+            </a>
+        </li>
+        <li class="borderbottom" [routerLinkActive]="'active'"><a
+                [routerLink]="appRoute.login">
+                <img src="../../../assets/images/expense-management.png" class="none-onactive" alt="">
+                <img src="../../../assets/images/expense-category-white.png" class="active-icon" alt="">
+                <span>Query Support</span>
+            </a>
+        </li>
+        <li class="borderbottom" [routerLinkActive]="'active'"><a
+                [routerLink]="appRoute.login">
+                <img src="../../../assets/images/expense-management.png" class="none-onactive" alt="">
+                <img src="../../../assets/images/expense-category-white.png" class="active-icon" alt="">
+                <span>Third Party</span>
+            </a>
+        </li>
+        <li class='has-sub' 
+            [ngClass]="isRatecardConfigurationOpen ? 'rotate' : ''">
+            <a (click)="toggleRatecardConfiguration()">
+                <img src="../../../assets/images/master-configuration.png" alt="">
+                <span>Ratecard Configuration</span>
+            </a>
+            <ul [ngClass]="isRatecardConfigurationOpen ? 'open' : ''"
+                [ngStyle]="{ 'height.px': isRatecardConfigurationOpen ? 100 : null }">
+                <li [routerLinkActive]="'active'"><a [routerLink]="[appRoute.login]">
+                        <img src="../../../assets/images/zone-management.png" class="none-onactive" alt="">
+                        <img src="../../../assets/images/zone-management-white.png" class="active-icon" alt="">
+                        B2B Ratecard</a></li>
+                <li [routerLinkActive]="'active'"> <a [routerLink]="[appRoute.login]">
+                        <img src="../../../assets/images/employee-management-gray.png" class="none-onactive" alt="">
+                        <img src="../../../assets/images/employee-management-white.png" class="active-icon" alt="">
+                        Charges Management</a></li>
+            </ul>
+        </li>
+        <li class='has-sub'
+            [ngClass]="isMasterConfigurationOpen ? 'rotate' : ''">
+            <a (click)="toggleMasterConfiguration()">
+                <img src="../../../assets/images/master-configuration.png" alt="">
+                <span>Master Configuration</span>
+            </a>
+            <ul [ngClass]="isMasterConfigurationOpen ? 'open' : ''"
+                [ngStyle]="{ 'height.px': isMasterConfigurationOpen ? 188 : null }">
+                <li [routerLinkActive]="'active'"><a [routerLink]="appRoute.login">
+                        <img src="../../../assets/images/customer-management.png" class="none-onactive" alt="">
+                        <img src="../../../assets/images/customer-management-white.png" class="active-icon" alt="">
+                        Customer Management</a></li>
+                <li [routerLinkActive]="'active'"><a [routerLink]="appRoute.login">
+                        <img src="../../../assets/images/zone-management.png" class="none-onactive" alt="">
+                        <img src="../../../assets/images/zone-management-white.png" class="active-icon" alt="">
+                        Zone Management</a></li>
+                <li [routerLinkActive]="'active'"> <a [routerLink]="appRoute.login">
+                        <img src="../../../assets/images/employee-management-gray.png" class="none-onactive" alt="">
+                        <img src="../../../assets/images/employee-management-white.png" class="active-icon" alt="">
+                        Employee Management</a></li>
+                <li [routerLinkActive]="'active'"><a [routerLink]="appRoute.login">
+                        <img src="../../../assets/images/expense-category.png" class="none-onactive" alt="">
+                        <img src="../../../assets/images/expense-category-white.png" class="active-icon" alt="">
+                        Expense Category</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,64 @@
+
+
+.logintext {
+    background-image: url(../../../assets/images/login-bg.png);
+    background-position: center 100%;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+  
+  .bg-login {
+    height: 100vh;
+    background-color: #fff;
+  }
+  
+  .login-rightbox {
+    flex-direction: column;
+    max-width: 450px;
+  }
+  
+  .login-rightbox input {
+    background: #F8F9FB;
+    border: none;
+    height: 45px;
+  }
+  
+  .login-rightbox button {
+    background: #5D60EF;
+    height: 45px;
+    border: none;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  
+  .text-forgotpwd {
+    color: #5D60EF;
+  }
+  
+  .text-deconration-none {
+    text-decoration: none;
+  }
+  
+  .logintext h1 {
+    font-size: 130px;
+    /* text-align: CENTER; */
+    color: #fff;
+    /* margin-top: 100px; */
+    position: ABSOLUTE;
+    top: 80px;
+    left: 150px;
+  }
+
+  .cp{
+    cursor: pointer;
+  }
+
+  
+.required{
+  color: red;
+  font-weight: 500;
+}
