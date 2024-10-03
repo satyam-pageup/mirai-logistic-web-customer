@@ -6,6 +6,7 @@ import { DialogService } from "../services/dialog.service";
 import { Subscription } from "rxjs";
 import { appRoutes } from "../constants/appRoutes";
 import { HeaderOption } from "../models/headerOption.model";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
     template: ``,
@@ -19,6 +20,7 @@ export class ComponentBase implements OnDestroy {
     public appRoute = appRoutes;
     // public baseUrl: string = "http://localhost:3000";
     public dialogService: DialogService = inject(DialogService);
+    public toasterService: ToastrService = inject(ToastrService)
     public headerOption: HeaderOption = {
         isSilentCall: false,
         isSendNotification: false

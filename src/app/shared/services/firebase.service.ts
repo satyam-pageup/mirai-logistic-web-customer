@@ -21,7 +21,7 @@ public currentToken:string="";
       { vapidKey: environment.vapidKey }).then(
         (token) => {
           if (token) {
-            this._toasterService.success('Hurraaa!!! we got the token.....');
+            // this._toasterService.success('Hurraaa!!! we got the token.....');
             console.log(token);
             this.currentToken=token;
             

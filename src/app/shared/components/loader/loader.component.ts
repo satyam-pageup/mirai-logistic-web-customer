@@ -10,10 +10,8 @@ export class LoaderComponent {
   public showLoader: boolean = false;
 
   constructor(private loaderSevice:LoaderService){
-    this.loaderSevice.showLoaderE.subscribe(
-      (res:boolean)=>{
-        this.showLoader=res;
-      }
-    );
+    this.loaderSevice.showLoaderE.subscribe((res)=>{
+      this.showLoader=res;
+    })
   }
 }

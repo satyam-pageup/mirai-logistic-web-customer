@@ -1,3 +1,4 @@
+declare var google: any;
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { loginForm, loginFormData } from '../../shared/models/login.model';
@@ -61,6 +62,19 @@ export class LoginComponent extends ComponentBase {
   }
 
   ngOnInit(): void {
+    google.accounts.id.initialize({
+      client_id:'275974553025-m4gtndfi0mga45f82j9pdgq9006al7dt.apps.googleusercontent.com',
+      callback:(res:any)=>{
+        console.log(res)
+      }
+    })
+    google.accounts.id.renderButton(document.getElementById("google-btn"),{
+      theme:"filled_blue",
+      size:"large",
+      shape:"rectangle",
+      width:350
+    })
+
     this.locationService.getStateDetails().then(
       (res) => {
         if (res.status) {
@@ -69,6 +83,7 @@ export class LoginComponent extends ComponentBase {
       }
     )
   }
+
 
   public changePhoneNo(){
     this.steps--;
@@ -91,6 +106,10 @@ export class LoginComponent extends ComponentBase {
           else {
             this.toastrService.error(res.errorMessage);
           }
+        },
+        error:(err)=> {
+          this.toastrService.error(err);
+          this.isSubmitting=false
         },
         complete:() => {
           this.isSubmitting=false

@@ -25,6 +25,10 @@ export class AuthService {
     return this.httpClient.post<Identity<ILoginResponse>>(url,data);
   }
 
+  // public signOut(){
+  //   google.accounts.id.disableAutoSelect();
+  // }
+
   public refereshToken(){
     const url = `${this.baseUrl}Login/SilentLogin`;
     const data ={

@@ -1,6 +1,6 @@
 export const ApiRoutes = {
     //dashboard
-    getDashboardDetail: 'Dashboard',
+    getDashboardDetail: 'Dashboard/Customer',
 
     //login
     sendOtp:'Login/phoneno',
