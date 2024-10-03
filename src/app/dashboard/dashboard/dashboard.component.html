@@ -1,76 +1,102 @@
 <div class="row">
-  <div class="col-sm-4 mb-3">
+  <div class="col-sm-3 mb-3">
     <div class="iconbox-dash d-flex bg-white px-4 py-3">
       <div class="icon-cont me-4">
         <img src="../../../assets/images/dashboard-blue.png" alt="">
       </div>
       <div class="textbox-dash">
-        <p>New Customers</p>
-        <h3>#000</h3>
+        <p>In-transit</p>
+        <h3>{{dashboardDetails.inTransit}}</h3>
         <!-- <h3>{{dashboardData.totalPendings.newCustomer}}</h3> -->
       </div>
     </div>
   </div>
-  <div class="col-sm-4 mb-3">
+  <div class="col-sm-3 mb-3">
     <div class="iconbox-dash d-flex bg-white px-4 py-3">
       <div class="icon-cont me-4">
         <img src="../../../assets/images/dashboard-blue.png" alt="">
       </div>
       <div class="textbox-dash">
-        <p>Total Orders</p>
-        <h3>#000</h3>
+        <p>Out for Delivery</p>
+        <h3>{{dashboardDetails.outForDelivery}}</h3>
         <!-- <h3>{{dashboardData.totalPendings.totalOrder}}</h3> -->
       </div>
     </div>
   </div>
-  <div class="col-sm-4 mb-3">
+  <div class="col-sm-3 mb-3">
     <div class="iconbox-dash d-flex bg-white px-4 py-3">
       <div class="icon-cont me-4 ">
         <img src="../../../assets/images/dashboard-blue.png" alt="">
       </div>
       <div class="textbox-dash">
-        <p>Pending Orders</p>
-        <h3>#000</h3>
+        <p>Delivered</p>
+        <h3>{{dashboardDetails.delivered}}</h3>
         <!-- <h3>{{dashboardData.totalPendings.order}}</h3> -->
       </div>
     </div>
   </div>
-  <div class="col-sm-4 mb-3">
-    <div class="iconbox-dash d-flex bg-white px-4 py-3">
+  <div class="col-sm-3 mb-3">
+    <div class="iconbox-dash d-flex px-4 py-3" [ngStyle]="{'background': '#5D60EF'}">
       <div class="icon-cont me-4">
         <img src="../../../assets/images/dashboard-blue.png" alt="">
       </div>
       <div class="textbox-dash">
-        <p>Pending Pickup</p>
-        <h3>#000</h3>
+        <p [ngStyle]="{'color': '#fff'}">Wallet</p>
+        <h3 [ngStyle]="{'color': '#fff'}" *ngIf="dashboardDetails.isWalletActive">{{dashboardDetails.walletAmount}}</h3>
+        <p [ngStyle]="{'color': '#fff'}" *ngIf="!dashboardDetails.isWalletActive">Wallet not active</p>
         <!-- <h3>{{dashboardData.totalPendings.pickup}}</h3> -->
       </div>
-
     </div>
   </div>
-  <div class="col-sm-4 mb-3">
+
+  <hr>
+  <div class="col-sm-3 mb-3">
     <div class="iconbox-dash d-flex bg-white px-4 py-3">
-      <div class="icon-cont me-4">
-        <img src="../../../assets/images/dashboard-blue.png" alt="">
-      </div>
+      
       <div class="textbox-dash">
-        <p>Pickup Request</p>
-        <h3>#000</h3>
+        <h3 class="text-red">{{dashboardDetails.newOrder}}</h3>
+        <p>New Order to be Processed</p>
+        <button class="btn btn-red w-100 d-block text-white p-2 rounded-2 w-100 d-flex align-items-center justify-content-center">Ship Now <i class='bx bx-right-arrow-alt fs-5' ></i></button>
         <!-- <h3>{{dashboardData.totalPendings.pickupRequest}}</h3> -->
       </div>
 
     </div>
   </div>
-  <div class="col-sm-4 mb-3">
+  <div class="col-sm-3 mb-3">
     <div class="iconbox-dash d-flex bg-white px-4 py-3">
-      <div class="icon-cont me-4">
-        <img src="../../../assets/images/dashboard-blue.png" alt="">
-      </div>
+      
       <div class="textbox-dash">
-        <p>Pending Query</p>
-        <h3>#000</h3>
-        <!-- <h3>{{dashboardData.totalPendings.query}}</h3> -->
+        <h3 class="text-green">{{dashboardDetails.delayedPickup}}</h3>
+        <p>Pickup to be Processed</p>
+        <button class="btn btn-green w-100 d-block text-white p-2 rounded-2 d-flex align-items-center justify-content-center">Ship Now <i class='bx bx-right-arrow-alt fs-5' ></i></button>
+        <!-- <h3>{{dashboardData.totalPendings.pickupRequest}}</h3> -->
       </div>
+
     </div>
   </div>
+  <div class="col-sm-3 mb-3">
+    <div class="iconbox-dash d-flex bg-white px-4 py-3">
+      
+      <div class="textbox-dash">
+        <h3 class="text-purple">{{dashboardDetails.delayedWeight}}</h3>
+        <p>Weight to be Processed</p>
+        <button class="btn btn-purple w-100 d-block text-white p-2 rounded-2 d-flex align-items-center justify-content-center">Ship Now <i class='bx bx-right-arrow-alt fs-5' ></i></button>
+        <!-- <h3>{{dashboardData.totalPendings.pickupRequest}}</h3> -->
+      </div>
+
+    </div>
+  </div>
+  <div class="col-sm-3 mb-3">
+    <div class="iconbox-dash d-flex bg-white px-4 py-3">
+      
+      <div class="textbox-dash">
+        <h3 class="text-yellow">{{dashboardDetails.delayedDelivery}}</h3>
+        <p>Delivery to be Processed</p>
+        <button class="btn btn-yellow w-100 d-block text-white p-2 rounded-2 d-flex align-items-center justify-content-center">Ship Now <i class='bx bx-right-arrow-alt fs-5' ></i></button>
+        <!-- <h3>{{dashboardData.totalPendings.pickupRequest}}</h3> -->
+      </div>
+
+    </div>
+  </div>
+  
 </div>

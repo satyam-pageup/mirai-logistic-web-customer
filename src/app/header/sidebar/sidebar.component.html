@@ -1,56 +1,57 @@
 <div id="logo" [routerLink]="appRoute.login">
     <span class="big-logo">
-        <img src="../../../assets/images/mirai-logo.png" alt="">
+        <img style="width: 95%; padding: 30px;" src="../../../assets/images/mirai-new-logo.png" alt="">
     </span>
     <span class="small-logo">
-        <img src="../../../assets/images/single-logo.png" alt="">
+        <img src="../../../assets/images/mirai-new-logo.png" alt="">
     </span>
 </div>
 
 <div id="left-menu">
     <ul class="left-menu-ul">
-        <li class="borderbottom" [routerLinkActive]="'active'"><a [routerLink]="appRoute.login">
+        <li class="borderbottom" [routerLinkActive]="'active'"><a [routerLink]="appRoute.dashboard">
                 <img src="../../../assets/images/dashboard.png" class="active-icon" alt="">
                 <img src="../../../assets/images/dashboard-gray.png" class="none-onactive" alt="">
                 <span>Dashboard</span>
             </a></li>
         <li class="borderbottom" [routerLinkActive]="'active'"><a
-                [routerLink]="appRoute.login">
+                [routerLink]="">
                 <img src="../../../assets/images/order-management.png" class="none-onactive" alt="">
                 <img src="../../../assets/images/order-management-white.png" class="active-icon" alt="">
-                <span>Order Management</span>
+
+                <span>Order</span>
             </a>
         </li>
         <li class="borderbottom" [routerLinkActive]="'active'"><a
-                [routerLink]="appRoute.login">
+                [routerLink]="">
                 <img src="../../../assets/images/expense-management.png" class="none-onactive" alt="">
                 <img src="../../../assets/images/expense-category-white.png" class="active-icon" alt="">
-                <span>Expense Management</span>
+                <span>Query</span>
             </a>
         </li>
         <li class="borderbottom" [routerLinkActive]="'active'"><a
-                [routerLink]="appRoute.login">
+                [routerLink]="">
                 <img src="../../../assets/images/expense-management.png" class="none-onactive" alt="">
                 <img src="../../../assets/images/expense-category-white.png" class="active-icon" alt="">
-                <span>Pickup Management</span>
+                <span>Wallet</span>
             </a>
         </li>
         <li class="borderbottom"  [routerLinkActive]="'active'"><a
-                [routerLink]="appRoute.login">
+                [routerLink]="">
                 <img src="../../../assets/images/expense-management.png" class="none-onactive" alt="">
                 <img src="../../../assets/images/expense-category-white.png" class="active-icon" alt="">
-                <span>Sales Executive</span>
+                <span>Shipping Rate</span>
             </a>
         </li>
         <li class="borderbottom" [routerLinkActive]="'active'"><a
-                [routerLink]="appRoute.login">
+                [routerLink]="">
                 <img src="../../../assets/images/expense-management.png" class="none-onactive" alt="">
                 <img src="../../../assets/images/expense-category-white.png" class="active-icon" alt="">
-                <span>Query Support</span>
+                <span>Profile</span>
             </a>
         </li>
-        <li class="borderbottom" [routerLinkActive]="'active'"><a
-                [routerLink]="appRoute.login">
+        <!-- <li class="borderbottom" [routerLinkActive]="'active'"><a
+                [routerLink]="">
                 <img src="../../../assets/images/expense-management.png" class="none-onactive" alt="">
                 <img src="../../../assets/images/expense-category-white.png" class="active-icon" alt="">
                 <span>Third Party</span>
@@ -64,11 +65,11 @@
             </a>
             <ul [ngClass]="isRatecardConfigurationOpen ? 'open' : ''"
                 [ngStyle]="{ 'height.px': isRatecardConfigurationOpen ? 100 : null }">
-                <li [routerLinkActive]="'active'"><a [routerLink]="[appRoute.login]">
+                <li [routerLinkActive]="'active'"><a [routerLink]="[]">
                         <img src="../../../assets/images/zone-management.png" class="none-onactive" alt="">
                         <img src="../../../assets/images/zone-management-white.png" class="active-icon" alt="">
                         B2B Ratecard</a></li>
-                <li [routerLinkActive]="'active'"> <a [routerLink]="[appRoute.login]">
+                <li [routerLinkActive]="'active'"> <a [routerLink]="[]">
                         <img src="../../../assets/images/employee-management-gray.png" class="none-onactive" alt="">
                         <img src="../../../assets/images/employee-management-white.png" class="active-icon" alt="">
                         Charges Management</a></li>
@@ -82,23 +83,23 @@
             </a>
             <ul [ngClass]="isMasterConfigurationOpen ? 'open' : ''"
                 [ngStyle]="{ 'height.px': isMasterConfigurationOpen ? 188 : null }">
-                <li [routerLinkActive]="'active'"><a [routerLink]="appRoute.login">
+                <li [routerLinkActive]="'active'"><a [routerLink]="">
                         <img src="../../../assets/images/customer-management.png" class="none-onactive" alt="">
                         <img src="../../../assets/images/customer-management-white.png" class="active-icon" alt="">
                         Customer Management</a></li>
-                <li [routerLinkActive]="'active'"><a [routerLink]="appRoute.login">
+                <li [routerLinkActive]="'active'"><a [routerLink]="">
                         <img src="../../../assets/images/zone-management.png" class="none-onactive" alt="">
                         <img src="../../../assets/images/zone-management-white.png" class="active-icon" alt="">
                         Zone Management</a></li>
-                <li [routerLinkActive]="'active'"> <a [routerLink]="appRoute.login">
+                <li [routerLinkActive]="'active'"> <a [routerLink]="">
                         <img src="../../../assets/images/employee-management-gray.png" class="none-onactive" alt="">
                         <img src="../../../assets/images/employee-management-white.png" class="active-icon" alt="">
                         Employee Management</a></li>
-                <li [routerLinkActive]="'active'"><a [routerLink]="appRoute.login">
+                <li [routerLinkActive]="'active'"><a [routerLink]="">
                         <img src="../../../assets/images/expense-category.png" class="none-onactive" alt="">
                         <img src="../../../assets/images/expense-category-white.png" class="active-icon" alt="">
                         Expense Category</a></li>
             </ul>
-        </li>
+        </li> -->
     </ul>
 </div>

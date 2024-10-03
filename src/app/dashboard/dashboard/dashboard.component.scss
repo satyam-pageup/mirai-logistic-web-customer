@@ -23,10 +23,7 @@
     margin-bottom: .5rem !important;
   }
   
-  .textbox-dash h3 {
-    color: #6161f3;
-  }
-  
+ 
   
   .quarter-chart, .pie-chart{
     border-radius: 20px;
@@ -79,4 +76,30 @@
   
   .count {
     font-weight: bold;
+  }
+
+  .btn-red{
+    background: #EF5D5D;
+  }
+  .btn-green{
+    background: #19AC92;
+  }
+  .btn-purple{
+    background: #761ABE;
+  }
+  .btn-yellow{
+    background: #AFBC1B;
+  }
+
+  .text-red{
+    color: #EF5D5D;
+  }
+  .text-green{
+    color: #19AC92;
+  }
+  .text-purple{
+    color: #761ABE;
+  }
+  .text-yellow{
+    color: #AFBC1B;
   }
