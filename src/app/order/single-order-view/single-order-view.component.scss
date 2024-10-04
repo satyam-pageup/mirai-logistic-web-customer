@@ -1,0 +1,98 @@
+.status-strip, .text-theme-table{
+    color: #808080;
+}
+.status-strip span{
+color:#F1BC00;
+}
+.border-gray{
+    border-color: #808080 !important;
+}
+.customer-details h3{
+    color:#5D60EF;
+    display: flex;
+    font-size: 1.5rem;
+    font-weight: 400;
+    align-items: center;
+    padding: 8px 15px 8px 15px;
+    border-bottom: solid thin #808080;
+    justify-content: space-between;
+}
+.customer-details h5{
+    color:#5D60EF;
+    font-size: 1rem;
+    font-weight: 400;
+    align-items: center;
+    padding: 8px 15px 8px 15px;
+}
+.packagebox{
+    padding: 8px 15px 8px 15px;
+}
+.packagebox p{
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+.card-package{
+    padding: 10px;
+    background-color: #f6f6f6;
+    border: solid 1px #808080;
+    border-radius: 10px;
+    width: 48%;
+    display: inline-block;
+    margin: 1%;
+}
+
+.customer-details{
+    border-radius: 10px;
+    border: solid thin #808080;
+    background-color: #fff;
+    color: #808080;
+}
+.customer-details ul{
+    list-style: none;
+    text-decoration: none;
+    padding-left: 15px;
+}
+.customer-details ul li{
+display: flex;
+position: relative;
+}
+.customer-details ul li span{
+position: absolute;
+left: 20%;
+}
+.dash-left{
+    left: 15%;
+    position: absolute;
+}
+.order-charges table tbody tr td{
+    width: 33.3%;
+    border-color: #808080;
+}
+.pickup-request table tbody tr td{
+    width: 16.67%;
+    border-color: #808080;
+}
+.pickup-request table{
+   border-radius: 10px;
+}
+.pickup-request table tbody tr:last-child{
+    border-bottom: none !important;
+}
+
+.btn-addemployee {
+    background: #5D60EF;
+    color: #fff;
+}
+
+.btn-addemployee:hover {
+    background: #383cd7;
+}
+
+.btn-close-red {
+    background-color: #fef5f5;
+    border: solid thin #DE3333;
+    color: #DE3333;
+    border-radius: 8px !important;
+    padding: 6px 14px;
+}

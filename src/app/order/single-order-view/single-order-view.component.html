@@ -1,0 +1,216 @@
+<div class="row">
+    <div class="col-sm-12 d-none">
+        <div class="status-strip d-flex align-items-center">
+            <h3 class="mb-0 me-3">#{{orderDetails.orderNo}}</h3>
+            <div class="d-flex flex-column border-start ps-3 border-2 border-gray">
+                <div class="d-flex">
+                    <p class="mb-0 fw-medium">Status</p>
+                    <button class="btn btn-sm btn-addemployee">Edit</button>
+                </div>
+                <span class="fw-medium">{{orderDetails.orderStatus}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="customer-details mt-4 overflow-hidden border-bottom-0">
+            <h3 class="mb-0"><span> Order Details </span>
+                <div>
+                    <button *ngIf="orderDetails.pickups.length == 0" class="btn btn-sm btn-danger me-3" (click)="generatePickup()">Add Pickup</button>
+                    <button class="btn btn-sm btn-addemployee" (click)="addQuery(orderDetails.id.toString())">Add
+                        Query</button>
+                </div>
+            </h3>
+            <div class="pickup-request">
+                <table class="table mb-0">
+                    <tbody>
+                        <tr>
+                            <td class="border-end border-gray fw-bold text-dark">
+                                <div class="status-strip d-flex align-items-center justify-content-between">
+                                    <h4 class="mb-0 me-3">#{{orderDetails.orderNo}}</h4>
+                                    <div class="d-flex flex-column border-start ps-3 border-2 border-gray me-4">
+                                        <p class="mb-0 fw-medium">Status</p>
+                                        <span class="fw-medium">{{orderDetails.orderStatus |
+                                            spaceBeforeCapital}}</span>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="border-end border-gray text-theme-table text-center align-middle">Total Amount -
+                                ₹{{orderDetails.totalAmount}} /-</td>
+                            <td class="text-theme-table text-center align-middle">Order Date - {{orderDetails.orderDate
+                                | dateFormat}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="p-0">
+                                <table class="table mb-0 border-bottom-0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="border-end border-gray border-bottom-0 text-theme-table text-center align-middle"
+                                                style="width: 20%;">
+                                                <p class="mb-0 fw-medium">Shipping From</p>
+                                                {{orderDetails.customer.city}}, {{orderDetails.sourcePincode}}
+                                            </td>
+                                            <td class="border-end border-gray border-bottom-0 text-theme-table text-theme-table text-center align-middle"
+                                                style="width: 20%;">
+                                                <p class="mb-0 fw-medium">Shipping To</p>
+                                                {{orderDetails.forwardShipments.at(0)?.city}},
+                                                {{orderDetails.forwardShipments.at(0)?.pincode}}
+                                            </td>
+                                            <td class="border-end border-gray border-bottom-0 text-theme-table text-theme-table text-center align-middle"
+                                                style="width: 20%;">
+                                                <p class="mb-0 fw-medium">Shipping Type</p>
+                                                {{orderDetails.forwardShipments.at(0)?.shipmentMode! |
+                                                spaceBeforeCapital}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-sm-6 mt-4 customer-details px-0">
+        <h3 class="px-3">Shipment Details</h3>
+        <ul class="mb-0">
+            <li>
+                <p>Name</p>
+                <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.name}}</span>
+            </li>
+            <li>
+                <p>Phone</p>
+                <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.phone}}</span>
+            </li>
+            <li>
+                <p>Pincode</p>
+                <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.pincode}}</span>
+            </li>
+            <li>
+                <p>Address</p>
+                <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.address}}</span>
+            </li>
+            <li>
+                <p>State</p>
+                <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.state}}</span>
+            </li>
+            <li>
+                <p>City</p>
+                <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.city}}</span>
+            </li>
+        </ul>
+        <div class="px-2">
+            <hr class="border-gray">
+        </div>
+        <ul class="mb-0">
+            <li>
+                <p>HSN Code</p>
+                <div class="dash-left">-</div>
+                <span>{{orderDetails.forwardShipments.at(0)?.products?.at(0)?.hsnCode}}</span>
+            </li>
+            <li>
+                <p>Way Bill</p>
+                <div class="dash-left">-</div>
+                <span>{{orderDetails.waybillNo}}</span>
+            </li>
+            <li>
+                <p>Total Wt</p>
+                <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.products?.at(0)?.weight}}
+                    kg</span>
+            </li>
+            <li>
+                <p>Total Qty</p>
+                <div class="dash-left">-</div>
+                <span>{{orderDetails.forwardShipments.at(0)?.products?.at(0)?.quantity}}</span>
+            </li>
+        </ul>
+        <h5>Package Details</h5>
+        <div class="packagebox">
+            <div class="card-package" [ngStyle]="package.isMatchBarcode ? {border:'2px solid blue'}:{}"
+                *ngFor="let package of orderDetails.forwardShipments.at(0)?.products?.at(0)?.volumes, index as i">
+                <p class="">Package {{i+1}} </p>
+                <span class="me-2 d-inline-block">Qty: {{package.quantity}}</span>
+                <span class="mx-2 d-inline-block">Wt(V): {{package.height * package.width * package.length}}
+                    m<sup>3</sup></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 mb-2">
+        <div class="customer-details mt-4 overflow-hidden border-bottom-0">
+            <h3 class="mb-0">Order Status</h3>
+            <div class="pickup-request">
+                @if (orderDetails.orderStatusLogs.length == 0) {
+                <p style="text-align: center; padding: 5px;">
+                    No data found
+                </p>
+                }
+                @else{
+                <table class="table mb-0">
+                    <tbody>
+                        <tr>
+                            <td class="border-end border-gray fw-bold text-dark">S No.</td>
+                            <td class="border-end border-gray fw-bold text-dark">Status</td>
+                            <td class="border-end border-gray fw-bold text-dark">Date</td>
+                            <td class="border-end border-gray fw-bold text-dark">Changes By</td>
+                        </tr>
+                        <tr *ngFor="let stat of orderDetails.orderStatusLogs; index as i">
+                            <td class="border-end border-gray">{{i+1}}</td>
+                            <td class="border-end border-gray">{{stat.orderStatus | spaceBeforeCapital}}</td>
+                            <td class="border-end border-gray">{{stat.updatedTime | dateFormat}}</td>
+                            <td class="border-end border-gray">{{stat.statusChangedBy}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 mb-2">
+        <div class="customer-details mt-4 overflow-hidden border-bottom-0">
+            <h3 class="mb-0">Payment Status Logs</h3>
+            <div class="pickup-request">
+                @if (orderDetails.paymentStatusLogs.length == 0) {
+                <p style="text-align: center; padding: 5px;">
+                    No data found
+                </p>
+                }
+                @else{
+                <table class="table mb-0">
+                    <tbody>
+                        <tr>
+                            <td class="border-end border-gray fw-bold text-dark">S No.</td>
+                            <td class="border-end border-gray fw-bold text-dark">Debit</td>
+                            <td class="border-end border-gray fw-bold text-dark">Credit</td>
+                            <td class="border-end border-gray fw-bold text-dark">Date</td>
+                            <td class="border-end border-gray fw-bold text-dark">Payment Mode</td>
+                        </tr>
+                        <tr *ngFor="let stat of orderDetails.paymentStatusLogs; index as i">
+                            <td class="border-end border-gray">{{i+1}}</td>
+                            <td class="border-end border-gray">{{stat.dabit==0 ? stat.dabit :'-' | priceFormat}}</td>
+                            <td class="border-end border-gray">{{stat.credit | priceFormat}} /-</td>
+                            <td class="border-end border-gray">{{stat.createdTime| dateFormat}}</td>
+                            <td class="border-end border-gray">{{stat.paymentStatus| spaceBeforeCapital}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #template1>
+    <ng-container>
+        <!-- <app-upsert-query [activeModule]="activeModule" (EEformValue)="getFormDataE($event)"></app-upsert-query> -->
+    </ng-container>
+</ng-template>
+
+<ng-template #generatePickupTemplate>
+    <ng-container>
+        <app-pickup-generate [referenceData]="referenceData" (EEformValue)="getFormDataE($event)"></app-pickup-generate>
+    </ng-container>
+</ng-template>

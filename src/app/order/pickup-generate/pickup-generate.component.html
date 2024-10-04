@@ -1,0 +1,50 @@
+<div class="modal-header justify-content-between border-b-0">
+    <h5 class="modal-title text-theme" id="">Generate Pickup</h5>
+    <button type="button" class="btn btn-close-red d-flex justify-content-center align-items-center float-end"
+        data-bs-dismiss="modal" (click)="decline()">
+        <span class="me-2">Close</span>
+        <img src="../../../assets/images/close-icon-red.png" alt="">
+    </button>
+</div>
+
+<div class="modal-body input-text-modal">
+    <form [formGroup]="pickupForm">
+        <div class="row g-2">
+            <div class="col-6">
+                <label class="form-label">Date <span style="color:red">*</span></label>
+                <input type="date" class="form-control " formControlName="pickupDate" />
+                <div
+                    *ngIf="this.pickupForm.controls.pickupDate && this.pickupForm.controls.pickupDate.invalid && this.pickupForm.controls.pickupDate.touched">
+                    <small class="text-danger" *ngIf="this.pickupForm.controls.pickupDate.hasError('required')">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="col-6">
+                <label class="form-label">Wheeler Type <span style="color:red">*</span></label>
+                <select class="select form-select" aria-label="Default select example" formControlName="wheelerType">
+                    <option [ngValue]="'TwoWheeler'" selected>Two Wheeler</option>
+                    <option [ngValue]="'FourWheeler'">Four Wheeler</option>
+                    <option [ngValue]="'SelfWheeler '">Self Wheeler </option>
+                </select>
+                <div
+                    *ngIf="this.pickupForm.controls.wheelerType && this.pickupForm.controls.wheelerType.invalid && this.pickupForm.controls.wheelerType.touched">
+                    <small class="text-danger" *ngIf="this.pickupForm.controls.wheelerType.hasError('required')">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer border-t-0 save-employe-details">
+    <button *ngIf="!isSubmitting" type="button" class="btn btn-addemployee w-100 d-block text-white p-2 rounded-2" (click)="confirm()">Add &
+        Save Pickup
+        Details</button>
+    <button *ngIf="isSubmitting" class="btn btn-addemployee w-100 d-block text-white p-2 rounded-2" type="button"
+        disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+    </button>
+</div>

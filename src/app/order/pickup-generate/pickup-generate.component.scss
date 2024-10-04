@@ -1,0 +1,25 @@
+
+.select-property{
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-addemployee {
+    background: #5D60EF;
+}
+
+.save-employe-details .btn-addemployee {
+    border-radius: 5px !important;
+}
+
+.btn-addemployee:hover {
+    background: #383cd7;
+}
+
+.modal-header .btn-close-red {
+    background-color: #fef5f5;
+    border: solid thin #DE3333;
+    color: #DE3333;
+    border-radius: 8px !important;
+    padding: 6px 14px;
+}
