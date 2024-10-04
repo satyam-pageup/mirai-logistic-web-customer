@@ -42,7 +42,7 @@
       </div>
       <div class="textbox-dash">
         <p [ngStyle]="{'color': '#fff'}">Wallet</p>
-        <h3 [ngStyle]="{'color': '#fff'}" *ngIf="dashboardDetails.isWalletActive">{{dashboardDetails.walletAmount}}</h3>
+        <h3 [ngStyle]="{'color': '#fff'}" *ngIf="dashboardDetails.isWalletActive">₹{{dashboardDetails.walletAmount}}</h3>
         <p [ngStyle]="{'color': '#fff'}" *ngIf="!dashboardDetails.isWalletActive">Wallet not active</p>
         <!-- <h3>{{dashboardData.totalPendings.pickup}}</h3> -->
       </div>

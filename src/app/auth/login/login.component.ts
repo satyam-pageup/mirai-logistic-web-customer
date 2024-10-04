@@ -63,7 +63,7 @@ export class LoginComponent extends ComponentBase {
 
   ngOnInit(): void {
     google.accounts.id.initialize({
-      client_id:'275974553025-m4gtndfi0mga45f82j9pdgq9006al7dt.apps.googleusercontent.com',
+      client_id:'275974553025-1bp3479o3gps2lodm5tg0gop876obkrj.apps.googleusercontent.com',
       callback:(res:any)=>{
         console.log(res)
       }

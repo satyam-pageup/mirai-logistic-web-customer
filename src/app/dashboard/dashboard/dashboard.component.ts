@@ -12,7 +12,7 @@ import { LoaderService } from '../../shared/services/loader.service';
 })
 export class DashboardComponent extends ComponentBase implements OnInit {
   public dashboardDetails = new IDashBoardDetails();
-  constructor(private loaderService:LoaderService) {
+  constructor() {
     super();
   }
 

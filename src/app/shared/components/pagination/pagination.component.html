@@ -1,0 +1,13 @@
+<div class="flex-property">
+    <div class="d-flex align-items-center justify-content-center" style="width: 17%;">
+        <p class="w-100 m-0">Item per page</p>
+        <select class="form-select" [(ngModel)]="top" (change)="itemPerPage($event)" style="width: 50%;">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+        </select>
+    </div>
+    <pagination [boundaryLinks]="true" [totalItems]="total*10" [maxSize]="5" (pageChanged)="pageChanged($event)"
+        previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+</div>

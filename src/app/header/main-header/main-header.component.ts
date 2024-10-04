@@ -22,7 +22,7 @@ export class MainHeaderComponent extends ComponentBase {
   public isListOpen: boolean = false;
   public userSearchSubject: Subject<string> = new Subject<string>();
   private onDestroy$: Subject<void> = new Subject<void>();
-  constructor(private router: Router, private authService: AuthService, private loaderService: LoaderService) {
+  constructor(private router: Router, private authService: AuthService) {
     super();
   }
 

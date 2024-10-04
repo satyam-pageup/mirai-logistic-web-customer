@@ -1,0 +1,106 @@
+.select-property{
+    display: flex;
+    flex-direction: column;
+}
+
+.required{
+    color: red;
+    font-weight: 500;
+}
+
+.btn-addemployee {
+    background: #5D60EF;
+}
+
+.save-employe-details .btn-addemployee {
+    border-radius: 5px !important;
+}
+
+.btn-addemployee:hover {
+    background: #383cd7;
+}
+
+.modal-header .btn-close-red {
+    background-color: #fef5f5;
+    border: solid thin #DE3333;
+    color: #DE3333;
+    border-radius: 8px !important;
+    padding: 6px 14px;
+}
+.select2-container .select2-selection--single{
+    height:34px !important;
+}
+.select2-container--default .select2-selection--single{
+         border: 1px solid #ccc !important; 
+     border-radius: 0px !important; 
+}
+
+.cancel-pin{
+    // display: inline-block;
+    float: right;
+    background-color: #DE3333;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    line-height: 30px;
+    font-size: 14px;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+}
+
+.product-details{
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 5px;
+}
+.searchbox-employee {
+    border: solid thin #EBEBEB;
+    border-radius: 10px;
+    padding: 0px 5px 2px 0px;
+  }
+  
+  .searchbox-employee input {
+    border: none;
+  }
+  
+  .searchbox-employee .input-group-text {
+    padding: 0;
+    height: 32px;
+    width: 32px;
+    text-align: CENTER;
+    line-height: 26px;
+    display: inline-block;
+    margin-top: 3px;
+    border-radius: 50% !important;
+    background: #fff;
+    border: none;
+  }
+  .text-gray{
+    color: #808080;
+  }
+
+  .text-theme{
+    color: #5D60EF;
+  }
+
+  .highlight {
+    color: red;
+  }
+
+
+  .modal-overflow-fix{
+    overflow-y: scroll;
+    max-height: 550px;
+    scrollbar-width: thin;
+  }
+
+  .btn-cancel{
+    color: #808080 !important;
+    background: #E1E1E1;
+  }
+  
+  .btn-cancel:hover{
+    background: #cfcfcf;
+  }

@@ -2,13 +2,15 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Identity } from '../interface/response/response';
-import { ILoginResponse } from '../interface/response/auth.response';
+import { Customer, ILoginResponse } from '../interface/response/auth.response';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private baseUrl = environment.baseUrl;
+  public loginUserDetail!:Customer;
   public onLoginChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private httpClient: HttpClient) { }
@@ -22,7 +24,15 @@ export class AuthService {
 
   public login(data: any) {
     const url = `${this.baseUrl}Login/phoneno/otp`;
-    return this.httpClient.post<Identity<ILoginResponse>>(url,data);
+    return this.httpClient.post<Identity<ILoginResponse>>(url,data).pipe(
+      tap(
+        (res)=>{
+          if(res.data.token){
+            this.loginUserDetail = res.data.customer
+          }
+        }
+      )
+    );
   }
 
   // public signOut(){

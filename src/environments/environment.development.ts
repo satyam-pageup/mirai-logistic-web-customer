@@ -11,10 +11,11 @@ export const environment = {
     },
     vapidKey:"BGQTV_dtJpCHMOsXIyqHDM9kPUDEG-CkViSu55_BOAcdk2-ewp9EEdXRi4148uNjoNrJFn_X-Fo-uXjQeHGjFM8",
 
-    // baseUrl: "http://pageupsoft-001-site13.ktempurl.com/api/",
-    baseUrl: "http://192.168.1.23:5443/api/",
+    baseUrl: "http://pageupsoft-001-site13.ktempurl.com/api/",
+    // baseUrl: "http://192.168.1.23:5443/api/",
     // http://192.168.1.41:5443/swagger/index.html
     // http://192.168.1.41:5443/swagger/index.html
+
 
     // baseUrl: "http://localhost:3000",
     tokenKey: "jwtToken",

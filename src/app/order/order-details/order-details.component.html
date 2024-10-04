@@ -1,0 +1,145 @@
+<p *ngIf="orderList?.length === 0" style="text-align: center; padding: 5px;">
+    No data found
+</p>
+
+<div class="row" *ngIf="orderList?.length !== 0">
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="d-flex align-items-center justify-content-center text-label-container">
+                    <label>Order Status</label>
+                    <select class="form-select" [(ngModel)]="payload.orderStatus" (change)="onSelectionChange($event)">
+                        <option selected disabled>Choose option</option>
+                        <option [ngValue]="null">All</option>
+                        <option [ngValue]="'OrderPlaced'">Order Placed</option>
+                        <option [ngValue]="'ShipmentCreated'">Shipment Created</option>
+                        <option [ngValue]="'OutForPickup'">Out For Pickup</option>
+                        <option [ngValue]="'PickedUp'">Picked Up</option>
+                        <option [ngValue]="'InTransit'">In Transit</option>
+                        <option [ngValue]="'OutForDelivery'">Out For Delivery</option>
+                        <option [ngValue]="'Delivered'">Delivered</option>
+                        <option [ngValue]="'DeliveryAttempted'">Delivery Attempted</option>
+                        <option [ngValue]="'ReturnedToOrigin'">Returned To Origin</option>
+                        <option [ngValue]="'Canceled'">Canceled</option>
+                        <option [ngValue]="'Exception '">Exception </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="d-flex align-items-center justify-content-center text-label-container">
+                    <label>Delivery Type</label>
+                    <select class="form-select" [(ngModel)]="payload.deliveryType" (change)="onSelectionChange($event)">
+                        <option selected disabled>Choose option</option>
+                        <option [ngValue]="null">All</option>
+                        <option [ngValue]="'Delhivery'">Delivery</option>
+                        <option [ngValue]="'Maruti'">Maruti</option>
+                        <option [ngValue]="'Bluedart'">Bluedart</option>
+                        <option [ngValue]="'Self'">Self</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-5">
+                <div class="searchbox-employee me-2">
+                    <label class="visually-hidden" for="autoSizingInputGroup">Username</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-transparent" id="autoSizingInputGroup"
+                            placeholder="Search ..." [(ngModel)]="searchInput" (input)="onSearchInputChange()">
+                        <div class="input-group-text">
+                            <img src="../../../assets/images/search.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <a class="btn btn-addemployee float-end d-flex align-items-center justify-content-center"
+                    (click)="upsertorder(-1)" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <span class="text-white me-1">Add Order</span><img src="../../../assets/images/plus-icon.png"
+                        alt="">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 mt-3 mb-2 ">
+        <table class="table table-bordered emp-table" *ngIf="!isErrorComing">
+            <thead>
+                <tr>
+                    <th scope="col">S.no.</th>
+                    <th scope="col">Customer Name</th>
+                    <th scope="col">Order No</th>
+                    <th scope="col">Order Date</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Order Status</th>
+                    <th scope="col">Pick Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of orderList; index as i" (click)="orderView(item.orderId)">
+                    <td class="text-center">{{(i+1)+(payload.top*(payload.pageIndex -1))}}</td>
+                    <td>{{item.customerName}} </td>
+                    <td>{{item.orderNo}}</td>
+                    <td>{{item.orderDate | dateFormat}}</td>
+                    <td>{{item.totalAmount | priceFormat}}</td>
+                    <td>{{item.customerOrderStatus| spaceBeforeCapital}}</td>
+                    <td (click)="$event.stopPropagation()">
+                        <!-- <button class="btn btn-sm btn-addemployee text-white"
+                            *ngIf="!item.pickUpCreated && item.pickUpDays<=5" (click)="generatePickup(i)">Add
+                            Pickup</button> -->
+                        <p disabled *ngIf="!item.pickUpCreated && item.pickUpDays>5">Canceled <img
+                                src="../../../assets/images/red-check.png" alt=""></p>
+                        <p disabled *ngIf="item.pickUpCreated ">Generated <img
+                                src="../../../assets/images/green-check.png" alt=""></p>
+                        <p disabled *ngIf="!item.pickUpCreated && item.pickUpDays<=5 ">Not Created </p>
+                        <!-- {{ item.pickUpCreated ?"Yes":"No"}} -->
+                    </td>
+                    <td (click)="$event.stopPropagation()">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <!-- <button class="btn btn-sm btn-addemployee text-white" >Edit</button> -->
+                            <i class='bx bxs-edit fs-5 text-dark' (click)="upsertorder(i)"></i>
+                            <div class="dropdown">
+                                <button [disabled]="!item.isActive" class="btn dropdown-toggle action-btn active-btn"
+                                    href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                                    [ngClass]="item.isActive ? 'active-btn' : 'btn-warning In-active-btn'">
+                                    {{item.isActive?"Activate":"Deactive"}}
+                                </button>
+                                <ul class="dropdown-menu action-btn">
+                                    <li><a class="dropdown-item "
+                                            (click)="deleteOrder(item.isActive,item.orderId)">{{item.isActive?"Deactive":"Activate"}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="isErrorComing" class="d-flex align-items-center justify-content-center mb-3">
+        <div style=" border-radius: 10px; background-color: rgb(233, 233, 233); width: 100%; text-align: center;">
+            {{this.errorMessage}}
+        </div>
+    </div>
+    <app-pagination [total]="totalCount" [top]="payload.top" (EEItemPerPage)="itemPerPage($event)"
+        (EEPageChangeValue)="pageChanged($event)"></app-pagination>
+</div>
+
+<ng-template #upsertOrderTemplate>
+    <ng-container>
+        <app-add-manual-order [referenceData]="referenceData"
+            (EEformValue)="getFormDataE($event)"></app-add-manual-order>
+    </ng-container>
+</ng-template>
+
+<!-- <ng-template #generatePickupTemplate>
+    <ng-container>
+        <app-pickup-generate [referenceData]="referenceData" (EEformValue)="getFormDataE($event)"></app-pickup-generate>
+    </ng-container>
+</ng-template> -->
+
+<!-- <app-barcode-scan></app-barcode-scan> -->

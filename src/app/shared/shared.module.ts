@@ -10,6 +10,10 @@ import { PriceFormatPipe } from './pipes/price-format.pipe';
 import { LoaderComponent } from './components/loader/loader.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { PaginationComponent } from './components/pagination/pagination.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AbsPipe } from './pipes/abs.pipe';
 
 
 @NgModule({
@@ -20,22 +24,29 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     SpaceBeforeCapitalPipe,
     PriceFormatPipe,
     LoaderComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    PaginationComponent,
+    AbsPipe
   ],
   imports: [
     CommonModule,
     SharedRoutingModule,
     ModalModule.forRoot(),
+    PaginationModule.forRoot(),
+    ReactiveFormsModule,
+    FormsModule
+
   ],
-  exports:[
+  exports: [
     NewLoaderComponent,
     CustomDatePipe,
     DateFormatPipe,
     SpaceBeforeCapitalPipe,
     PriceFormatPipe,
     LoaderComponent,
-    ConfirmationDialogComponent
-
+    ConfirmationDialogComponent,
+    PaginationComponent,
+    AbsPipe
   ]
 })
 export class SharedModule { }
