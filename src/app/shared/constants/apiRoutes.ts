@@ -5,6 +5,15 @@ export const ApiRoutes = {
     //login
     sendOtp: 'Login/phoneno',
     verifyOtp: 'Login/phoneno/otp',
+    
+    //employee
+    employee: {
+        getEmployees: 'Employee',
+        registerEmployee: 'Login/RegisterEmployee',
+        deleteEmployee: (id: number) => `Employee/${id}`,
+        employeeById: (id: number) => `Employee/${id}`,
+        getEmployeeCombo: 'Employee/Combo',
+    },
 
     //customer
     customer: {
@@ -70,5 +79,14 @@ export const ApiRoutes = {
         generatePickup: 'Pickup',
     },
 
+    //query
+    query: {
+        getQueryDetails: 'Query/All',
+        deleteQuery: (id: number) => `Query/${id}`,
+        addQuery: 'Query',
+        singleQueryView: (id: number) => `Query/${id}`,
+        // communication
+        addCommunication: 'Query/Communication',
+    },
     
 }

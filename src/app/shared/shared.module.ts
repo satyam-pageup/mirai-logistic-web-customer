@@ -15,6 +15,8 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AbsPipe } from './pipes/abs.pipe';
 import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { UpsertQueryComponent } from './components/upsert-query/upsert-query.component';
 
 
 @NgModule({
@@ -28,8 +30,8 @@ import { UpdateProfileComponent } from './components/update-profile/update-profi
     ConfirmationDialogComponent,
     PaginationComponent,
     AbsPipe,
-    UpdateProfileComponent
-
+    UpdateProfileComponent,
+    UpsertQueryComponent
   ],
   imports: [
     CommonModule,
@@ -37,8 +39,8 @@ import { UpdateProfileComponent } from './components/update-profile/update-profi
     ModalModule.forRoot(),
     PaginationModule.forRoot(),
     ReactiveFormsModule,
-    FormsModule
-
+    FormsModule,
+    SelectDropDownModule,
   ],
   exports: [
     NewLoaderComponent,
@@ -50,8 +52,9 @@ import { UpdateProfileComponent } from './components/update-profile/update-profi
     ConfirmationDialogComponent,
     PaginationComponent,
     AbsPipe,
-    UpdateProfileComponent
-
+    UpdateProfileComponent,
+    SpaceBeforeCapitalPipe,
+    UpsertQueryComponent
   ]
 })
 export class SharedModule { }

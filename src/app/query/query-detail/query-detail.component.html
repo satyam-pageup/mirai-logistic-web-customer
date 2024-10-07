@@ -1,0 +1,112 @@
+<p *ngIf="queryList?.length === 0" style="text-align: center; padding: 5px;">
+    No data found
+</p>
+
+<div class="row" *ngIf="queryList?.length !== 0">
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="d-flex align-items-center justify-content-center text-label-container">
+                    <label>Query</label>
+                    <select class="form-select" [(ngModel)]="payload.queryStatus" (change)="onSelectionChange($event)">
+                        <option selected disabled>Choose option</option>
+                        <option [ngValue]="null">All</option>
+                        <option [ngValue]="'Open'">Open</option>
+                        <option [ngValue]="'CommunicationStarted'">Communication Started</option>
+                        <option [ngValue]="'ClosedWithSuccessfully'">Closed</option>
+                        <option [ngValue]="'ClosedWithFailed'">Failed</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-sm-6"></div>
+        </div>
+
+    </div>
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-5">
+                <div class="searchbox-employee">
+                    <label class="visually-hidden" for="autoSizingInputGroup">Username</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-transparent" id="autoSizingInputGroup"
+                            placeholder="Search ..." [(ngModel)]="searchInput" (input)="onSearchInputChange()">
+                        <div class="input-group-text">
+                            <img src="../../../assets/images/search.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <a class="btn btn-addemployee float-end d-flex align-items-center justify-content-center"
+                    (click)="upsertQuery(-1)" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <span class="text-white me-1">Add Query </span><img src="../../../assets/images/plus-icon.png"
+                        alt="">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 mt-3 mb-2">
+        <table class="table table-bordered emp-table" *ngIf="!isErrorComing">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 5%">S.No.</th>
+                    <th scope="col" style="width: 15%">Customer Name</th>
+                    <th scope="col" style="width: 35%">Query</th>
+                    <th scope="col" style="width: 10%">Date</th>
+                    <th scope="col" style="width: 10%">Order No.</th>
+                    <th scope="col" style="width: 10%">Pickup No.</th>
+                    <th scope="col" style="width: 10%">Status</th>
+                    <th scope="col" style="width: 5%">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of queryList; index as i">
+                    <th scope="row">{{(i+1)+(payload.top*(payload.pageIndex -1))}}</th>
+                    <td>{{item.customerName}}</td>
+                    <td>
+                        <span *ngIf="!showFullDescription[item.id]">
+                            {{ getTruncatedDescription(item.question, 100) }} <a *ngIf="item.question.length > 100" (click)="toggleDescription(item.id)" style="color: blue; text-decoration: underline; cursor: pointer;">more</a>
+                          </span>
+                          <span *ngIf="showFullDescription[item.id]">
+                            {{ item.question }}<a (click)="toggleDescription(item.id)" style="color: blue; text-decoration: underline; cursor: pointer;"> show less</a>
+                          </span>
+                    </td>
+                    <td>{{item.queryDate}}</td>
+                    <td>{{item.orderNo}} </td>
+                    <td>{{item.pickupNo}} </td>
+                    <td>{{item.queryStatus | spaceBeforeCapital}}</td>
+                    <td><a (click)="viewQuery(item.id)" style="color: blue; text-decoration: underline;">View</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- <app-data-table [data]="dataTable" (callnewFunction)="performOperation($event)"></app-data-table> -->
+    </div>
+
+    <div *ngIf="isErrorComing" class="d-flex align-items-center justify-content-center mb-3">
+        <div style=" border-radius: 10px; background-color: rgb(233, 233, 233); width: 100%; text-align: center;">
+            {{this.errorMessage}}
+        </div>
+    </div>
+
+    <app-pagination [total]="totalCount" [top]="payload.top" (EEItemPerPage)="itemPerPage($event)"
+        (EEPageChangeValue)="pageChanged($event)"></app-pagination>
+
+</div>
+
+<ng-template #template1>
+    <ng-container>
+        <!-- <app-upsert-query [referenceData]="referenceData" (EEformValue)="getFormDataE($event)"></app-upsert-query> -->
+        <app-upsert-query (EEformValue)="getFormDataE($event)"></app-upsert-query>
+    </ng-container>
+</ng-template>
+
+<ng-template #template2>
+    <ng-container>
+        <app-single-query-detail [referenceData]="referenceData"
+            (EEformValue)="getFormDataE($event)"></app-single-query-detail>
+    </ng-container>
+</ng-template>
+

@@ -1,0 +1,55 @@
+.select-property{
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-addemployee {
+    background: #5D60EF;
+}
+
+.save-employe-details .btn-addemployee {
+    border-radius: 5px !important;
+}
+
+.btn-addemployee:hover {
+    background: #383cd7;
+}
+
+.modal-header .btn-close-red {
+    background-color: #fef5f5;
+    border: solid thin #DE3333;
+    color: #DE3333;
+    border-radius: 8px !important;
+    padding: 6px 14px;
+}
+.status-strip, .text-theme-table {
+    color: #808080;
+}
+.border-gray{
+    border-color: #808080 !important;
+}
+.status-strip span{
+    color: #F1BC00;
+}
+.modal-title, .pick-table h3{
+    color: #5D60EF;
+    display: flex;
+    font-size: 1.5rem;
+    font-weight: 400;
+    align-items: center;
+    padding: 8px 15px 8px 15px;
+    border-bottom: solid thin #808080;
+}
+.pick-table{
+    border-radius: 10px;
+    border: solid thin #808080;
+    background-color: #fff;
+    color: #808080;
+}
+.order-charges table tr td, .pickup-request table tr td{
+    color: #808080;
+}
+
+.cp{
+    cursor: pointer;
+}

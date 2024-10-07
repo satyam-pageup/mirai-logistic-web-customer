@@ -1,0 +1,49 @@
+<div class="modal-header justify-content-between border-b-0">
+    <h5 class="modal-title text-theme" id="">Query Form</h5>
+    <button type="button" class="btn btn-close-red d-flex justify-content-center align-items-center float-end"
+        data-bs-dismiss="modal" (click)="decline()">
+        <span class="me-2">Close</span>
+        <img src="../../../assets/images/close-icon-red.png" alt="">
+    </button>
+</div>
+
+<div class="modal-body input-text-modal">
+    <form [formGroup]="queryForm">
+        <div class="row g-2">
+
+            <!-- <label class="form-label">Customer Name <span style="color:red">*</span></label>
+                <ngx-select-dropdown (change)="onOptionSelected($event)" formControlName="customerName"
+                    [multiple]="false" [options]="customerList" [config]="config" />
+                <div
+                    *ngIf="this.queryForm.controls.customerName && this.queryForm.controls.customerName.invalid && this.queryForm.controls.customerName.touched">
+                    <small class="text-danger" *ngIf="this.queryForm.controls.customerName.hasError('required')">
+                        This field is required.
+                    </small>
+                </div> -->
+
+            <div class="col-12">
+                <label class="form-label">Description <span style="color:red">*</span></label>
+                <textarea class="form-control" formControlName="question"></textarea>
+                <!-- <input type="text" class="form-control" formControlName="description" /> -->
+                <div
+                    *ngIf="this.queryForm.controls.question && this.queryForm.controls.question.invalid && this.queryForm.controls.question.touched">
+                    <small class="text-danger" *ngIf="this.queryForm.controls.question.hasError('required')">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer border-t-0 save-employe-details">
+    <button *ngIf="!isSubmitting" type="button" class="btn btn-addemployee w-100 d-block text-white p-2 rounded-2"
+        (click)="confirm()">Add &
+        Save Query
+        Details</button>
+    <button *ngIf="isSubmitting" class="btn btn-addemployee w-100 d-block text-white p-2 rounded-2" type="button"
+        disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+    </button>
+</div>

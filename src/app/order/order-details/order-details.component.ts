@@ -75,7 +75,6 @@ export class OrderDetailsComponent extends ComponentBase implements OnInit {
 
   ngOnInit(): void {
     const customerData = JSON.parse(localStorage.getItem(environment.customerData)!);
-    console.log(customerData)
     this.payload.customerId = parseInt(customerData.id);
     this.getOrderList();
     this.userSearchSubject.pipe(

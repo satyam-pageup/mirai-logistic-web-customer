@@ -1,3 +1,5 @@
+import { query } from "@angular/animations";
+
 export const appRoutes = {
     login: "login",
     dashboard: 'dashboard',
@@ -6,4 +8,8 @@ export const appRoutes = {
         base: 'order-list',
         summary:"order-summary",
     },
+
+    query:{
+        base:'query'
+    }
 }

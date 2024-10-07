@@ -1,0 +1,111 @@
+<div class="modal-header justify-content-between border-bottom-0 pb-0 ps-0">
+    <h5 class="modal-title text-theme border-bottom-0" id="">Query Details</h5>
+    <button type="button" class="btn btn-close-red d-flex justify-content-center align-items-center float-end"
+        data-bs-dismiss="modal" (click)="decline()">
+        <span class="me-2">Close</span>
+        <img src="../../../assets/images/close-icon-red.png" alt="">
+    </button>
+</div>
+
+<div class="modal-body input-text-modal">
+    <div class="row g-2">
+        <div class="col-sm-12">
+            <div class="order-charges">
+                <table class="table table-bordered mb-0 ">
+                    <tbody>
+                        <tr>
+                            <td class="w-50">
+                                <span>Customer Name</span> : <span
+                                    class="d-inline-block ms-2">{{queryDetail.customerName}}</span>
+                            </td>
+                            <td class="w-50" (click)="openOrderDetailPage(queryDetail.orderGuId)">
+                                <span>Order No</span> : <span class="d-inline-block ms-2" [ngStyle]="queryDetail.orderNo?{color:'blue', cursor:'pointer'}:{}">{{queryDetail.orderNo ? queryDetail.orderNo:'-'}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-50" (click)="openPickupDetailPage(queryDetail.pickupId)">
+                                <span>Pickup No</span> : <span
+                                    class="d-inline-block ms-2" [ngStyle]="queryDetail.pickupNo?{color:'blue', cursor:'pointer'}:{}">{{queryDetail.pickupNo ?queryDetail.pickupNo:'-' }}</span>
+                            </td>
+                            <td class="w-50">
+                                <span>Date</span> : <span class="d-inline-block ms-2">{{queryDetail.queryDate| dateFormat}}</span>
+                            </td>
+                        </tr>
+                        <!-- <tr>
+                            <td class="w-50">
+                                <span>Package Count</span> : <span
+                                    class="d-inline-block ms-2">{{pickupDetails.packageCount}}</span>
+                            </td>
+                            <td class="w-50">
+                                <span>Self Pickup</span> : <span
+                                    class="d-inline-block me-3 ms-2">{{pickupDetails.isSelfPickup ? "Yes" : "No"}} <img
+                                        [src]="pickupDetails.isSelfPickup ? '../../../assets/images/green-check.png':'../../../assets/images/red-check.png' "
+                                        alt=""></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-50">
+                                <span>Wheeler Type</span> : <span
+                                    class="d-inline-block ms-2">{{pickupDetails.wheelerType}}</span>
+                            </td>
+                            <td class="w-50">
+                                <span>Address</span> : <span
+                                    class="d-inline-block ms-2">{{pickupDetails.address}}</span>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="status-strip ">
+                <div class="d-flex justify-content-between align-items-center my-2">
+                    <h4 class="mb-0 me-3">Question -</h4>
+                    <div class="d-flex border-start ps-3 border-2 border-gray">
+                        <p class="mb-0 me-2 fw-medium">Status:</p>
+                        <span class="fw-medium">{{queryDetail.queryStatus}}</span>
+                    </div>
+                </div>
+                <h5>{{queryDetail.question}}</h5>
+            </div>
+        </div>
+      
+        <div class="col-sm-12">
+            <div class="pick-table mt-4 overflow-hidden ">
+                <h3 class="mb-0">Communications Details</h3>
+                <div class="pickup-request">
+                    @if (queryDetail.communications.length==0) {
+                    <p style="text-align: center; padding: 5px; margin-top: 0.5rem;margin-bottom: 0.5rem;">
+                        No data found
+                    </p>
+                    }
+                    @else{
+                    <table class="table table-bordered emp-table mb-0">
+                        <thead>
+                            <tr>
+                                <td class="text-dark fw-medium" scope="col">Employee Name</td>
+                                <td class="text-dark fw-medium" scope="col">Date</td>
+                                <td class="text-dark fw-medium" scope="col">Communication</td>
+                                <td class="text-dark fw-medium" scope="col">Status</td>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let request of queryDetail.communications">
+                                <td class="">{{request.employeeName}}</td>
+                                <td class="">{{request.date | dateFormat}}</td>
+                                <td class="">{{request.communication}}</td>
+                                <td class="">{{request.queryStatus | spaceBeforeCapital}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6">
+
+        </div>
+    </div>
+</div>
