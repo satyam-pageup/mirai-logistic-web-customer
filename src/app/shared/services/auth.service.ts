@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Identity } from '../interface/response/response';
 import { Customer, ILoginResponse } from '../interface/response/auth.response';
 import { tap } from 'rxjs';
+import { IGoogleLoginRequest } from '../interface/request/auth.resquest';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,11 @@ export class AuthService {
     const url = `${this.baseUrl}Login/phoneno`;
     const params = new HttpParams().set('phoneno', phoneno);
     return this.httpClient.get<Identity<number>>(url, { params });
+  }
+  
+  loginWithGoogle(data:IGoogleLoginRequest){
+    const url = `${this.baseUrl}Login/Google`;
+    return this.httpClient.post<Identity<ILoginResponse>>(url,data);
   }
 
 

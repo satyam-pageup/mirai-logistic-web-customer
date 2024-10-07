@@ -277,25 +277,22 @@
                             <option [ngValue]="'COD'">COD</option>
                         </select>
                         <div
-                            *ngIf="this.newShipmentForm.controls.addressType && this.newShipmentForm.controls.addressType.invalid && this.newShipmentForm.controls.addressType.touched">
+                            *ngIf="this.newShipmentForm.controls.paymentMode && this.newShipmentForm.controls.paymentMode.invalid && this.newShipmentForm.controls.paymentMode.touched">
                             <small class="text-danger"
-                                *ngIf="this.newShipmentForm.controls.addressType.hasError('required')">
+                                *ngIf="this.newShipmentForm.controls.paymentMode.hasError('required')">
                                 This field is required.
                             </small>
                         </div>
                     </div>
                     <div class="col-6">
-                        <label class="form-label">COD Amount <span class="required">*</span></label>
+                        <label class="form-label">COD Amount <span *ngIf="isCODRequired"
+                                class="required">*</span></label>
                         <input type="text" class="form-control" formControlName="codAmount" />
                         <div
                             *ngIf="this.newShipmentForm.controls.codAmount && this.newShipmentForm.controls.codAmount.invalid && this.newShipmentForm.controls.codAmount.touched">
                             <small class="text-danger"
                                 *ngIf="this.newShipmentForm.controls.codAmount.hasError('required')">
                                 This field is required.
-                            </small>
-                            <small class="text-danger"
-                                *ngIf="this.newShipmentForm.controls.codAmount.hasError('pattern')">
-                                Enter valid pin code.
                             </small>
                         </div>
                     </div>

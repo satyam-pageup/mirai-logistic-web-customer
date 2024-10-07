@@ -38,11 +38,9 @@ export class TokenDecodeService {
     return false;
   }
 
-  public getDecodedUserRole(token: string): string {
-    const decodedToken = this.helper.decodeToken(token);
-    if (decodedToken.UserType) {
-      return decodedToken.UserType;
-    }
-    return '';
+  public decodeToken(token: string){
+    const decodedToken: any =  this.helper.decodeToken(token);
+
+    return decodedToken;
   }
 }

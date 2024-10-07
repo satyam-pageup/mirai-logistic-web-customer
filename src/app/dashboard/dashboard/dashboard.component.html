@@ -100,3 +100,11 @@
   </div>
   
 </div>
+
+
+<ng-template #updateOrderTemplate>
+  <ng-container>
+      <app-update-profile [referenceData]="customerData"
+          (EEformValue)="getFormDataE($event)"></app-update-profile>
+  </ng-container>
+</ng-template>

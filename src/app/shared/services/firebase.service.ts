@@ -10,8 +10,8 @@ import { tap } from 'rxjs';
   providedIn: 'root'
 })
 export class FirebaseService extends ComponentBase {
-public currentToken:string="";
-  constructor(private _toasterService:ToastrService) {
+  public currentToken: string = "";
+  constructor(private _toasterService: ToastrService) {
     super();
   }
 
@@ -23,14 +23,12 @@ public currentToken:string="";
           if (token) {
             // this._toasterService.success('Hurraaa!!! we got the token.....');
             console.log(token);
-            this.currentToken=token;
-            
+            this.currentToken = token;
           } else {
             this._toasterService.error('No registration token available. Request permission to generate one.')
             console.log('else.');
           }
         }).catch((err) => {
-
           // this._toastreService.error('Error retrieving token. ', err);
           if (err.code === 'messaging/permission-blocked') {
             console.log('Notification access denied by the user.');
@@ -43,7 +41,7 @@ public currentToken:string="";
     onMessage(messaging, (payload) => {
       const nofication = payload as NotificationResponse;
       const senderID: number = parseInt(nofication.data['gcm.notification.userId']);
-      const data: {id:number,data:string} = {
+      const data: { id: number, data: string } = {
         id: senderID,
         data: nofication.notification.body
       }

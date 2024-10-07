@@ -10,8 +10,6 @@ export class LoaderService {
     private apiCount: number = 0;
 
     public showLoader() {
-
-        console.log(this.apiCount)
         this.apiCount++;
         if (this.apiCount > 0) {
             this.showLoaderE.next(true);

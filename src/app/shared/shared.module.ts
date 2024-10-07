@@ -14,6 +14,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AbsPipe } from './pipes/abs.pipe';
+import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
 
 
 @NgModule({
@@ -26,7 +27,9 @@ import { AbsPipe } from './pipes/abs.pipe';
     LoaderComponent,
     ConfirmationDialogComponent,
     PaginationComponent,
-    AbsPipe
+    AbsPipe,
+    UpdateProfileComponent
+
   ],
   imports: [
     CommonModule,
@@ -46,7 +49,9 @@ import { AbsPipe } from './pipes/abs.pipe';
     LoaderComponent,
     ConfirmationDialogComponent,
     PaginationComponent,
-    AbsPipe
+    AbsPipe,
+    UpdateProfileComponent
+
   ]
 })
 export class SharedModule { }

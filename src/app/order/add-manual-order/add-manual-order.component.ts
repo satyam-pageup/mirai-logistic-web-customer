@@ -22,6 +22,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
   @Input() referenceData!: IOrderDetails;
   public orderDetails: IROrderDetailsData = new IROrderDetailsData();
   public isWarehouseSelected: boolean = false;
+  public isCODRequired: boolean = false;
 
   public removeQuantity: boolean = false;
   public remainingQuantity: number = 0;
@@ -219,11 +220,19 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     this.orderForm.controls.forwardShipments.controls.pop();
     this.newShipmentForm.get('paymentMode')?.valueChanges.subscribe(value => {
       if (value === 'COD') {
+        this.isCODRequired = true;
         this.newShipmentForm.controls.codAmount.enable();
+        this.newShipmentForm.controls.codAmount.setValidators([Validators.required]);
+        this.newShipmentForm.controls.codAmount.markAsTouched();  // Mark it as touched
+
       } else {
+        this.isCODRequired = false;
         this.newShipmentForm.controls.codAmount.disable();
         this.newShipmentForm.controls.codAmount.reset();
+        this.newShipmentForm.controls.codAmount.clearValidators();
       }
+      this.newShipmentForm.controls.codAmount.updateValueAndValidity();
+
     });
 
     this.newShipmentForm.controls.products.at(0).controls.quantity.valueChanges.subscribe((res) => {
@@ -489,27 +498,28 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     let inputValue;
     if (vIndex === -1 && this.remainingQuantity == 0) {
       vIndex = this.newShipmentForm.controls.products.at(pIndex).controls.volumes.length - 1;
-      inputValue = parseInt(this.newShipmentForm.controls.products.at(pIndex)?.controls.volumes.at(vIndex).controls.quantity.value + "")
+      inputValue = this.newShipmentForm.controls.products.at(pIndex)?.controls.volumes.at(vIndex).controls.quantity.value!
     }
     else if (vIndex === -1 && this.remainingQuantity != 0) {
       vIndex = 0;
       if (this.newShipmentForm.controls.products.at(pIndex).controls.volumes.length >= 2) {
-        inputValue = parseInt(this.newShipmentForm.controls.products.at(pIndex)?.controls.volumes.at(vIndex).controls.quantity.value + "")
+        inputValue = this.newShipmentForm.controls.products.at(pIndex)?.controls.volumes.at(vIndex).controls.quantity.value!
       }
       else {
         inputValue = 0;
       }
     }
     else {
-      inputValue = parseInt(this.newShipmentForm.controls.products.at(pIndex)?.controls.volumes.at(vIndex).controls.quantity.value + "")
+      inputValue = this.newShipmentForm.controls.products.at(pIndex)?.controls.volumes.at(vIndex).controls.quantity.value
     }
 
-    const totalQuantity = parseInt(this.newShipmentForm.controls.products.at(pIndex)?.controls.quantity.value + "");
+    const totalQuantity = this.newShipmentForm.controls.products.at(pIndex)?.controls.quantity.value!;
     //check == -1 -> case of remove
     //check == 0 -> form input field
     if (check == 0) {
       for (let i = 0; i < this.newShipmentForm.controls.products.at(pIndex).controls.volumes.length; i++) {
-        this.newQuantity += parseInt(this.newShipmentForm.controls.products.at(pIndex).controls.volumes.controls.at(i)?.controls.quantity.value + "");
+        if (this.newShipmentForm.controls.products.at(pIndex).controls.volumes.controls.at(i)?.controls.quantity.value != null)
+          this.newQuantity += parseInt(this.newShipmentForm.controls.products.at(pIndex).controls.volumes.controls.at(i)?.controls.quantity.value + "");
       }
     }
     else {
@@ -525,10 +535,10 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
       }
     }
     if (totalQuantity >= this.newQuantity) {
-      if (check == 0 && inputValue != 0 && totalQuantity > this.newQuantity) {
+      if (check == 0 && inputValue != 0 && inputValue != null && totalQuantity > this.newQuantity) {
         this.newShipmentForm.controls.products.at(pIndex).controls.volumes.push(this.volumeForm())
       }
-      else if (check == -1 && this.remainingQuantity == 0) {
+      else if (check == -1 && this.remainingQuantity == 0 && totalQuantity > this.newQuantity) {
         this.newShipmentForm.controls.products.at(pIndex).controls.volumes.push(this.volumeForm())
       }
     }

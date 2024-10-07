@@ -9,6 +9,7 @@ export const ApiRoutes = {
     //customer
     customer: {
         getCustomer: 'Customer',
+        updateCustomer: 'Customer/Update',
         registerCustomer: 'Login/RegisterCustomer',
         deleteCustomer: (id: number) => `Customer/${id}`,
         customerById: (id: number) => `Customer/${id}`,

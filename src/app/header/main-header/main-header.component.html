@@ -70,9 +70,17 @@
             <img src="../../../assets/images/user-img.png" alt="">
         </div>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+            <li><a class="dropdown-item" (click)="editProfile()">Edit Profile</a></li>
             <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
         </ul>
 
     </div>
 </div>
+
+
+<ng-template #updateOrderTemplate>
+    <ng-container>
+        <app-update-profile [referenceData]="customerData"
+            (EEformValue)="getFormDataE($event)"></app-update-profile>
+    </ng-container>
+  </ng-template>

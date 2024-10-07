@@ -1,0 +1,135 @@
+<div class="modal-header justify-content-between border-b-0">
+    <h5 class="modal-title text-theme" id="">Update Information</h5>
+    <button type="button" class="btn btn-close-red d-flex justify-content-center align-items-center float-end"
+        data-bs-dismiss="modal" (click)="decline()">
+        <span class="me-2">Close</span>
+        <img src="../../../assets/images/close-icon-red.png" alt="">
+    </button>
+</div>
+
+<div class="modal-body input-text-modal">
+    <form [formGroup]="registrationFormGroup">
+        <div class="row g-2">
+            <div class="col-12 mb-1">
+                <h4>Personal Details</h4>
+            </div>
+            <div class="col-6">
+                <label for="formGroupExampleInput" class="form-label">First Name <span class="required">*</span></label>
+                <input type="text" class="form-control" placeholder="First name" aria-label="First name"
+                    formControlName="firstName">
+                <div
+                    *ngIf="this.registrationFormGroup.controls.firstName && this.registrationFormGroup.controls.firstName.invalid && this.registrationFormGroup.controls.firstName.touched">
+                    <small class="text-danger"
+                        *ngIf="this.registrationFormGroup.controls.firstName.hasError('required')">
+                        This field is required.
+                    </small>
+                    <small class="text-danger"
+                        *ngIf="this.registrationFormGroup.controls.firstName.hasError('pattern')">
+                        Enter valid name.
+                    </small>
+                </div>
+            </div>
+            <div class="col-6">
+                <label for="formGroupExampleInput" class="form-label">Last Name <span class="required">*</span></label>
+                <input type="text" class="form-control" placeholder="Last name" aria-label="Last name"
+                    formControlName="lastName">
+                <div
+                    *ngIf="this.registrationFormGroup.controls.lastName && this.registrationFormGroup.controls.lastName.invalid && this.registrationFormGroup.controls.lastName.touched">
+                    <small class="text-danger"
+                        *ngIf="this.registrationFormGroup.controls.lastName.hasError('required')">
+                        This field is required.
+                    </small>
+                    <small class="text-danger"
+                        *ngIf="this.registrationFormGroup.controls.firstName.hasError('pattern')">
+                        Enter valid name.
+                    </small>
+                </div>
+            </div>
+            <div class="col-6">
+                <label for="formGroupExampleInput" class="form-label">Email</label>
+                <input type="email" class="form-control" placeholder="" aria-label="" formControlName="email">
+                <div
+                    *ngIf="this.registrationFormGroup.controls.email && this.registrationFormGroup.controls.email.invalid && this.registrationFormGroup.controls.email.touched">
+                    <small class="text-danger" *ngIf="this.registrationFormGroup.controls.email.hasError('pattern')">
+                        Enter valid email.
+                    </small>
+                </div>
+            </div>
+            <div class="col-6">
+                <label class="form-label" for="phoneNumber">Phone Number <span class="required">*</span></label>
+                <input type="text" class="form-control" maxlength="10" formControlName="contact" />
+                <div
+                    *ngIf="this.registrationFormGroup.controls.contact && this.registrationFormGroup.controls.contact.invalid && this.registrationFormGroup.controls.contact.touched">
+                    <small class="text-danger" *ngIf="this.registrationFormGroup.controls.contact.hasError('required')">
+                        This field is required.
+                    </small>
+                    <small class="text-danger" *ngIf="this.registrationFormGroup.controls.contact.hasError('pattern')">
+                        Enter valid phone number
+                    </small>
+                </div>
+            </div>
+            <div class="col-6">
+                <label class="form-label">Address <span class="required">*</span></label>
+                <input type="tel" class="form-control" formControlName="address" />
+                <div
+                    *ngIf="this.registrationFormGroup.controls.address && this.registrationFormGroup.controls.address.invalid && this.registrationFormGroup.controls.address.touched">
+                    <small class="text-danger" *ngIf="this.registrationFormGroup.controls.address.hasError('required')">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="col-6">
+                <label for="state" class="form-label select-label">State <span class="required">*</span></label>
+                <select class="select form-select" (change)="onStateChange()" aria-label="Default select example"
+                    formControlName="state">
+                    <option selected disabled>Choose option</option>
+                    <option *ngFor="let state of states; index as i" [ngValue]="state.iso2">{{state.name}}</option>
+                </select>
+                <div
+                    *ngIf="this.registrationFormGroup.controls.state && this.registrationFormGroup.controls.state.invalid && this.registrationFormGroup.controls.state.touched">
+                    <small class="text-danger" *ngIf="this.registrationFormGroup.controls.state.hasError('required')">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="col-6">
+                <label class="form-label select-label">City <span class="required">*</span></label>
+                <select class="select form-select" aria-label="Default select example" formControlName="city">
+                    <option selected disabled>Choose option </option>
+                    <option *ngFor="let city of cities; index as i" [ngValue]="city.name">{{city.name}}</option>
+                </select>
+                <div
+                    *ngIf="this.registrationFormGroup.controls.city && this.registrationFormGroup.controls.city.invalid && this.registrationFormGroup.controls.city.touched">
+                    <small class="text-danger" *ngIf="this.registrationFormGroup.controls.city.hasError('required')">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="col-6">
+                <label class="form-label">Pincode <span class="required">*</span></label>
+                <input type="text" class="form-control" formControlName="pinCode" maxlength="6" />
+                <div
+                    *ngIf="this.registrationFormGroup.controls.pinCode && this.registrationFormGroup.controls.pinCode.invalid && this.registrationFormGroup.controls.pinCode.touched">
+                    <small class="text-danger" *ngIf="this.registrationFormGroup.controls.pinCode.hasError('required')">
+                        This field is required.
+                    </small>
+                    <small class="text-danger" *ngIf="this.registrationFormGroup.controls.pinCode.hasError('pattern')">
+                        Enter valid pin code.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer border-t-0 save-employe-details">
+
+    <button *ngIf="!isSubmitting" type="button" class="btn btn-addemployee w-100 d-block text-white p-2 rounded-2"
+        (click)="confirm()">Add &
+        Save Details</button>
+    <button *ngIf="isSubmitting" class="btn btn-addemployee w-100 d-block text-white p-2 rounded-2" type="button"
+        disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+    </button>
+</div>

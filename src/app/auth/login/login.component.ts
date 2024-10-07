@@ -15,6 +15,8 @@ import { Identity } from '../../shared/interface/response/response';
 import { ApiRoutes } from '../../shared/constants/apiRoutes';
 import { ILoginResponse } from '../../shared/interface/response/auth.response';
 import { FirebaseService } from '../../shared/services/firebase.service';
+import { TokenDecodeService } from '../../shared/services/token-decode.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -56,23 +58,54 @@ export class LoginComponent extends ComponentBase {
   };
 
 
-  constructor(private router: Router, private authService: AuthService, private toastrService: ToastrService, private locationService: LocationService, private firebaseService:FirebaseService
+  constructor(private router: Router, private tokenDecodeService: TokenDecodeService, private authService: AuthService, private locationService: LocationService, private firebaseService: FirebaseService
   ) {
     super();
   }
 
   ngOnInit(): void {
     google.accounts.id.initialize({
-      client_id:'275974553025-1bp3479o3gps2lodm5tg0gop876obkrj.apps.googleusercontent.com',
-      callback:(res:any)=>{
+      client_id: '275974553025-um4otbnrt0lcs8vk4sdqjcstraik3rq2.apps.googleusercontent.com',
+      callback: (res: any) => {
         console.log(res)
+        const data = this.tokenDecodeService.decodeToken(res.credential);
+        const requestData = {
+          sub: data.sub,
+          email: data.email,
+          firstName: data.given_name,
+          lastName: data.family_name,
+          fcmToken: this.firebaseService.currentToken
+        }
+        this.authService.loginWithGoogle(requestData).pipe(
+          tap(
+            (res)=>{
+              if(res.data.token){
+                if (res.data.customer && res.data.customer.address) {
+                  res.data.customer.address = res.data.customer.address.trim();
+                }
+              }
+            }
+          )
+        ).subscribe({
+          next: (res) => {
+            if (res.data.token) {
+              console.log(res.data)
+              localStorage.setItem(environment.tokenKey, res.data.token);
+              localStorage.setItem(environment.refreshTokenKey, res.data.refreshToken);
+              localStorage.setItem(environment.customerData, JSON.stringify(res.data.customer));
+              this.toasterService.success("Login Successfully")
+              this.router.navigate(['./dashboard']);
+            }
+          }
+        })
+
       }
     })
-    google.accounts.id.renderButton(document.getElementById("google-btn"),{
-      theme:"filled_blue",
-      size:"large",
-      shape:"rectangle",
-      width:350
+    google.accounts.id.renderButton(document.getElementById("google-btn"), {
+      theme: "filled_blue",
+      size: "large",
+      shape: "rectangle",
+      width: 350
     })
 
     this.locationService.getStateDetails().then(
@@ -85,7 +118,7 @@ export class LoginComponent extends ComponentBase {
   }
 
 
-  public changePhoneNo(){
+  public changePhoneNo() {
     this.steps--;
   }
 
@@ -95,7 +128,7 @@ export class LoginComponent extends ComponentBase {
 
   public login() {
     if (this.steps == 1) {
-      this.isSubmitting=true;
+      this.isSubmitting = true;
       const phoneNumber: string = this.loginFormGroup.controls.phoneNo.value!;
       this.authService.loginWithPhoneNumber(phoneNumber).subscribe({
         next: (res) => {
@@ -104,32 +137,33 @@ export class LoginComponent extends ComponentBase {
             this.steps++;
           }
           else {
-            this.toastrService.error(res.errorMessage);
+            this.toasterService.error(res.errorMessage);
           }
         },
-        error:(err)=> {
-          this.toastrService.error(err);
-          this.isSubmitting=false
+        error: (err) => {
+          this.toasterService.error(err);
+          this.isSubmitting = false
         },
-        complete:() => {
-          this.isSubmitting=false
+        complete: () => {
+          this.isSubmitting = false
         },
       })
     }
-    
+
     if (this.steps === 2 && this.loginFormGroup.valid) {
       this.isSubmitting = true;
       const data: loginFormData = {
         phoneNo: this.loginFormGroup.controls.phoneNo.value!,
         otp: this.loginFormGroup.controls.otp.value!,
-        fcmToken: this.loginFormGroup.controls.fcmToken.value!,
+        fcmToken: this.firebaseService.currentToken!,
       }
       this.authService.login(data).subscribe({
         next: (res) => {
           if (res.data.token) {
             localStorage.setItem(environment.tokenKey, res.data.token);
             localStorage.setItem(environment.refreshTokenKey, res.data.refreshToken);
-            this.toastrService.success("Login Successfully")
+            localStorage.setItem(environment.customerData, JSON.stringify(res.data.customer));
+            this.toasterService.success("Login Successfully")
             this.router.navigate(['./dashboard']);
           }
           else {
@@ -138,11 +172,11 @@ export class LoginComponent extends ComponentBase {
             const phoneNo = this.loginFormGroup.controls.phoneNo.value;
             this.registrationFormGroup.controls.contact.setValue(phoneNo);
             this.registrationFormGroup.controls.contact.disable();
-            // this.toastrService.error(res.errorMessage);
+            // this.toasterService.error(res.errorMessage);
           }
         },
         error: (err) => {
-          this.toastrService.error(err);
+          this.toasterService.error(err);
           this.isSubmitting = false;
         },
         complete: () => {
@@ -154,7 +188,7 @@ export class LoginComponent extends ComponentBase {
     }
   }
 
-  public registerCustomer(){
+  public registerCustomer() {
     this.registrationFormGroup.markAllAsTouched();
     this.registrationFormGroup.controls.contact.enable();
 
@@ -172,9 +206,9 @@ export class LoginComponent extends ComponentBase {
         pinCode: this.registrationFormGroup.controls.pinCode.value,
         isLogin: this.registrationFormGroup.controls.isLogin.value,
         state: this.registrationFormGroup.controls.state.value,
-        userName:null,
-        password:null,
-        fcmToken:this.firebaseService.currentToken,
+        userName: null,
+        password: null,
+        fcmToken: this.firebaseService.currentToken,
       }
       console.log(customerData)
       this.postAPICallPromise<customerRegistrationFormData, Identity<ILoginResponse>>(ApiRoutes.customer.registerCustomer, customerData, this.headerOption).then(
@@ -182,12 +216,12 @@ export class LoginComponent extends ComponentBase {
           if (res.data) {
             localStorage.setItem(environment.tokenKey, res.data.token);
             localStorage.setItem(environment.refreshTokenKey, res.data.refreshToken);
-            this.toastrService.success("Login Successfully")
+            this.toasterService.success("Login Successfully")
             this.router.navigate(['./dashboard']);
             this.registrationFormGroup.reset();
           }
           else {
-            this.toastrService.error(res.errorMessage)
+            this.toasterService.error(res.errorMessage)
           }
           this.isSubmitting = false;
         }
