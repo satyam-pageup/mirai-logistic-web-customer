@@ -1,0 +1,197 @@
+<!-- <div class="bg-white"> -->
+
+<form [formGroup]="rateCalculatorForm">
+    <div class="bg-white mb-2">
+        <div class="container-fluid p-4">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="row ">
+                        <div class="col-sm-5">
+                            <label for="formGroupExampleInput" class="form-label">FROM <span
+                                    class="required">*</span></label>
+                            <input type="text" class="form-control" maxlength="6" formControlName="sourcePincode">
+                            <div
+                                *ngIf="this.rateCalculatorForm.controls.sourcePincode && this.rateCalculatorForm.controls.sourcePincode.invalid && this.rateCalculatorForm.controls.sourcePincode.touched">
+                                <small class="text-danger"
+                                    *ngIf="this.rateCalculatorForm.controls.sourcePincode.hasError('required')">
+                                    This field is required.
+                                </small>
+                                <small class="text-danger"
+                                    *ngIf="this.rateCalculatorForm.controls.sourcePincode.hasError('pattern')">
+                                    Enter valid pin code.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <i class='bx bxs-right-arrow-circle arrow'></i>
+                        </div>
+                        <div class="col-sm-5">
+                            <label for="formGroupExampleInput" class="form-label">TO <span
+                                    class="required">*</span></label>
+                            <input type="text" class="form-control" maxlength="6" formControlName="destinationPincode">
+                            <div
+                                *ngIf="this.rateCalculatorForm.controls.destinationPincode && this.rateCalculatorForm.controls.destinationPincode.invalid && this.rateCalculatorForm.controls.destinationPincode.touched">
+                                <small class="text-danger"
+                                    *ngIf="this.rateCalculatorForm.controls.destinationPincode.hasError('required')">
+                                    This field is required.
+                                </small>
+                                <small class="text-danger"
+                                    *ngIf="this.rateCalculatorForm.controls.destinationPincode.hasError('pattern')">
+                                    Enter valid pin code.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label class="form-label">Shipment Mode <span class="required">*</span></label>
+                    <select class="select form-select" aria-label="Default select example"
+                        formControlName="serviceType">
+                        <option selected disabled>Choose option</option>
+                        <option *ngIf="shipmentMode?.surface || shipmentMode?.oda" [ngValue]="'Surface'">Surface
+                        </option>
+                        <option *ngIf="shipmentMode?.surfacePremium" [ngValue]="'SurfacePremium'">Surface Premium
+                        </option>
+                        <option *ngIf="shipmentMode?.air" [ngValue]="'Air'">Air</option>
+                        <option *ngIf="shipmentMode?.airPremium" [ngValue]="'AirPremium'">Air Premium</option>
+                        <!-- <option *ngIf="shipmentMode?.oda" [ngValue]="'Default'">Default (ODA)</option> -->
+                    </select>
+                    <small class="text-danger"
+                        *ngIf="this.rateCalculatorForm.controls.destinationPincode.valid && !shipmentMode?.airPremium && !shipmentMode?.air && !shipmentMode?.surface && !shipmentMode?.surfacePremium && !shipmentMode?.oda">
+                        Shipment not allow in this zone
+                    </small>
+                    <div
+                        *ngIf="this.rateCalculatorForm.controls.serviceType && this.rateCalculatorForm.controls.serviceType.invalid && this.rateCalculatorForm.controls.serviceType.touched">
+                        <small class="text-danger"
+                            *ngIf="this.rateCalculatorForm.controls.serviceType.hasError('required')">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white mb-2" *ngFor="let child of rateCalculatorForm.controls.boxInfos.controls; let pi = index"
+        formArrayName="boxInfos">
+        <div class="container-fluid p-4 " [formGroupName]="pi">
+            <div class="row">
+                <div class="col-sm-12 mb-4">
+                    <div class="row ">
+                        <div class="col-sm-6">
+                            <label for="formGroupExampleInput" class="form-label">Total Quantity <span
+                                    class="required">*</span></label>
+                            <input type="number" class="form-control w-75" formControlName="quantity" min="0"
+                                oninput="validity.valid||(value='');">
+                            <div
+                                *ngIf="this.child.controls.quantity && this.child.controls.quantity.invalid && this.child.controls.quantity.touched">
+                                <small class="text-danger" *ngIf="this.child.controls.quantity.hasError('required')">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <label class="form-label">Total Weight <span class="required">*</span></label>
+                            <input type="number" class="form-control w-75" formControlName="weight" min="0"
+                                oninput="validity.valid||(value='');">
+                            <div
+                                *ngIf="this.child.controls.weight && this.child.controls.weight.invalid && this.child.controls.weight.touched">
+                                <small class="text-danger" *ngIf="this.child.controls.weight.hasError('required')">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="col-12 mt-2" *ngFor="let volume of child.controls.volumes.controls; let vi = index"
+                    formArrayName="volumes">
+                    <div class="row" [formGroupName]="vi">
+                        <div class="col-2">
+                            <label for="formGroupExampleInput" class="form-label">Quantity <span
+                                    class="required">*</span></label>
+                            <input type="number" class="form-control" formControlName="quantity" min="0"
+                                oninput="validity.valid||(value='');" (change)="onVolumeQuantityChange(pi,vi,0)">
+                            <div
+                                *ngIf="this.volume.controls.quantity && this.volume.controls.quantity.invalid && this.volume.controls.quantity.touched">
+                                <small class="text-danger" *ngIf="this.volume.controls.quantity.hasError('required')">
+                                    This field is required.
+                                </small>
+                                <small class="text-danger"
+                                    *ngIf="this.volume.controls.quantity.hasError('quantityMismatch')">
+                                    Volume quantity exceeds the allowed product quantity.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <label for="formGroupExampleInput" class="form-label">Length (in cm) <span
+                                    class="required">*</span></label>
+                            <input type="number" class="form-control" formControlName="length" min="0"
+                                oninput="validity.valid||(value='');">
+                            <div
+                                *ngIf="this.volume.controls.length && this.volume.controls.length.invalid && this.volume.controls.length.touched">
+                                <small class="text-danger" *ngIf="this.volume.controls.length.hasError('required')">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <label for="formGroupExampleInput" class="form-label">Breadth (in cm) <span
+                                    class="required">*</span></label>
+                            <input type="number" class="form-control" formControlName="width" min="0"
+                                oninput="validity.valid||(value='');">
+                            <div
+                                *ngIf="this.volume.controls.width && this.volume.controls.width.invalid && this.volume.controls.width.touched">
+                                <small class="text-danger" *ngIf="this.volume.controls.width.hasError('required')">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <label for="formGroupExampleInput" class="form-label">Height (in cm) <span
+                                    class="required">*</span></label>
+                            <input type="number" class="form-control" formControlName="height" min="0"
+                                oninput="validity.valid||(value='');">
+                            <div
+                                *ngIf="this.volume.controls.height && this.volume.controls.height.invalid && this.volume.controls.height.touched">
+                                <small class="text-danger" *ngIf="this.volume.controls.height.hasError('required')">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-1" style="margin: auto 0px;">
+                            <span *ngIf="child.controls.volumes.length>1" class="cancel-pin"
+                                (click)="remove(pi,vi)">X</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @if(remainingQuantity>0){
+                    <p>
+                        Add <span style="color: red;">{{ remainingQuantity }} more product</span>, to complete
+                        order.
+                    </p>
+                    }
+                    @else if(remainingQuantity<0){ <p>
+                        <span style="color: red;">{{ remainingQuantity | abs }}</span> Extra quantity added
+                        </p>
+                        }
+                </div>
+                <div class="col-sm-12 my-5">
+                    <div class="row">
+                        <div class="col-sm-8"></div>
+                        <div class="col-sm-4">
+                            <button class="btn btn-primary float-end" (click)="getRate()">GET RATE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #template>
+    <ng-container>
+        <app-calculated-amount [referenceData]="referenceData" (EEformValue)="getFormDataE($event)"></app-calculated-amount>
+    </ng-container>
+</ng-template>

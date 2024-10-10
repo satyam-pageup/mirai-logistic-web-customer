@@ -1,0 +1,60 @@
+<div class="modal-body input-text-modal">
+    <div class="row g-2">
+        <div class="col-12 float-end">
+            <img src="../../../assets/images/close-icon-red.png" class="close-icon" (click)="decline()" alt="">
+            <!-- <button type="button" class="btn btn-close-red d-flex justify-content-center align-items-center float-end"
+                data-bs-dismiss="modal" (click)="decline()">
+                <span class="me-2">Close</span>
+            </button> -->
+        </div>
+        <div class="row w-100 text-center">
+            <div class="col-sm-5 text-start">
+                <h6 >FROM </h6>
+                <p>{{referenceData.sourcePincode}}</p>
+
+            </div>
+            <div class="col-sm-2 text-center">
+                <i class='bx bxs-right-arrow-circle arrow'></i>
+            </div>
+            <div class="col-sm-5 text-end">
+                <h6 >TO</h6>
+                <p>{{referenceData.destinationPincode}}</p>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-sm-6 text-start">
+                <h6 >Total Weight</h6>
+                <span>{{referenceData.quantity}} kg</span>
+
+            </div>
+            <div class="col-sm-6 text-end">
+                <h6 >Total Volume </h6>
+                <span>{{referenceData.volume}} cm^3</span>
+            </div>
+        </div>
+        <div class="col-12">
+            <h3>{{referenceData.serviceType}}</h3>
+            <ng-content *ngFor="let charge of referenceData.charges; let i = index">
+                <div class="charge-box">
+                    <div class="row">
+                        <div class="col-sm-4">Name</div>
+                        <div class="col-sm-1">:</div>
+                        <div class="col-sm-7 text-end">{{referenceData.charges.at(i)?.name}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">Charge</div>
+                        <div class="col-sm-1">:</div>
+                        <div class="col-sm-7 text-end">{{referenceData.charges.at(i)?.percent}}%</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">Price</div>
+                        <div class="col-sm-1">:</div>
+                        <div class="col-sm-7 text-end">₹{{referenceData.charges.at(i)?.charge?.toFixed(2)}}</div>
+                    </div>
+                </div>
+            </ng-content>
+            <hr>
+            <h5 class="text-end">Total price - <span>₹{{referenceData.totalPrice}}/-</span></h5>
+        </div>
+    </div>
+</div>

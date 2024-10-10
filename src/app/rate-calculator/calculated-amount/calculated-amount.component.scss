@@ -1,0 +1,34 @@
+.select-property{
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-addemployee {
+    background: #5D60EF;
+}
+
+.save-employe-details .btn-addemployee {
+    border-radius: 5px !important;
+}
+
+.btn-addemployee:hover {
+    background: #383cd7;
+}
+
+.close-icon{
+    size: 20px;
+    float: right;
+}
+
+.arrow{
+    font-size: 30px;
+    color: #616161;
+    margin-top: 5px;
+}
+
+.charge-box{
+    border: 1px solid;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    padding: 10px;
+}

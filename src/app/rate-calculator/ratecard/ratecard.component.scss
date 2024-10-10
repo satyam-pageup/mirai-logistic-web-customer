@@ -1,0 +1,151 @@
+.single-lefter {
+    height: 100px;
+}
+
+.single-lefter span {
+    height: 100px;
+    width: 100px;
+    background-color: #D3CB83;
+    border-radius: 50%;
+    text-align: CENTER;
+    line-height: 100px;
+    font-size: 50px;
+    font-weight: 500;
+    color: #A79600;
+}
+
+.customer-type {
+    padding: 8px;
+    height: 25px;
+    line-height: 5px;
+    font-size: 14px;
+    background: #5D60EF;
+    color: #fff;
+}
+
+.customer-num {
+    padding: 8px;
+    height: 25px;
+    line-height: 5px;
+    font-size: 14px;
+    background: #EAEAFF;
+    color: #6161f3;
+}
+
+.nameinformation h1 {
+    color: #808080;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+
+.nameinformation p,
+.wallet-box,
+table tbody tr td {
+    color: #808080 !important;
+}
+
+.wallet-box li {
+    font-size: 18px;
+}
+
+.edit-details {
+    background-color: #F8F9FB;
+    border: solid thin #5D60EF;
+    color: #5D60EF;
+    border-radius: 8px !important;
+    padding: 6px 14px;
+}
+
+.customer-namebox {
+    position: relative;
+}
+
+.customer-namebox::after {
+    position: absolute;
+    height: 130px;
+    content: '';
+    width: 2px;
+    background-color: #808080;
+    right: 0;
+    top: 20px;
+}
+
+.wallet-box ul {
+    list-style: none;
+    margin-bottom: 0;
+    padding-top: 15px;
+}
+
+.wallet-box ul li {
+    display: flex;
+}
+
+.in-active-btn {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.edit-creditlimit {
+    border: none;
+    height: 30px;
+    width: 30px !important;
+    border-radius: 50% !important;
+    background-color: #5D60EF;
+    line-height: 10px;
+    text-align: center;
+    padding: 0px 8px;
+    margin-left: 10px;
+}
+
+.customer-information-tabs ul li button.active {
+    background-color: #5D60EF !important;
+    color: #fff !important;
+    border: none;
+}
+
+.customer-information-tabs ul li button {
+    border-radius: 20px;
+    border: solid 1px #808080;
+    color: #808080 !important;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-weight: 400 !important;
+}
+
+.active-btn {
+    background: #2BB115 !important;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.creditLimitInput{
+    border: none;
+    border-bottom: 1px solid;
+}
+
+.arrow{
+    font-size: 40px;
+    color: #616161;
+    margin-top: 15px;
+}
+
+.required{
+    color: red;
+    font-weight: 500;
+}
+
+.cancel-pin{
+    // display: inline-block;
+    float: right;
+    background-color: #DE3333;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    line-height: 30px;
+    font-size: 14px;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+}
