@@ -1,0 +1,56 @@
+<p *ngIf="paidCODList?.length === 0" style="text-align: center; padding: 5px;">
+    No data found
+</p>
+
+<div class="row" *ngIf="paidCODList?.length !== 0">
+    <div class="col-sm-6" >
+    </div>
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-6"></div>
+            <div class="col-sm-6">
+                <div class="searchbox-employee">
+                    <label class="visually-hidden" for="autoSizingInputGroup">Username</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-transparent" id="autoSizingInputGroup"
+                            placeholder="Search ..." [(ngModel)]="searchInput" (input)="onSearchInputChange()">
+                        <div class="input-group-text">
+                            <img src="../../../assets/images/search.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 mt-3 mb-2">
+        <table class="table table-bordered emp-table" *ngIf="!isErrorComing">
+            <thead>
+                <tr>
+                    <th scope="col">S.No.</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Order Number</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of paidCODList; index as i">
+                    <th scope="row">{{(i+1)+(payload.top*(payload.pageIndex -1))}}</th>
+                    <td>{{item.customerName}}</td>
+                    <td>{{item.codOrderInfos.at(i)?.orderNo}}</td>
+                    <td>{{item.returnDate| dateFormat}} </td>
+                    <td>₹{{item.codAmount}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="isErrorComing" class="d-flex align-items-center justify-content-center mb-3">
+        <div style=" border-radius: 10px; background-color: rgb(233, 233, 233); width: 100%; text-align: center;">
+            {{this.errorMessage}}
+        </div>
+    </div>
+
+    <app-pagination [total]="totalCount" [top]="payload.top" (EEItemPerPage)="itemPerPage($event)" (EEPageChangeValue)="pageChanged($event)"></app-pagination>
+
+</div>

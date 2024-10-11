@@ -24,7 +24,6 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
   public isWarehouseSelected: boolean = false;
   public isCODRequired: boolean = false;
 
-  public removeQuantity: boolean = false;
   public remainingQuantity: number = 0;
   public isEditCase: boolean = false;
   public skipBarcodeEntry: boolean = false;
@@ -32,6 +31,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
   public warehouseId: number = 0;
   public steps: number = 1;
   public newQuantity: number = 0;
+  public isSubmitting: boolean = false;
   public shipmentMode!: IPincodeDetails | null;
   public states: IStateDetails[] = [];
   public cities: ICityDetails[] = [];
@@ -59,7 +59,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     isActive: new FormControl(true),
   })
 
-  public warehouseForm() :warehouseForm{
+  public warehouseForm(): warehouseForm {
     return {
       id: new FormControl(0),
       name: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]),
@@ -180,20 +180,25 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     super()
   }
 
-  ngOnInit(): void {
-    this.getWarehouseList();
+  async ngOnInit() {
+    await this.getWarehouseList();
     if (this.referenceData.id > 0) {
       this.isEditCase = true;
-      this.getAPICallPromise<Identity<IROrderDetailsData>>(ApiRoutes.order.singleOrderView(this.referenceData.orderId), this.headerOption).then(
-        (res) => {
-          if (res?.data) {
-            this.orderDetails = res.data
-            this.customerId = res.data.customer.id;
-            this.warehouseId = res.data.warehouse.id;
-            this.patchOrderDetails();
-          }
+      try {
+        const res = await this.getAPICallPromise<Identity<IROrderDetailsData>>(
+          ApiRoutes.order.singleOrderView(this.referenceData.orderId),
+          this.headerOption
+        );
+        if (res?.data) {
+          this.orderDetails = res.data;
+          this.customerId = res.data.customer.id;
+          this.warehouseId = res.data.warehouse.id;
+          this.patchOrderDetails();
+          this.onStateChange();
         }
-      )
+      } catch (error) {
+        console.error('Error fetching order details:', error);
+      }
       // this.patchOrderDetails(this.referenceData)
     }
     this.locationService.getStateDetails().then(
@@ -269,24 +274,45 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
       products: this.orderDetails.forwardShipments.at(0)?.products!,
     }
     let volumeFormLength = this.orderDetails.forwardShipments.at(0)?.products.at(0)?.volumes.length;
-    while (volumeFormLength != 1) {
-      this.newShipmentForm.controls.products.at(0).controls.volumes.push(this.volumeForm());
-      volumeFormLength!--;
+    if (volumeFormLength != 0) {
+      while (volumeFormLength != 1) {
+        this.newShipmentForm.controls.products.at(0).controls.volumes.push(this.volumeForm());
+        volumeFormLength!--;
+      }
     }
     this.orderForm.controls.id.setValue(this.orderDetails.id)
     this.orderForm.controls.paymentType.setValue(this.orderDetails.paymentType);
     this.newShipmentForm.patchValue(shipmentData);
     this.warehouse.patchValue(warehouseData);
+
+    if (this.newShipmentForm.controls.pincode.valid) {
+      this.shipmentMode = null;
+      const data: { pincode: string } = {
+        pincode: this.newShipmentForm.controls.pincode.value!
+      }
+      this.postAPICallPromise<{ pincode: string }, Identity<IPincodeDetails>>(ApiRoutes.ratecard.getPincodeDetails(parseInt(this.newShipmentForm.controls.pincode.value!)), data, this.headerOption).then(
+        (res) => {
+          this.shipmentMode = res.data
+        })
+    }
+
+    if (this.newShipmentForm.controls.products.at(0).controls.quantity.value == 0) {
+      this.newShipmentForm.controls.products.at(0).controls.quantity.setValue(null);
+    }
   }
 
-  private getWarehouseList() {
-    this.getAPICallPromise<Identity<comboResponse[]>>(ApiRoutes.customer.getWarehouseCombo, this.headerOption).then(
-      (res) => {
-        if (res?.data) {
-          this.warehouseList = res.data;
-        }
+  private async getWarehouseList() {
+    try {
+      const res = await this.getAPICallPromise<Identity<comboResponse[]>>(
+        ApiRoutes.customer.getWarehouseCombo,
+        this.headerOption
+      );
+      if (res?.data) {
+        this.warehouseList = res.data;
       }
-    )
+    } catch (error) {
+      console.error("Error fetching customer list:", error);
+    }
   }
 
   public onStateChange() {
@@ -356,7 +382,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
         this.steps++;
         this.newShipmentForm.markAsUntouched()
       }
-      if (this.isEditCase) {
+      if (this.isEditCase && this.orderDetails.forwardShipments.at(0)?.products.at(0)?.volumes.length !== 0) {
         this.onVolumeQuantityChange(0, this.newShipmentForm.controls.products.at(0).controls.volumes.length - 1, 0);
       }
     }
@@ -375,16 +401,21 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     }
     else if (this.steps === 4) {
       this.newShipmentForm.controls.products.at(0).controls.volumes.markAllAsTouched()
-      if (this.newShipmentForm.controls.products.at(0).controls.volumes.at(0).controls.barcodes.valid) {
-        if (this.remainingQuantity == 0) {
-          this.calculatePrice();
+      if (this.newShipmentForm.controls.products.at(0).controls.volumes.length == 0) {
+        this.newShipmentForm.controls.products.at(0).controls.volumes.controls.pop();
+        this.calculatePrice();
+      }
+      else {
+        if (this.newShipmentForm.controls.products.at(0).controls.volumes.at(0).controls.barcodes.valid) {
+          if (this.remainingQuantity == 0) {
+            this.calculatePrice();
+          }
         }
       }
-
     }
     else if (this.steps === 5) {
       this.removeBarcodeValidation(this.newShipmentForm.controls.products.at(0).controls.volumes);
-      // console.log(this.orderForm.value)
+      this.isSubmitting = true;
       if (this.orderForm.controls.paymentType.valid) {
         this.loaderService.showLoader();
         this.postAPICall<unknown, Identity<{ data: boolean }>>(ApiRoutes.order.addOrder, this.orderForm.value, this.headerOption).subscribe({
@@ -400,7 +431,11 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
             }
           },
           error: (err) => {
-
+            this.toasterService.error(err);
+            this.isSubmitting = false;
+          },
+          complete: () => {
+            this.isSubmitting = false;
           }
         })
       }
@@ -408,6 +443,9 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
   }
 
   public skipBarcodes() {
+    if (this.newShipmentForm.controls.products.at(0).controls.quantity.value == 0) {
+      this.newShipmentForm.controls.products.at(0).controls.volumes.controls.pop();
+    }
     this.removeBarcodeValidation(this.newShipmentForm.controls.products.at(0).controls.volumes);
     this.calculatePrice();
     this.skipBarcodeEntry = true;

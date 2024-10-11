@@ -79,7 +79,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of orderList; index as i" (click)="orderView(item.orderId)">
+                <tr *ngFor="let item of orderList; index as i" >
                     <td class="text-center">{{(i+1)+(payload.top*(payload.pageIndex -1))}}</td>
                     <td>{{item.customerName}} </td>
                     <td>{{item.orderNo}}</td>
@@ -97,10 +97,16 @@
                         <p disabled *ngIf="!item.pickUpCreated && item.pickUpDays<=5 ">Not Created </p>
                         <!-- {{ item.pickUpCreated ?"Yes":"No"}} -->
                     </td>
-                    <td (click)="$event.stopPropagation()">
-                        <div class="d-flex justify-content-between align-items-center">
+                    <td>
+                        <div class="d-flex justify-content-around align-items-center">
                             <!-- <button class="btn btn-sm btn-addemployee text-white" >Edit</button> -->
-                            <i class='bx bxs-edit fs-5 text-dark' (click)="upsertorder(i)"></i>
+                             <button class="btn-icon" (click)="orderView(item.orderId)" title="View Order">
+                                <i class='bx bxs-show fs-5'></i>
+                             </button>
+                            <button [disabled]="checkOrderStatus(i)" (click)="upsertorder(i)" title="Edit Order"
+                                class="btn-icon">
+                                <i class="bx bxs-edit fs-5 text-dark" [class.text-muted]="checkOrderStatus(i)"></i>
+                            </button>
                             <div class="dropdown">
                                 <button [disabled]="!item.isActive" class="btn dropdown-toggle action-btn active-btn"
                                     href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"

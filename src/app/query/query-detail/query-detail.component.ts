@@ -52,11 +52,6 @@ export class QueryDetailComponent extends ComponentBase implements OnInit {
     id: 0
   };
 
-  public communicationData: communicationReferenceData = {
-    queryId: 0,
-    queryStatus: ''
-  };
-
   public config = {
     displayKey: "name",
     search: true,
@@ -72,7 +67,6 @@ export class QueryDetailComponent extends ComponentBase implements OnInit {
     selectAllLabel: 'Select all',
     enableSelectAll: false,
   }
-
 
   constructor(private router: ActivatedRoute, private modalService: BsModalService) {
     super()
@@ -172,7 +166,6 @@ export class QueryDetailComponent extends ComponentBase implements OnInit {
       id: id
     };
     this.modelRef = this.modalService.show(this.modalTemplate2, config);
-
   }
 
   public deleteQuery(isActive: boolean, id: number, queryStatus: string) {

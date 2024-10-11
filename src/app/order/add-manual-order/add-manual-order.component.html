@@ -646,10 +646,13 @@
             </div>
             <div class="col-12">
                 <label class="form-label">Payment Mode <span class="required">*</span></label>
-                <select class="select form-select" aria-label="Default select example" formControlName="paymentType">
+                <select *ngIf="!newShipmentForm.controls.toPay.value" class="select form-select" aria-label="Default select example" formControlName="paymentType">
                     <option selected disabled>Choose option</option>
                     <option [ngValue]="'OnlinePayment'">Online Payment</option>
-                    <option [ngValue]="'CashPayment '">Cash Payment</option>
+                    <option [ngValue]="'CashPayment'">Cash Payment</option>
+                </select>
+                <select *ngIf="newShipmentForm.controls.toPay.value" class="select form-select" aria-label="Default select example" formControlName="paymentType">
+                    <option selected [ngValue]="'ToPay'">Topay</option>
                 </select>
                 <div
                     *ngIf="this.orderForm.controls.paymentType && this.orderForm.controls.paymentType.invalid && this.orderForm.controls.paymentType.touched">

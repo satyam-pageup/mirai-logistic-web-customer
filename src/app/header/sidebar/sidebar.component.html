@@ -29,18 +29,25 @@
                 <span>Query</span>
             </a>
         </li>
-        <li class="borderbottom" [routerLinkActive]="'active'"><a
-                [routerLink]="">
+        <li class="borderbottom" *ngIf="isWalletActive" [routerLinkActive]="'active'"><a
+                [routerLink]="appRoute.wallet.base">
                 <img src="../../../assets/images/expense-management.png" class="none-onactive" alt="">
                 <img src="../../../assets/images/expense-category-white.png" class="active-icon" alt="">
                 <span>Wallet</span>
             </a>
         </li>
         <li class="borderbottom"  [routerLinkActive]="'active'"><a
-                [routerLink]="">
+                [routerLink]="appRoute.rateCalculator.base">
                 <img src="../../../assets/images/expense-management.png" class="none-onactive" alt="">
                 <img src="../../../assets/images/expense-category-white.png" class="active-icon" alt="">
-                <span>Shipping Rate</span>
+                <span>Rate Calculator</span>
+            </a>
+        </li>
+        <li class="borderbottom"  [routerLinkActive]="'active'"><a
+                [routerLink]="appRoute.cod.base">
+                <img src="../../../assets/images/expense-management.png" class="none-onactive" alt="">
+                <img src="../../../assets/images/expense-category-white.png" class="active-icon" alt="">
+                <span>COD</span>
             </a>
         </li>
         <li class="borderbottom" [routerLinkActive]="'active'"><a

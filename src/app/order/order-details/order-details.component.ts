@@ -239,7 +239,21 @@ export class OrderDetailsComponent extends ComponentBase implements OnInit {
   public orderView(orderId: string) {
     this.router.navigate([this.appRoute.order.base, this.appRoute.order.summary], { queryParams: { guid: orderId } });
   }
-
+  
+  public checkOrderStatus(index: number): boolean {
+    const orderStatus = this.orderList.at(index)?.orderStatus;
+    const excludedStatuses = [
+      "WeightCaptured",
+      "InTransit",
+      "OutForDelivery",
+      "Delivered",
+      "DeliveryAttempted",
+      "ReturnedToOrigin",
+      "Canceled",
+      "Exception"
+    ];
+    return excludedStatuses.includes(orderStatus!);
+  }
 
   public getFormDataE(data: any) {
     if (data) {

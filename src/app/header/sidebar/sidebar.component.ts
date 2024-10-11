@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ComponentBase } from '../../shared/classes/component-base';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,11 +11,14 @@ export class SidebarComponent extends ComponentBase {
   public isRatecardConfigurationOpen: boolean = false;
   public isMasterConfigurationOpen: boolean = false;
   public isPickupManagement: boolean = false;
+  public isWalletActive: boolean = false;
   constructor() {
     super();
   }
 
   ngOnInit(): void {
+    const customer = JSON.parse(localStorage.getItem(environment.customerData)!);
+    this.isWalletActive = customer.isWallet;
     if (typeof document !== 'undefined') {
       let arrow = document.querySelectorAll(".arrow");
       for (let i = 0; i < arrow.length; i++) {

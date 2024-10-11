@@ -168,19 +168,8 @@ tr {
     border-radius: 0 4px 4px 0px;
 }
 
-// .dropdown .btn:hover {
-//     color: #fff;
-//     background-color: #157347;
-//     border-color: #157347;
-// }
-.btn.show,.btn.active,.btn{
-    border: none;
-    color: #000;
+.dropdown .btn:hover {
+    color: #fff;
+    background-color: #157347;
+    border-color: #157347;
 }
-
-.btn-icon {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-  }

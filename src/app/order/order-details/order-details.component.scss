@@ -170,3 +170,14 @@
     background-color: #157347;
     border-color: #157347;
 }
+
+.btn-icon {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.btn-icon:disabled {
+  cursor: not-allowed; /* Show not-allowed cursor when disabled */
+}

@@ -10,7 +10,7 @@
                     <label>Query</label>
                     <select class="form-select" [(ngModel)]="payload.queryStatus" (change)="onSelectionChange($event)">
                         <option selected disabled>Choose option</option>
-                        <option [ngValue]="null">All</option>
+                        <option [ngValue]='null'>All</option>
                         <option [ngValue]="'Open'">Open</option>
                         <option [ngValue]="'CommunicationStarted'">Communication Started</option>
                         <option [ngValue]="'ClosedWithSuccessfully'">Closed</option>
@@ -67,17 +67,24 @@
                     <td>{{item.customerName}}</td>
                     <td>
                         <span *ngIf="!showFullDescription[item.id]">
-                            {{ getTruncatedDescription(item.question, 100) }} <a *ngIf="item.question.length > 100" (click)="toggleDescription(item.id)" style="color: blue; text-decoration: underline; cursor: pointer;">more</a>
-                          </span>
-                          <span *ngIf="showFullDescription[item.id]">
-                            {{ item.question }}<a (click)="toggleDescription(item.id)" style="color: blue; text-decoration: underline; cursor: pointer;"> show less</a>
-                          </span>
+                            {{ getTruncatedDescription(item.question, 100) }} <a *ngIf="item.question.length > 100"
+                                (click)="toggleDescription(item.id)"
+                                style="color: blue; text-decoration: underline; cursor: pointer;">more</a>
+                        </span>
+                        <span *ngIf="showFullDescription[item.id]">
+                            {{ item.question }}<a (click)="toggleDescription(item.id)"
+                                style="color: blue; text-decoration: underline; cursor: pointer;"> show less</a>
+                        </span>
                     </td>
                     <td>{{item.queryDate}}</td>
                     <td>{{item.orderNo}} </td>
                     <td>{{item.pickupNo}} </td>
                     <td>{{item.queryStatus | spaceBeforeCapital}}</td>
-                    <td><a (click)="viewQuery(item.id)" style="color: blue; text-decoration: underline;">View</a></td>
+                    <td>
+                        <button class="btn-icon" (click)="viewQuery(item.id)" title="View Query">
+                            <i class='bx bxs-show fs-5'></i>
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -109,4 +116,3 @@
             (EEformValue)="getFormDataE($event)"></app-single-query-detail>
     </ng-container>
 </ng-template>
-
