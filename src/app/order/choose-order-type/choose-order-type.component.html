@@ -1,0 +1,48 @@
+<div class="modal-header justify-content-between border-b-0">
+    <h5 class="modal-title text-theme" id="">Bulk Order</h5>
+    <button type="button" class="btn btn-close-red d-flex justify-content-center align-items-center float-end"
+        data-bs-dismiss="modal" (click)="decline()">
+        <span class="me-2">Close</span>
+        <img src="../../../assets/images/close-icon-red.png" alt="">
+    </button>
+</div>
+
+<div class="modal-body input-text-modal">
+    <div class="container text-center">
+
+        <h5>Download XLSX template?</h5>
+        <p class="d-flex justify-content-center align-items-center">Download template & Fill rows with shipment data
+            <button (click)="downloadExcel()" type="button" class="d-flex justify-content-center align-items-center"><i
+                    class='bx bxs-cloud-download fs-5 me-1'></i> Download</button>
+        </p>
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                <section>
+                    <h5 class="mb-3 font-weight-bold">XLSX file uploader</h5>
+                    <div class="file-uploader p-3 mb-5" type="file" accept=".xlsx" (drop)="uploadExcel($event)"
+                        (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+                        <div class="icon-container mb-2 mx-auto d-flex justify-content-center align-items-center">
+                            <img src="../../../assets/images/xlsx.png" style="width: 70px;" alt="">
+                        </div>
+                        <div class="file-uploader-body mb-2">
+                            <p class="file-upload-instructions"><a>Browse for .XLSX file with list of shipments</a></p>
+                            <p class="drop-cta">Drop images to upload</p>
+                        </div>
+                        <div>
+                            <p>Please download and use the template</p>
+                        </div>
+                        <div class="file-uploader-footer">
+                            <small style="font-size: 12px; font-style: italic;">You can drag and drop or
+                                <label for="file-upload" class="custom-file-upload">
+                                    Click
+                                </label>
+                                <input id="file-upload" type="file" accept=".xlsx" style="display: none;"
+                                    (change)="uploadExcel($event)" />
+                                here to upload, we'll create the order for you</small>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

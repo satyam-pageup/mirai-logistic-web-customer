@@ -1,0 +1,291 @@
+<div class="row">
+    <div class="col-sm-12 mt-3 mb-2">
+        <div class="table-container">
+            <form [formGroup]="bulkOrderForm">
+                <div class="col-sm-12 mt-3 mb-2">
+                    <table class="table table-bordered emp-table">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="width: 50px;">S No.</th>
+                                <th scope="col" style="width: 150px;">Warehouse Name</th>
+                                <th scope="col" style="width: 180px;">Warehouse Phone No.</th>
+                                <th scope="col" style="width: 175px;">Warehouse Address</th>
+                                <th scope="col" style="width: 165px;">Warehouse Pincode</th>
+                                <th scope="col" style="width: 150px;">Warehouse City</th>
+                                <th scope="col" style="width: 150px;">Warehouse State</th>
+                                <th scope="col" style="width: 165px;">Warehouse Country</th>
+                                <th scope="col" style="width: 150px;">Consignee Name</th>
+                                <th scope="col" style="width: 150px;">Consignee Phone No.</th>
+                                <th scope="col" style="width: 160px;">Consignee Address</th>
+                                <th scope="col" style="width: 160px;">Consignee Pincode</th>
+                                <th scope="col" style="width: 150px;">Consignee City</th>
+                                <th scope="col" style="width: 150px;">Consignee State</th>
+                                <th scope="col" style="width: 160px;">Consignee Country</th>
+                                <th scope="col" style="width: 120px;">Address Type</th>
+                                <th scope="col" style="width: 130px;">Payment Mode</th>
+                                <th scope="col" style="width: 140px;">Shipment Mode</th>
+                                <th scope="col" style="width: 80px;">To Pay</th>
+                                <th scope="col" style="width: 120px;">COD Amount</th>
+                                <th scope="col" style="width: 170px;">Product Description</th>
+                                <th scope="col" style="width: 170px;">Product Amount</th>
+                                <th scope="col" style="width: 170px;">Invoice No.</th>
+                                <th scope="col" style="width: 170px;">Invoice Date</th>
+                                <th scope="col" style="width: 100px;">HSN Code</th>
+                                <th scope="col" style="width: 100px;">Quantity</th>
+                                <th scope="col" style="width: 100px;">Weight</th>
+                                <th scope="col" style="width: 140px;">Volume Quantity</th>
+                                <th scope="col" style="width: 100px;">Width</th>
+                                <th scope="col" style="width: 100px;">Length</th>
+                                <th scope="col" style="width: 100px;">Height</th>
+                            </tr>
+                        </thead>
+                        <tbody formArrayName="orders">
+                            <tr *ngFor="let item of bulkOrderForm.controls.orders.controls; index as i"
+                                [formGroupName]="i">
+                                <td class="text-center">{{(i + 1)}}</td>
+
+                                <!-- Warehouse Fields -->
+                                <td formGroupName="warehouse">
+                                    <input type="text" class="form-control" formControlName="wName">
+                                    <div
+                                        *ngIf="item.controls.warehouse.controls.wName.invalid && item.controls.warehouse.controls.wName.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+                                <td formGroupName="warehouse">
+                                    <input type="text" class="form-control" formControlName="wPhone" maxlength="10">
+                                    <div
+                                        *ngIf="item.controls.warehouse.controls.wPhone && item.controls.warehouse.controls.wPhone.invalid && item.controls.warehouse.controls.wPhone.touched">
+                                        <small class="text-danger"
+                                            *ngIf="item.controls.warehouse.controls.wPhone.hasError('required')">
+                                            This field is required.
+                                        </small>
+                                    </div>
+                                </td>
+                                <td formGroupName="warehouse">
+                                    <input type="text" class="form-control" formControlName="wAddress">
+                                    <div
+                                        *ngIf="item.controls.warehouse.controls.wAddress.invalid && item.controls.warehouse.controls.wAddress.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+                                <td formGroupName="warehouse">
+                                    <input type="text" class="form-control" formControlName="wPincode" maxlength="6">
+                                    <div
+                                        *ngIf="item.controls.warehouse.controls.wPincode && item.controls.warehouse.controls.wPincode.invalid && item.controls.warehouse.controls.wPincode.touched">
+                                        <small class="text-danger"
+                                            *ngIf="item.controls.warehouse.controls.wPincode.hasError('required')">
+                                            This field is required.
+                                        </small>
+                                        <small class="text-danger"
+                                            *ngIf="item.controls.warehouse.controls.wPincode.hasError('pattern')">
+                                            Enter valid pin code.
+                                        </small>
+                                    </div>
+                                </td>
+                                <td formGroupName="warehouse">
+                                    <input type="text" class="form-control" formControlName="wCity">
+                                    <div
+                                        *ngIf="item.controls.warehouse.controls.wCity.invalid && item.controls.warehouse.controls.wCity.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+                                <td formGroupName="warehouse">
+                                    <input type="text" class="form-control" formControlName="wState">
+                                    <div
+                                        *ngIf="item.controls.warehouse.controls.wState.invalid && item.controls.warehouse.controls.wState.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+                                <td formGroupName="warehouse">
+                                    <input type="text" class="form-control" formControlName="wCountry">
+                                    <div
+                                        *ngIf="item.controls.warehouse.controls.wCountry.invalid && item.controls.warehouse.controls.wCountry.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+
+                                <!-- Consignee Fields -->
+                                <td>
+                                    <input type="text" class="form-control" formControlName="name">
+                                    <div *ngIf="item.controls.name.invalid && item.controls.name.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" formControlName="phone" maxlength="10">
+                                    <div *ngIf="item.controls.phone.invalid && item.controls.phone.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" formControlName="address">
+                                    <div *ngIf="item.controls.address.invalid && item.controls.address.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" formControlName="pincode"
+                                        (change)="onPincodeChange(i)" maxlength="6">
+                                    <div *ngIf="item.controls.pincode.invalid && item.controls.pincode.touched">
+                                        <small class="text-danger">Enter valid pin code.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" formControlName="city">
+                                    <div *ngIf="item.controls.city.invalid && item.controls.city.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" formControlName="state">
+                                    <div *ngIf="item.controls.state.invalid && item.controls.state.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" formControlName="country">
+                                    <div *ngIf="item.controls.country.invalid && item.controls.country.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+
+                                <!-- Address, Payment, Shipment Mode -->
+                                <td>
+                                    <input type="text" class="form-control" formControlName="addressType">
+                                    <div *ngIf="item.controls.addressType.invalid && item.controls.addressType.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <select class="select form-select" aria-label="Default select example"
+                                        formControlName="paymentMode" (change)="onPaymentModeChange(i)">
+                                        <option selected disabled>Choose option</option>
+                                        <option [ngValue]="'Prepaid'">Prepaid</option>
+                                        <option [ngValue]="'COD'">COD</option>
+                                    </select>
+                                    <div *ngIf="item.controls.paymentMode.invalid && item.controls.paymentMode.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <select class="select form-select " aria-label="Default select example"
+                                        formControlName="shipmentMode">
+                                        <option selected disabled>Choose option</option>
+                                        <option *ngIf="shipmentMode.at(i)?.surface"
+                                            [ngValue]="'Surface'">Surface</option>
+                                        <option *ngIf="shipmentMode?.at(i)?.surfacePremium" [ngValue]="'SurfacePremium'">
+                                            Surface Premium</option>
+                                        <option *ngIf="shipmentMode?.at(i)?.air" [ngValue]="'Air'">Air</option>
+                                        <option *ngIf="shipmentMode?.at(i)?.airPremium" [ngValue]="'AirPremium'">Air Premium
+                                        </option>
+                                        <!-- <option *ngIf="shipmentMode?.oda" [ngValue]="'Default'">Default (ODA)</option> -->
+                                    </select>
+                                    <small class="text-danger"
+                                        *ngIf="item.controls.sourcePincode.valid && !shipmentMode?.at(i)?.airPremium && !shipmentMode?.at(i)?.air && !shipmentMode?.at(i)?.surface && !shipmentMode?.at(i)?.surfacePremium && !shipmentMode?.at(i)?.oda">
+                                        Shipment not allow in this zone
+                                    </small>
+                                    <div
+                                        *ngIf="item.controls.shipmentMode && item.controls.shipmentMode.invalid && item.controls.shipmentMode.touched">
+                                        <small class="text-danger"
+                                            *ngIf="item.controls.shipmentMode.hasError('required')">
+                                            This field is required.
+                                        </small>
+                                    </div>
+                                </td>
+
+                                <!-- Boolean and Number Inputs -->
+                                <td>
+                                    <input type="checkbox" formControlName="toPay">
+                                    <div *ngIf="item.controls.toPay.invalid && item.controls.toPay.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" formControlName="codAmount">
+                                    <div *ngIf="item.controls.codAmount.invalid && item.controls.codAmount.touched">
+                                        <small class="text-danger">Enter valid COD amount.</small>
+                                    </div>
+                                </td>
+
+                                <!-- Product Details -->
+                                <td>
+                                    <input type="text" class="form-control" formControlName="productDescription">
+                                    <div
+                                        *ngIf="item.controls.productDescription.invalid && item.controls.productDescription.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" formControlName="productAmount">
+                                    <div
+                                        *ngIf="item.controls.productAmount.invalid && item.controls.productAmount.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" formControlName="invoiceNo">
+                                    <div
+                                        *ngIf="item.controls.invoiceNo.invalid && item.controls.invoiceNo.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="date" class="form-control" formControlName="invoiceDate">
+                                    <div
+                                        *ngIf="item.controls.invoiceDate.invalid && item.controls.invoiceDate.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" formControlName="hsnCode">
+                                    <div *ngIf="item.controls.hsnCode.invalid && item.controls.hsnCode.touched">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" formControlName="quantity">
+                                    <div *ngIf="item.controls.quantity.invalid && item.controls.quantity.touched">
+                                        <small class="text-danger">Enter valid quantity.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" formControlName="weight">
+                                    <div *ngIf="item.controls.weight.invalid && item.controls.weight.touched">
+                                        <small class="text-danger">Enter valid weight.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" formControlName="volumeQuantity">
+                                    <div
+                                        *ngIf="item.controls.volumeQuantity.invalid && item.controls.volumeQuantity.touched">
+                                        <small class="text-danger">Enter valid volume quantity.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" formControlName="width">
+                                    <div *ngIf="item.controls.width.invalid && item.controls.width.touched">
+                                        <small class="text-danger">Enter valid width.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" formControlName="length">
+                                    <div *ngIf="item.controls.length.invalid && item.controls.length.touched">
+                                        <small class="text-danger">Enter valid length.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" formControlName="height">
+                                    <div *ngIf="item.controls.height.invalid && item.controls.height.touched">
+                                        <small class="text-danger">Enter valid height.</small>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+        <button class="btn-sm btn btn-primary float-end" (click)="submitBulkOrder()">Submit</button>
+    </div>
+</div>

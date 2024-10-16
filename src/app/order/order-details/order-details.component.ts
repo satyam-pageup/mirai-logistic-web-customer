@@ -19,6 +19,7 @@ import { environment } from '../../../environments/environment.development';
 export class OrderDetailsComponent extends ComponentBase implements OnInit {
   @ViewChild('upsertOrderTemplate') modalTemplate1!: TemplateRef<any>;
   @ViewChild('generatePickupTemplate') modalTemplate2!: TemplateRef<any>;
+  @ViewChild('chooseOrderType') modalTemplate3!: TemplateRef<any>;
   public modelRef?: BsModalRef;
   resolve: any;
   public isEditCase: boolean = false;
@@ -182,6 +183,14 @@ export class OrderDetailsComponent extends ComponentBase implements OnInit {
         this.resolve = resolve;
       })
     }
+  }
+
+  public bulkOrder(){
+    const config = {
+      ignoreBackdropClick: true,
+      class: 'modal-lg'
+    };
+    this.modelRef = this.modalService.show(this.modalTemplate3, config);
   }
 
   public deleteOrder(isActive: boolean, id: string) {

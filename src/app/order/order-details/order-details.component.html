@@ -40,28 +40,30 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-6">
-        <div class="row">
-            <div class="col-sm-3"></div>
-            <div class="col-sm-5">
-                <div class="searchbox-employee me-2">
-                    <label class="visually-hidden" for="autoSizingInputGroup">Username</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-transparent" id="autoSizingInputGroup"
-                            placeholder="Search ..." [(ngModel)]="searchInput" (input)="onSearchInputChange()">
-                        <div class="input-group-text">
-                            <img src="../../../assets/images/search.png" alt="">
-                        </div>
+    <div class="col-sm-6 d-flex justify-content-between align-items-center">
+        <div class="">
+            <div class="searchbox-employee me-2">
+                <label class="visually-hidden" for="autoSizingInputGroup">Username</label>
+                <div class="input-group">
+                    <input type="text" class="form-control bg-transparent" id="autoSizingInputGroup"
+                        placeholder="Search ..." [(ngModel)]="searchInput" (input)="onSearchInputChange()">
+                    <div class="input-group-text">
+                        <img src="../../../assets/images/search.png" alt="">
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4">
-                <a class="btn btn-addemployee float-end d-flex align-items-center justify-content-center"
-                    (click)="upsertorder(-1)" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <span class="text-white me-1">Add Order</span><img src="../../../assets/images/plus-icon.png"
-                        alt="">
-                </a>
-            </div>
+        </div>
+        <div class="float-end">
+            <a class="btn btn-addemployee float-end d-flex align-items-center justify-content-center ms-2"
+                (click)="bulkOrder()">
+                <i class='bx bxs-cloud-upload text-white fs-4'></i>
+                <span class="text-white me-1 fs-7">Upload Bulk Order</span>
+            </a>
+            <a class="btn btn-addemployee float-end d-flex align-items-center justify-content-center"
+                (click)="upsertorder(-1)">
+                <i class='bx bx-plus fs-4 text-white'></i>
+                <span class="text-white me-1 fs-7">Create Order</span>
+            </a>
         </div>
     </div>
     <div class="col-sm-12 mt-3 mb-2 ">
@@ -79,7 +81,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of orderList; index as i" >
+                <tr *ngFor="let item of orderList; index as i">
                     <td class="text-center">{{(i+1)+(payload.top*(payload.pageIndex -1))}}</td>
                     <td>{{item.customerName}} </td>
                     <td>{{item.orderNo}}</td>
@@ -90,19 +92,19 @@
                         <!-- <button class="btn btn-sm btn-addemployee text-white"
                             *ngIf="!item.pickUpCreated && item.pickUpDays<=5" (click)="generatePickup(i)">Add
                             Pickup</button> -->
-                        <p disabled *ngIf="!item.pickUpCreated && item.pickUpDays>5">Canceled <img
+                        <p disabled *ngIf="item.orderStatus !=='OrderPlaced' && !item.pickUpCreated && item.pickUpDays>6">Canceled <img
                                 src="../../../assets/images/red-check.png" alt=""></p>
-                        <p disabled *ngIf="item.pickUpCreated ">Generated <img
+                        <p disabled *ngIf="item.orderStatus !=='OrderPlaced' && item.pickUpCreated ">Generated <img
                                 src="../../../assets/images/green-check.png" alt=""></p>
-                        <p disabled *ngIf="!item.pickUpCreated && item.pickUpDays<=5 ">Not Created </p>
+                        <p disabled *ngIf="item.orderStatus =='OrderPlaced' && !item.pickUpCreated && item.pickUpDays<=6 ">Not Created </p>
                         <!-- {{ item.pickUpCreated ?"Yes":"No"}} -->
                     </td>
                     <td>
                         <div class="d-flex justify-content-around align-items-center">
                             <!-- <button class="btn btn-sm btn-addemployee text-white" >Edit</button> -->
-                             <button class="btn-icon" (click)="orderView(item.orderId)" title="View Order">
+                            <button class="btn-icon" (click)="orderView(item.orderId)" title="View Order">
                                 <i class='bx bxs-show fs-5'></i>
-                             </button>
+                            </button>
                             <button [disabled]="checkOrderStatus(i)" (click)="upsertorder(i)" title="Edit Order"
                                 class="btn-icon">
                                 <i class="bx bxs-edit fs-5 text-dark" [class.text-muted]="checkOrderStatus(i)"></i>
@@ -135,10 +137,17 @@
         (EEPageChangeValue)="pageChanged($event)"></app-pagination>
 </div>
 
+
 <ng-template #upsertOrderTemplate>
     <ng-container>
         <app-add-manual-order [referenceData]="referenceData"
             (EEformValue)="getFormDataE($event)"></app-add-manual-order>
+    </ng-container>
+</ng-template>
+
+<ng-template #chooseOrderType>
+    <ng-container>
+        <app-choose-order-type (EEformValue)="getFormDataE($event)"></app-choose-order-type>
     </ng-container>
 </ng-template>
 

@@ -9,6 +9,8 @@ import { AddManualOrderComponent } from './add-manual-order/add-manual-order.com
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { PickupGenerateComponent } from './pickup-generate/pickup-generate.component';
 import { SingleOrderViewComponent } from './single-order-view/single-order-view.component';
+import { ChooseOrderTypeComponent } from './choose-order-type/choose-order-type.component';
+import { BulkOrderTableComponent } from './bulk-order-table/bulk-order-table.component';
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import { SingleOrderViewComponent } from './single-order-view/single-order-view.
     OrderDetailsComponent,
     AddManualOrderComponent,
     PickupGenerateComponent,
-    SingleOrderViewComponent
+    SingleOrderViewComponent,
+    ChooseOrderTypeComponent,
+    BulkOrderTableComponent
   ],
   imports: [
     CommonModule,

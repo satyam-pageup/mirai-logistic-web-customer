@@ -1,0 +1,42 @@
+.table-container {
+    /* Allow the container to stretch to the full width */
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+    /* Table takes full width */
+    border-collapse: collapse;
+    /* Collapses borders for better visual */
+}
+
+th {
+    background-color: #f8f9fa;
+    /* Light gray background for headers */
+    position: sticky;
+    /* Sticky header */
+    top: 0;
+    /* Sticks to the top */
+    z-index: 1;
+    /* Ensures it stays above table rows */
+}
+
+td,
+th {
+    white-space: nowrap;
+    /* Prevents line breaks in cells */
+    padding: 8px;
+    /* Adds some padding for better touchability */
+    text-align: left;
+    /* Align text to left for readability */
+    border: 1px solid #dee2e6;
+    /* Border color for table cells */
+}
+
+.text-danger {
+    white-space: normal;
+    word-wrap: break-word;
+    max-width: 100%; /* Ensure the error stays within the column width */
+}

@@ -314,8 +314,8 @@
                     Shipment not allow in this zone
                 </small>
                 <div
-                    *ngIf="this.newShipmentForm.controls.addressType && this.newShipmentForm.controls.addressType.invalid && this.newShipmentForm.controls.addressType.touched">
-                    <small class="text-danger" *ngIf="this.newShipmentForm.controls.addressType.hasError('required')">
+                    *ngIf="this.newShipmentForm.controls.shipmentMode && this.newShipmentForm.controls.shipmentMode.invalid && this.newShipmentForm.controls.shipmentMode.touched">
+                    <small class="text-danger" *ngIf="this.newShipmentForm.controls.shipmentMode.hasError('required')">
                         This field is required.
                     </small>
                 </div>
@@ -361,8 +361,7 @@
                 formArrayName="products">
                 <div class="row product-details" [formGroupName]="pi">
                     <div class="col-6">
-                        <label for="formGroupExampleInput" class="form-label">HSN Code <span
-                                class="required">*</span></label>
+                        <label for="formGroupExampleInput" class="form-label">HSN Code</label>
                         <input type="text" class="form-control" formControlName="hsnCode">
                         <div
                             *ngIf="this.child.controls.hsnCode && this.child.controls.hsnCode.invalid && this.child.controls.hsnCode.touched">
