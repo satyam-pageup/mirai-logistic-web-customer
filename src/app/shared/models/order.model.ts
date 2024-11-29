@@ -14,10 +14,12 @@ export interface orderForm {
 export interface orderFormData {
     id: number,
     customerId: number,
+    warehouseId: number,
     totalAmount: number,
     sourcePincode: string,
     paymentType: string,
-    forwardShipments: Partial<shipmentFormData>[]
+    forwardShipments: Partial<shipmentFormData>[];
+    warehouse: Partial<warehouseFormData>;
 }
 
 
@@ -64,6 +66,9 @@ export interface productForm {
     waybillNo: FormControl<string | null>;
     quantity: FormControl<number | null>;
     weight: FormControl<number | null>;
+    productAmount: FormControl<number | null>;
+    invoiceNo: FormControl<string | null>;
+    invoiceDate: FormControl<string | null>;
     volumes: FormArray<FormGroup<volumeForm>>
 }
 
@@ -74,6 +79,9 @@ export interface Product {
     quantity: number;
     waybillNo: string;
     weight: number;
+    productAmount: number;
+    invoiceNo: string;
+    invoiceDate: string;
     volumes: Volume[];
 }
 export interface volumeForm {

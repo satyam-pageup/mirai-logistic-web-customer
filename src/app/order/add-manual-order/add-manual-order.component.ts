@@ -11,6 +11,11 @@ import { ApiRoutes } from '../../shared/constants/apiRoutes';
 import { IWarehouseResponse } from '../../shared/interface/response/warehouse.response';
 import { BoxInfo, IRateRequest, Volume } from '../../shared/interface/request/rateCalculator.request';
 import { Icharges, IRateDetails } from '../../shared/interface/response/rateCalculator.response';
+import state from '../../shared/jsonFiles/state.json';
+import { AuthService } from '../../shared/services/auth.service';
+import { Customer } from '../../shared/interface/response/auth.response';
+import { PaymentService } from '../../shared/services/payment.service';
+import { RazorpayFormData } from '../../shared/models/wallet.model';
 
 @Component({
   selector: 'app-add-manual-order',
@@ -23,6 +28,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
   public orderDetails: IROrderDetailsData = new IROrderDetailsData();
   public isWarehouseSelected: boolean = false;
   public isCODRequired: boolean = false;
+  public loginUserdata!: Customer;
 
   public remainingQuantity: number = 0;
   public isEditCase: boolean = false;
@@ -34,7 +40,10 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
   public isSubmitting: boolean = false;
   public shipmentMode!: IPincodeDetails | null;
   public states: IStateDetails[] = [];
+  public shipmentStates: IStateDetails[] = [];
   public cities: ICityDetails[] = [];
+  public shipmentCities: ICityDetails[] = [];
+
   public warehouseList!: comboResponse[];
   public orderForm: FormGroup<orderForm> = new FormGroup<orderForm>({
     id: new FormControl(0),
@@ -49,26 +58,26 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
 
   public warehouse: FormGroup<warehouseForm> = new FormGroup<warehouseForm>({
     id: new FormControl(0),
-    name: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]),
-    phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?:\+91|91)?[6789]\d{9}$/)]),
-    address: new FormControl(null, [Validators.required]),
-    pincode: new FormControl(null, [Validators.required, Validators.pattern(/^\d{6}$/)]),
-    city: new FormControl(null, [Validators.required]),
-    state: new FormControl(null, [Validators.required]),
-    country: new FormControl(null, [Validators.required]),
+    name: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]),
+    phone: new FormControl('', [Validators.required, Validators.pattern(/^(?:\+91|91)?[6789]\d{9}$/)]),
+    address: new FormControl('', [Validators.required]),
+    pincode: new FormControl('', [Validators.required, Validators.pattern(/^\d{6}$/)]),
+    city: new FormControl('', [Validators.required]),
+    state: new FormControl('', [Validators.required]),
+    country: new FormControl('', [Validators.required]),
     isActive: new FormControl(true),
   })
 
   public warehouseForm(): warehouseForm {
     return {
       id: new FormControl(0),
-      name: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]),
-      phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?:\+91|91)?[6789]\d{9}$/)]),
-      address: new FormControl(null, [Validators.required]),
-      pincode: new FormControl(null, [Validators.required, Validators.pattern(/^\d{6}$/)]),
-      city: new FormControl(null, [Validators.required]),
-      state: new FormControl(null, [Validators.required]),
-      country: new FormControl(null, [Validators.required]),
+      name: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]),
+      phone: new FormControl('', [Validators.required, Validators.pattern(/^(?:\+91|91)?[6789]\d{9}$/)]),
+      address: new FormControl('', [Validators.required]),
+      pincode: new FormControl('', [Validators.required, Validators.pattern(/^\d{6}$/)]),
+      city: new FormControl('', [Validators.required]),
+      state: new FormControl('', [Validators.required]),
+      country: new FormControl('', [Validators.required]),
       isActive: new FormControl(true),
     };
   }
@@ -141,6 +150,9 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
       waybillNo: new FormControl(null, [Validators.required]),
       quantity: new FormControl(null, [Validators.required]),
       weight: new FormControl(null, [Validators.required]),
+      productAmount: new FormControl(null, [Validators.required]),
+      invoiceNo: new FormControl(null, [Validators.required]),
+      invoiceDate: new FormControl(null, [Validators.required]),
       volumes: new FormArray([this.volumeForm()]),
     })
     return product;
@@ -176,11 +188,24 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     enableSelectAll: false,
   }
 
-  constructor(private locationService: LocationService) {
-    super()
+  constructor(private locationService: LocationService, private authService: AuthService, private paymentService: PaymentService) {
+    super();
+    //check online payment is done successfully 
+    this.paymentService.paymentStatus.subscribe((status) => {
+      if (status) {
+        console.log('Payment process completed successfully!');
+        this.EEformValue.emit(true);
+        this.loaderService.showLoader();
+      } else {
+        console.log('Payment process failed or cancelled.');
+      }
+    });
   }
 
   async ngOnInit() {
+    this.loginUserdata = this.authService.loginUserDetail;
+    console.log(this.loginUserdata)
+
     await this.getWarehouseList();
     if (this.referenceData.id > 0) {
       this.isEditCase = true;
@@ -194,7 +219,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
           this.customerId = res.data.customer.id;
           this.warehouseId = res.data.warehouse.id;
           this.patchOrderDetails();
-          this.onStateChange();
+          this.onStateChange('warehouse');
         }
       } catch (error) {
         console.error('Error fetching order details:', error);
@@ -284,6 +309,8 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     this.orderForm.controls.paymentType.setValue(this.orderDetails.paymentType);
     this.newShipmentForm.patchValue(shipmentData);
     this.warehouse.patchValue(warehouseData);
+    // this.warehouse.disable({ emitEvent: false });
+
 
     if (this.newShipmentForm.controls.pincode.valid) {
       this.shipmentMode = null;
@@ -315,21 +342,33 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     }
   }
 
-  public onStateChange() {
-    this.cities = [];
-    let state: string = '';
-    if (this.steps === 1)
-      state = this.warehouse.controls.state.value!;
-    if (this.steps == 2)
-      state = this.newShipmentForm.controls.state.value!;
-    if (state) {
-      this.locationService.getCitiesDetails(state).then(
-        (res) => {
-          if (res.status) {
-            this.cities = res.data
+
+  public onStateChange(type: string) {
+    if (type == "warehouse") {
+      this.cities = [];
+      let state = this.warehouse.controls.state.value!;
+      if (state) {
+        this.locationService.getCitiesDetails(state).then(
+          (res) => {
+            if (res.status) {
+              this.cities = res.data
+            }
           }
-        }
-      )
+        )
+      }
+    }
+    else if (type == 'shipment') {
+      this.shipmentCities = [];
+      let state = this.newShipmentForm.controls.state.value!;
+      if (state) {
+        this.locationService.getCitiesDetails(state).then(
+          (res) => {
+            if (res.status) {
+              this.shipmentCities = res.data
+            }
+          }
+        )
+      }
     }
   }
 
@@ -337,14 +376,21 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     const selectedOption = event.value;
     this.warehouseId = event.value.id;
     this.isWarehouseSelected = true;
-    if (selectedOption) {
+    if (selectedOption.id) {
       this.getAPICallPromise<Identity<IWarehouseResponse>>(ApiRoutes.customer.getWarehouseDetails(selectedOption.id), this.headerOption).then(
         (res) => {
           if (res?.data) {
             this.patchWarehouseDetails(res.data)
+            this.onStateChange('warehouse')
           }
         }
       )
+    }
+    else {
+      this.warehouse.enable()
+      this.warehouse.reset();
+      this.warehouseId = 0;
+      this.isWarehouseSelected = false;
     }
   }
 
@@ -362,7 +408,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
             city: this.warehouse.controls.city.value!,
             state: this.warehouse.controls.state.value!,
             country: this.warehouse.controls.country.value!,
-            isActive: this.warehouse.controls.isActive.value!,
+            isActive: true,
           }
           // this.warehouse.patchValue(warehouseData);
 
@@ -370,6 +416,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
         }
         else {
           this.orderForm.controls.warehouseId.setValue(this.warehouseId);
+          this.orderForm.controls.warehouse.controls.id.setValue(this.warehouseId);
         }
         this.orderForm.controls.sourcePincode.setValue(this.warehouse.controls.pincode.value);
         console.log(this.orderForm.value)
@@ -416,29 +463,57 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     else if (this.steps === 5) {
       this.removeBarcodeValidation(this.newShipmentForm.controls.products.at(0).controls.volumes);
       this.isSubmitting = true;
-      if (this.orderForm.controls.paymentType.valid) {
+      console.log(this.orderForm.controls.paymentType.value)
+      if (this.orderForm.controls.paymentType.valid && this.orderForm.controls.totalAmount.value !== 0) {
         this.loaderService.showLoader();
-        this.postAPICall<unknown, Identity<{ data: boolean }>>(ApiRoutes.order.addOrder, this.orderForm.value, this.headerOption).subscribe({
-          next: (res) => {
-            if (res?.data) {
-              this.toasterService.success("Order Generated Successfully");
-              this.EEformValue.emit(true);
-              this.loaderService.hideLoader();
-            }
-            else {
-              this.toasterService.error(res.errorMessage)
-              this.loaderService.hideLoader();
-            }
-          },
-          error: (err) => {
-            this.toasterService.error(err);
-            this.isSubmitting = false;
-          },
-          complete: () => {
-            this.isSubmitting = false;
+        if (this.orderForm.controls.paymentType.value == "OnlinePayment") {
+          console.log(this.orderForm.controls.paymentType.value)
+          const data: RazorpayFormData = {
+            amount: this.orderForm.controls.totalAmount.value!,
+            from: 'Order',
+            orderData: this.orderForm.value
           }
-        })
+          console.log(data)
+          this.paymentService.createRzpayOrder(data);
+        }
+        else {
+          console.log("else")
+          this.postAPICall<unknown, Identity<{ data: boolean }>>(ApiRoutes.order.addOrder, this.orderForm.value, this.headerOption).subscribe({
+            next: (res) => {
+              if (res?.data) {
+                this.toasterService.success("Order Generated Successfully");
+                this.EEformValue.emit(true);
+                this.loaderService.hideLoader();
+              }
+              else {
+                this.toasterService.error(res.errorMessage)
+                this.loaderService.hideLoader();
+              }
+            },
+            error: (err) => {
+              this.toasterService.error(err);
+              this.isSubmitting = false;
+            },
+            complete: () => {
+              this.isSubmitting = false;
+            }
+          })
+        }
+
       }
+    }
+  }
+
+  public onDateChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const selectedDate = new Date(input.value);
+    const today = new Date();
+
+    // Compare selected date with today's date
+    if (selectedDate > today) {
+      // Reset the input field if the date is in the future
+      input.value = '';
+      this.toasterService.error('Future dates are not allowed. Please select a valid date.');
     }
   }
 
@@ -602,9 +677,6 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
   }
 
   private patchWarehouseDetails(data: IWarehouseResponse) {
-    if (data) {
-
-    }
     const warehouse: IWarehouseResponse = {
       id: data.id,
       name: data.name,
@@ -618,6 +690,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     }
     this.warehouseId = data.id;
     this.warehouse.patchValue(warehouse);
+    // this.warehouse.disable({ emitEvent: false });
   }
 
   private updateBarcodesFormArray(volumeArray: FormArray) {
@@ -651,6 +724,73 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
       }
     })
 
+  }
+
+  public onPincodeChange(type: string) {
+    if (this.steps == 1 && type == 'warehouse') {
+      const pincode = this.warehouse.controls.pincode.value;
+      if (pincode && this.warehouse.controls.pincode.valid) {
+        this.locationService.getDetailsUsingPincode(pincode).then(
+          (res) => {
+            if (res[0].Status == "Success") {
+              console.log("Status")
+              this.states = res[0].PostOffice
+                .map((x: { State: string }) => ({
+                  name: x.State,
+                  iso2: this.getStateAbbreviation(x.State),
+                }))
+                .filter((value: IStateDetails, index: number, self: IStateDetails[]) =>
+                  index === self.findIndex((t) => t.name === value.name)
+                );
+              const StateName = this.getStateAbbreviation(res[0].PostOffice[0].State);
+              const fullCityName = res[0].PostOffice[0].District;
+
+              this.warehouse.controls.state.setValue(StateName);
+              this.warehouse.controls.city.setValue(fullCityName);
+              this.onStateChange(type);
+            }
+            else {
+              this.toasterService.error("Invalid Pincode")
+            }
+          }
+        )
+      }
+    }
+    else if (this.steps == 2 && type == 'shipment') {
+      const pincode = this.newShipmentForm.controls.pincode.value;
+      if (pincode && this.newShipmentForm.controls.pincode.valid) {
+        this.locationService.getDetailsUsingPincode(pincode).then(
+          (res) => {
+            if (res[0].Status == "Success") {
+              console.log("Status")
+              this.shipmentStates = res[0].PostOffice
+                .map((x: { State: string }) => ({
+                  name: x.State,
+                  iso2: this.getStateAbbreviation(x.State),
+                }))
+                .filter((value: IStateDetails, index: number, self: IStateDetails[]) =>
+                  index === self.findIndex((t) => t.name === value.name)
+                );
+              const StateName = this.getStateAbbreviation(res[0].PostOffice[0].State);
+              const fullCityName = res[0].PostOffice[0].District;
+
+              this.newShipmentForm.controls.state.setValue(StateName);
+              this.newShipmentForm.controls.city.setValue(fullCityName);
+              this.onStateChange(type);
+            }
+            else {
+              this.toasterService.error("Invalid Pincode")
+            }
+          }
+        )
+      }
+    }
+
+  }
+
+  private getStateAbbreviation(stateName: string): string {
+    const stateObj: { [key: string]: string } = state;
+    return stateObj[stateName];
   }
 
   public decline() {

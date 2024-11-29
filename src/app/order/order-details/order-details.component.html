@@ -92,11 +92,14 @@
                         <!-- <button class="btn btn-sm btn-addemployee text-white"
                             *ngIf="!item.pickUpCreated && item.pickUpDays<=5" (click)="generatePickup(i)">Add
                             Pickup</button> -->
-                        <p disabled *ngIf="item.orderStatus !=='OrderPlaced' && !item.pickUpCreated && item.pickUpDays>6">Canceled <img
-                                src="../../../assets/images/red-check.png" alt=""></p>
+                        <p disabled
+                            *ngIf="item.orderStatus !=='OrderPlaced' && !item.pickUpCreated && item.pickUpDays==0">
+                            Canceled <img src="../../../assets/images/red-check.png" alt=""></p>
                         <p disabled *ngIf="item.orderStatus !=='OrderPlaced' && item.pickUpCreated ">Generated <img
                                 src="../../../assets/images/green-check.png" alt=""></p>
-                        <p disabled *ngIf="item.orderStatus =='OrderPlaced' && !item.pickUpCreated && item.pickUpDays<=6 ">Not Created </p>
+                        <p disabled
+                            *ngIf="item.orderStatus =='OrderPlaced' && !item.pickUpCreated && item.pickUpDays<=6 && item.pickUpDays>0 ">
+                            Not Created </p>
                         <!-- {{ item.pickUpCreated ?"Yes":"No"}} -->
                     </td>
                     <td>

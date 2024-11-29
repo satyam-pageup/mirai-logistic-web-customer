@@ -101,8 +101,10 @@ export class OrderDetailsComponent extends ComponentBase implements OnInit {
           this.errorMessage = `Data not found`
           this.isErrorComing = true;
         }
+        this.loaderService.hideLoader();
       },
       error: (err) => {
+        this.loaderService.hideLoader();
       },
       complete: () => {
         this.loaderService.hideLoader();
@@ -264,7 +266,7 @@ export class OrderDetailsComponent extends ComponentBase implements OnInit {
     return excludedStatuses.includes(orderStatus!);
   }
 
-  public getFormDataE(data: any) {
+  public getFormDataE(data: boolean) {
     if (data) {
       this.modelRef?.hide();
       this.getOrderList();

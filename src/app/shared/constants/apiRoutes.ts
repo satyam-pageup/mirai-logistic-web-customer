@@ -33,6 +33,9 @@ export const ApiRoutes = {
 
         //payment history
         getPaymentHistory: 'Customer/PaymentLogs',
+        
+        //wallet History
+        getWalletHistory: 'Customer/WalletPaymentLogs',
     },
 
     //order
@@ -41,12 +44,19 @@ export const ApiRoutes = {
         singleOrderView: (id: string) => `Order/${id}`,
         deleteOrder: (id: string) => `Order/${id}`,
         addOrder: 'Order',
+        addBulkOrder: 'Order/Bulk',
         getOrderByScanner: (scannerCode: string) => `Order/Barcode/${scannerCode}`,
 
         changeOrderStatus: 'Order/ChangeOrderStatus',
         changeDeliveryType: 'Order/SetDeliveryType',
         getSearchData: (data: string) => `Order/MasterSearch/${data}`,
-        addSingleWaybill: 'Order/WaybillBarcode'
+        addSingleWaybill: 'Order/WaybillBarcode',
+
+        //cod
+        getCodOrderOfCustomer: (customerId: number) => `Order/CODOrders/${customerId}`,
+        getCodOrders: 'Order/PendingCODReturns',
+        payCodAmount:'Order/CODReturn',
+        getPaidCODList: 'Order/CompleteCODReturn',
     },
 
     //ratecard
@@ -87,6 +97,13 @@ export const ApiRoutes = {
         singleQueryView: (id: number) => `Query/${id}`,
         // communication
         addCommunication: 'Query/Communication',
+    },
+
+    //wallet
+    wallet: {
+        addCreditAmount: 'Customer/UpdateCreditLimit',
+        activDeactiveWallet: (id: number) => `Customer/ActiveDeactiveWallet/${id}`,
+        rechargeWallet: 'Customer/RechargeWallet',
     },
     
 }

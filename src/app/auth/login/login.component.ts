@@ -78,8 +78,8 @@ export class LoginComponent extends ComponentBase {
         }
         this.authService.loginWithGoogle(requestData).pipe(
           tap(
-            (res)=>{
-              if(res.data.token){
+            (res) => {
+              if (res.data.token) {
                 if (res.data.customer && res.data.customer.address) {
                   res.data.customer.address = res.data.customer.address.trim();
                 }
@@ -128,26 +128,29 @@ export class LoginComponent extends ComponentBase {
 
   public login() {
     if (this.steps == 1) {
-      this.isSubmitting = true;
-      const phoneNumber: string = this.loginFormGroup.controls.phoneNo.value!;
-      this.authService.loginWithPhoneNumber(phoneNumber).subscribe({
-        next: (res) => {
-          if (res.data) {
-            this.otp = res.data.toString();
-            this.steps++;
-          }
-          else {
-            this.toasterService.error(res.errorMessage);
-          }
-        },
-        error: (err) => {
-          this.toasterService.error(err);
-          this.isSubmitting = false
-        },
-        complete: () => {
-          this.isSubmitting = false
-        },
-      })
+      this.loginFormGroup.controls.phoneNo.markAllAsTouched();
+      if (this.loginFormGroup.controls.phoneNo.valid) {
+        this.isSubmitting = true;
+        const phoneNumber: string = this.loginFormGroup.controls.phoneNo.value!;
+        this.authService.loginWithPhoneNumber(phoneNumber).subscribe({
+          next: (res) => {
+            if (res.data) {
+              this.otp = res.data.toString();
+              this.steps++;
+            }
+            else {
+              this.toasterService.error(res.errorMessage);
+            }
+          },
+          error: (err) => {
+            this.toasterService.error("Oops! Something went wrong on our end. Please try again later.");
+            this.isSubmitting = false
+          },
+          complete: () => {
+            this.isSubmitting = false
+          },
+        })
+      }
     }
 
     if (this.steps === 2 && this.loginFormGroup.valid) {

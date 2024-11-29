@@ -1,0 +1,161 @@
+<div class="bg-white">
+    <div class="container-fluid p-4">
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="row">
+                    <div class="col-sm-8 col-lg-10 d-flex align-items-center ">
+                        <div class="single-lefter d-flex align-items-center mx-3">
+                            <span>{{customerDeatils.firstName.charAt(0).toUpperCase()}}</span>
+                        </div>
+                        <div class="me-3 pe-3 name-info">
+                            <h5>Hello,</h5>
+                            <h3>{{customerDeatils.firstName+" "+customerDeatils.lastName}}</h3>
+                        </div>
+                        <!-- <div class="wallet-info">
+                            <div class="isWallet mb-2">
+                                <h3>₹{{customerDeatils.walletAmount}}</h3>
+                                <small>Total Amount Balance in Wallet</small>
+                            </div>
+                            <div class="isCredit">
+                                <h3>₹20,000</h3>
+                                <small>Available Balance out of : ₹50,000</small>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-5">
+                                    <h5>
+                                        Total Amount
+                                    </h5>
+                                </div>
+                                <div class="col-1">:</div>
+                                <div class="col-6">
+                                    <h5>
+                                        ₹ {{customerDeatils.walletAmount}}
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    <h5>
+                                        Pending Amount
+                                    </h5>
+                                </div>
+                                <div class="col-1">:</div>
+                                <div class="col-6">
+                                    <h5>
+                                        ₹ {{customerDeatils.pendingBalance}}
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 d-flex justify-content-center align-items-center">
+                        <!-- <div class="recharge d-flex align-items-center justify-content-around">
+                            <div>
+                                <h5 class="price">₹500</h5>
+                                <h5 class="price">₹1000</h5>
+                                <h5 class="price">₹1500</h5>
+                            </div>
+                            <div class="add-amount" (click)="walletRecharge()">
+                                <img src="../../../assets/images/expense-management.png" alt="">
+                                <h4>Add </h4>
+                            </div>
+                        </div> -->
+                        <button class="btn btn-primary" (click)="walletRecharge()">Recharge Wallet</button>
+
+
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <div class="col-sm-12">
+                <div class="customer-information-tabs pt-2">
+                    <div class="p-3">
+                        <div class="tab-content p-3" id="pills-tabContent">
+                            @if (paymentHistory.length == 0) {
+                            <p style="text-align: center; padding: 5px;">
+                                No data found
+                            </p>
+                            }
+                            @else{
+                            <div class="row">
+                                <div class="col-sm-6">
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-sm-5"></div>
+                                        <div class="col-sm-7">
+                                            <div class="searchbox-employee me-2">
+                                                <label class="visually-hidden"
+                                                    for="autoSizingInputGroup">Username</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control bg-transparent"
+                                                        id="autoSizingInputGroup" placeholder="Search ..."
+                                                        [(ngModel)]="searchInput" (input)="onSearchInputChange()">
+                                                    <div class="input-group-text">
+                                                        <img src="../../../assets/images/search.png" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 mt-3 mb-2 ">
+                                    <table *ngIf="!isErrorComing" class="table table-bordered emp-table">
+                                        <thead>
+                                            <tr>
+                                                <td scope="col">S.no.</td>
+                                                <td scope="col">Debit</td>
+                                                <td scope="col">Credit</td>
+                                                <td scope="col">Date</td>
+                                                <td scope="col">Payment Status</td>
+                                                <td scope="col">Status</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let warehouse of paymentHistory; index as i">
+                                                <td class="text-center">{{(i+1)+(payload.top*(payload.pageIndex -1))}}
+                                                </td>
+                                                <td>@if (warehouse.dabit) {₹} {{warehouse.dabit}}</td>
+                                                <td>@if (warehouse.credit) {₹} {{warehouse.credit}}</td>
+                                                <td>{{warehouse.createdTime}}</td>
+                                                <td>{{warehouse.paymentStatus | spaceBeforeCapital}}</td>
+                                                <td>{{warehouse.status}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div *ngIf="isErrorComing"
+                                    class="d-flex align-items-center justify-content-center mb-3">
+                                    <div
+                                        style=" border-radius: 10px; background-color: rgb(233, 233, 233); width: 100%; text-align: center;">
+                                        {{this.errorMessage}}
+                                    </div>
+                                </div>
+
+                                <app-pagination [total]="totalCount" [top]="payload.top"
+                                    (EEItemPerPage)="itemPerPage($event)"
+                                    (EEPageChangeValue)="pageChanged($event)"></app-pagination>
+
+                            </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #rechargeWallet>
+    <ng-container>
+        <app-recharge-wallet [customerId]="customerDeatils.id"
+            (EEformValue)="getFormDataE($event)"></app-recharge-wallet>
+    </ng-container>
+</ng-template>

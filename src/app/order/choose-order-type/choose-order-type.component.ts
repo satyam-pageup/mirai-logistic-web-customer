@@ -60,10 +60,10 @@ export class ChooseOrderTypeComponent extends ComponentBase implements OnInit {
     event.preventDefault();  // Prevent file from being handled by the browser
     event.stopPropagation(); // Stop further propagation of the event
     const target = event.target as HTMLInputElement;
+    console.log(target)
 
     if (target.files && target.files[0]) {
       const file = target.files[0];
-
       if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
         console.log('File dropped:', file); // This should log file information properly
         this.readExcel(file);
@@ -90,9 +90,10 @@ export class ChooseOrderTypeComponent extends ComponentBase implements OnInit {
 
       const formattedData = excelData.map((row: any[],) => {
         row[29] = this.convertExcelDate(row[29]); // Convert date serial
-        return row; 
+        return row;
       });
       this.dataService.setData(formattedData);
+      console.log("Formatted Data",formattedData)
       this.router.navigate([this.appRoute.order.base, this.appRoute.order.bulkOrder]);
     };
     reader.readAsArrayBuffer(file);

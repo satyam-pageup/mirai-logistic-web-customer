@@ -1,0 +1,39 @@
+<div class="modal-header justify-content-between border-b-0">
+    <h5 class="modal-title text-theme" id="">Recharge Wallet</h5>
+    <button type="button" class="btn btn-close-red d-flex justify-content-center align-items-center float-end"
+        data-bs-dismiss="modal" (click)="decline()">
+        <span class="me-2">Close</span>
+        <img src="../../../assets/images/close-icon-red.png" alt="">
+    </button>
+</div>
+
+<div class="modal-body input-text-modal">
+    <form [formGroup]="rechargeForm">
+        <div class="row g-2">
+            <div class="col-12">
+                <label class="form-label">Amount <span style="color:red">*</span></label>
+                <input type="number" class="form-control " formControlName="amount" placeholder="Enter Amount"/>
+                <div
+                    *ngIf="this.rechargeForm.controls.amount && this.rechargeForm.controls.amount.invalid && this.rechargeForm.controls.amount.touched">
+                    <small class="text-danger" *ngIf="this.rechargeForm.controls.amount.hasError('required')">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer border-t-0 save-employe-details">
+    <div class="d-flex justify-content-center align-items-center w-100">
+        <p class="mb-0">Secure payment with </p>
+        <img src="https://www.ecommerce-nation.com/wp-content/uploads/2019/02/razorpay.webp" alt="" style="width: 150px; height: 75px;">
+    </div>
+    <button *ngIf="!isSubmitting" type="button" class="btn btn-addemployee w-100 d-block text-white p-2 rounded-2"
+        (click)="rechargeWallet()">Recharge</button>
+    <button *ngIf="isSubmitting" class="btn btn-addemployee w-100 d-block text-white p-2 rounded-2" type="button"
+        disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+    </button>
+</div>

@@ -7,9 +7,23 @@ export const appRoutes = {
     order: {
         base: 'order-list',
         summary:"order-summary",
+        bulkOrder:"bulk-order",
     },
 
     query:{
         base:'query'
+    },
+
+    wallet:{
+        base:'wallet'
+    },
+
+    rateCalculator:{
+        base:'rate-calculator'
+    },
+
+    cod:{
+        base:"/cod",
+        paidCod:"cod-returns"
     }
 }

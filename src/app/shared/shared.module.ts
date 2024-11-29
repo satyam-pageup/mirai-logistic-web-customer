@@ -31,7 +31,7 @@ import { UpsertQueryComponent } from './components/upsert-query/upsert-query.com
     PaginationComponent,
     AbsPipe,
     UpdateProfileComponent,
-    UpsertQueryComponent
+    UpsertQueryComponent,
   ],
   imports: [
     CommonModule,

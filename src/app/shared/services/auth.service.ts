@@ -11,29 +11,33 @@ import { IGoogleLoginRequest } from '../interface/request/auth.resquest';
 })
 export class AuthService {
   private baseUrl = environment.baseUrl;
-  public loginUserDetail!:Customer;
+  public loginUserDetail!: Customer;
   public onLoginChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+    if (localStorage.getItem(environment.customerData)) {
+      this.loginUserDetail = JSON.parse(localStorage.getItem(environment.customerData)!)
+    }
+  }
 
   loginWithPhoneNumber(phoneno: string) {
     const url = `${this.baseUrl}Login/phoneno`;
     const params = new HttpParams().set('phoneno', phoneno);
     return this.httpClient.get<Identity<number>>(url, { params });
   }
-  
-  loginWithGoogle(data:IGoogleLoginRequest){
+
+  loginWithGoogle(data: IGoogleLoginRequest) {
     const url = `${this.baseUrl}Login/Google`;
-    return this.httpClient.post<Identity<ILoginResponse>>(url,data);
+    return this.httpClient.post<Identity<ILoginResponse>>(url, data);
   }
 
 
   public login(data: any) {
     const url = `${this.baseUrl}Login/phoneno/otp`;
-    return this.httpClient.post<Identity<ILoginResponse>>(url,data).pipe(
+    return this.httpClient.post<Identity<ILoginResponse>>(url, data).pipe(
       tap(
-        (res)=>{
-          if(res.data.token){
+        (res) => {
+          if (res.data.token) {
             this.loginUserDetail = res.data.customer
           }
         }
@@ -45,12 +49,12 @@ export class AuthService {
   //   google.accounts.id.disableAutoSelect();
   // }
 
-  public refereshToken(){
+  public refereshToken() {
     const url = `${this.baseUrl}Login/SilentLogin`;
-    const data ={
+    const data = {
       token: localStorage.getItem(environment.tokenKey),
       refreshToken: localStorage.getItem(environment.refreshTokenKey)
     }
-    return this.httpClient.post<Identity<ILoginResponse>>(url,data)
+    return this.httpClient.post<Identity<ILoginResponse>>(url, data)
   }
 }

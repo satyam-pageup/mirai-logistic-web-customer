@@ -76,13 +76,10 @@ export class LocationService {
   }
 
   getDetailsUsingPincode(pincode: string): Promise<any> {
-    const url = `${this.apiUrl}/cities/${pincode}`;
-    const headers = new Headers();
-    headers.append('X-API-KEY', `${this.apiKey}`);
+    const url = `https://api.postalpincode.in/pincode/${pincode}`;
 
     return fetch(url, {
       method: 'GET',
-      headers: headers,
     })
       .then(response => {
         if (!response.ok) {

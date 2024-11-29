@@ -32,6 +32,7 @@ export class BulkOrderTableComponent extends ComponentBase implements OnInit {
     this.excelData = this.dataService.getData();
     this.excelHeaders = this.excelData[0];
     this.excelData = this.excelData.slice(1);
+    console.log("Excel Data",this.excelData)
 
     const structuredData = this.excelData.map((row: any[]) => {
       const obj: any = {};
@@ -41,11 +42,8 @@ export class BulkOrderTableComponent extends ComponentBase implements OnInit {
       return obj;
     });
 
-    console.log(structuredData); // The parsed data with headers as keys
-    console.log(this.excelData)
     if (this.excelData.length > 0) {
       this.patchFormData(structuredData);
-
     }
   }
 
@@ -74,33 +72,33 @@ export class BulkOrderTableComponent extends ComponentBase implements OnInit {
     ordersArray.clear();
 
     for (const [index, item] of data.entries()) {
-      console.log(item)
+      console.log("Item",item)
       const orderForm = new FormGroup<bulkOrderForm>({
         id: new FormControl<number | null>(0, [Validators.required]), // Placeholder for ID
         warehouseId: new FormControl<number | null>(0, [Validators.required]), // Placeholder for warehouseId
-        sourcePincode: new FormControl<string | null>(item['Pincode'], [Validators.required, Validators.pattern(/^\d{6}$/)]), // Use Pincode from data
-        totalAmount: new FormControl<number | null>(item['ProductAmount'], [Validators.required]), // ProductAmount from data
+        sourcePincode: new FormControl<string | null>(item['Consignee Pincode'], [Validators.required, Validators.pattern(/^\d{6}$/)]), // Use Pincode from data
+        totalAmount: new FormControl<number | null>(item['Product Amount'], [Validators.required]), // ProductAmount from data
         name: new FormControl<string | null>(item['Consignee Name'], [Validators.required]), // Consignee Name from data
-        phone: new FormControl<string | null>(item['Phone'], [Validators.required, Validators.pattern(/^(?:\+91|91)?[6789]\d{9}$/)]), // Phone from data
-        address: new FormControl<string | null>(item['Address'], [Validators.required]), // Address from data
-        pincode: new FormControl<string | null>(item['Pincode'], [Validators.required, Validators.pattern(/^\d{6}$/)]), // Pincode from data
-        city: new FormControl<string | null>(item['City'], [Validators.required]), // City from data
-        state: new FormControl<string | null>(item['State'], [Validators.required]), // State from data
-        country: new FormControl<string | null>(item['Country'], [Validators.required]), // Country from data
+        phone: new FormControl<string | null>(item['Consignee Phone No.'], [Validators.required, Validators.pattern(/^(?:\+91|91)?[6789]\d{9}$/)]), // Phone from data
+        address: new FormControl<string | null>(item['Consignee Address'], [Validators.required]), // Address from data
+        pincode: new FormControl<string | null>(item['Consignee Pincode'], [Validators.required, Validators.pattern(/^\d{6}$/)]), // Pincode from data
+        city: new FormControl<string | null>(item['Consignee City'], [Validators.required]), // City from data
+        state: new FormControl<string | null>(item['Consignee State'], [Validators.required]), // State from data
+        country: new FormControl<string | null>(item['Consignee Country'], [Validators.required]), // Country from data
         addressType: new FormControl<string | null>(item['Address Type'], [Validators.required]), // Address Type from data
         paymentMode: new FormControl<string | null>(item['Payment Mode'], [Validators.required]), // Payment Mode from data
         shipmentMode: new FormControl<string | null>(item['Shipment Mode'], [Validators.required]), // Shipment Mode from data
         toPay: new FormControl<boolean | null>(item['ToPay'] === 'yes', [Validators.required]), // Convert ToPay to boolean
-        codAmount: new FormControl<number | null>(item['codAmount'], []), // codAmount from data
+        codAmount: new FormControl<number | null>(item['COD Amount'], []), // codAmount from data
         codReturn: new FormControl<boolean | null>(item['codReturn'] === 'yes', [Validators.required]), // If codReturn exists
         productDescription: new FormControl<string | null>(item['Product Description'], [Validators.required]), // Product Description from data
         hsnCode: new FormControl<string | null>(item['HSN Code'] || ''), // HSN Code from data (optional)
-        quantity: new FormControl<number | null>(item['quantity'], [Validators.required]), // quantity from data
-        weight: new FormControl<number | null>(item['weight'], [Validators.required]), // weight from data
-        volumeQuantity: new FormControl<number | null>(item['volumeQuantity'], [Validators.required]), // volumeQuantity from data
-        width: new FormControl<number | null>(item['width'], [Validators.required]), // width from data
-        length: new FormControl<number | null>(item['length'], [Validators.required]), // length from data
-        height: new FormControl<number | null>(item['height'], [Validators.required]), // height from data
+        quantity: new FormControl<number | null>(item['Quantity'], [Validators.required]), // quantity from data
+        weight: new FormControl<number | null>(item['Weight'], [Validators.required]), // weight from data
+        volumeQuantity: new FormControl<number | null>(item['Volume Quantity'], [Validators.required]), // volumeQuantity from data
+        width: new FormControl<number | null>(item['Width'], [Validators.required]), // width from data
+        length: new FormControl<number | null>(item['Length'], [Validators.required]), // length from data
+        height: new FormControl<number | null>(item['Height'], [Validators.required]), // height from data
         productAmount: new FormControl<number | null>(item['Product Amount'], [Validators.required]), // ProductAmount from data
         invoiceNo: new FormControl<string | null>(item['Invoice No.']), // Invoice No. from data
         invoiceDate: new FormControl<string | null>(item['Invoice Date']), // Invoice Date from data
@@ -117,7 +115,7 @@ export class BulkOrderTableComponent extends ComponentBase implements OnInit {
         }),
       });
 
-      console.log(orderForm)
+      console.log("Order Form",orderForm)
 
       if (orderForm.controls.pincode.value) {
         await this.checkShipmentAvailability(orderForm.controls.pincode.value, index); // Assuming this function returns a promise
@@ -144,7 +142,7 @@ export class BulkOrderTableComponent extends ComponentBase implements OnInit {
         this.calculateTotalPrice(orderForm.controls)
       }
 
-      console.log(this.shipmentMode)
+      console.log("Shipment",this.shipmentMode)
 
       ordersArray.push(orderForm);// Add the new order form to the FormArray
 
