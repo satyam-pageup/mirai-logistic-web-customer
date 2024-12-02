@@ -17,6 +17,7 @@ import { AbsPipe } from './pipes/abs.pipe';
 import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { UpsertQueryComponent } from './components/upsert-query/upsert-query.component';
+import { FormErrorHandlerDirective } from './directives/form-error-handler.directive';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { UpsertQueryComponent } from './components/upsert-query/upsert-query.com
     AbsPipe,
     UpdateProfileComponent,
     UpsertQueryComponent,
+    FormErrorHandlerDirective,
   ],
   imports: [
     CommonModule,
@@ -54,7 +56,8 @@ import { UpsertQueryComponent } from './components/upsert-query/upsert-query.com
     AbsPipe,
     UpdateProfileComponent,
     SpaceBeforeCapitalPipe,
-    UpsertQueryComponent
+    UpsertQueryComponent,
+    FormErrorHandlerDirective
   ]
 })
 export class SharedModule { }

@@ -29,7 +29,6 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
   public isWarehouseSelected: boolean = false;
   public isCODRequired: boolean = false;
   public loginUserdata!: Customer;
-
   public remainingQuantity: number = 0;
   public isEditCase: boolean = false;
   public skipBarcodeEntry: boolean = false;
@@ -43,8 +42,8 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
   public shipmentStates: IStateDetails[] = [];
   public cities: ICityDetails[] = [];
   public shipmentCities: ICityDetails[] = [];
-
   public warehouseList!: comboResponse[];
+
   public orderForm: FormGroup<orderForm> = new FormGroup<orderForm>({
     id: new FormControl(0),
     customerId: new FormControl(0),
@@ -56,17 +55,6 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     warehouse: new FormGroup(this.warehouseForm()),
   })
 
-  public warehouse: FormGroup<warehouseForm> = new FormGroup<warehouseForm>({
-    id: new FormControl(0),
-    name: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]),
-    phone: new FormControl('', [Validators.required, Validators.pattern(/^(?:\+91|91)?[6789]\d{9}$/)]),
-    address: new FormControl('', [Validators.required]),
-    pincode: new FormControl('', [Validators.required, Validators.pattern(/^\d{6}$/)]),
-    city: new FormControl('', [Validators.required]),
-    state: new FormControl('', [Validators.required]),
-    country: new FormControl('', [Validators.required]),
-    isActive: new FormControl(true),
-  })
 
   public warehouseForm(): warehouseForm {
     return {
@@ -82,26 +70,8 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     };
   }
 
-  public newShipmentForm: FormGroup<shipmentForm> = new FormGroup<shipmentForm>({
-    id: new FormControl(0),
-    name: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]),
-    phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?:\+91|91)?[6789]\d{9}$/)]),
-    state: new FormControl(null, [Validators.required]),
-    city: new FormControl(null, [Validators.required]),
-    address: new FormControl(null, [Validators.required]),
-    country: new FormControl('India', [Validators.required]),
-    pincode: new FormControl(null, [Validators.required, Validators.pattern(/^\d{6}$/)]),
-    addressType: new FormControl(null, [Validators.required]),
-    paymentMode: new FormControl(null, [Validators.required]),
-    totalAmount: new FormControl(null, [Validators.required]),
-    shipmentMode: new FormControl(null, [Validators.required]),
-    toPay: new FormControl(false, [Validators.required]),
-    codAmount: new FormControl({ value: null, disabled: true }, [Validators.required]),
-    products: new FormArray([this.productForm()]),
-  })
-
   public shipmentForm(): FormGroup<shipmentForm> {
-    const shipment = new FormGroup<shipmentForm>({
+    return new FormGroup<shipmentForm>({
       id: new FormControl(0),
       name: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]),
       phone: new FormControl(null, [Validators.required, Validators.pattern(/^(?:\+91|91)?[6789]\d{9}$/)]),
@@ -118,28 +88,6 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
       codAmount: new FormControl(null, [Validators.required]),
       products: new FormArray([this.productForm()]),
     })
-    return shipment;
-  }
-
-  public shipmentFormWithData(shipmentForm: FormGroup<shipmentForm>): FormGroup<shipmentForm> {
-    const shipmentData = new FormGroup<shipmentForm>({
-      id: new FormControl(shipmentForm.controls.id.value),
-      name: new FormControl(shipmentForm.controls.name.value),
-      phone: new FormControl(shipmentForm.controls.phone.value),
-      state: new FormControl(shipmentForm.controls.state.value),
-      city: new FormControl(shipmentForm.controls.city.value),
-      address: new FormControl(shipmentForm.controls.address.value),
-      country: new FormControl(shipmentForm.controls.country.value),
-      pincode: new FormControl(shipmentForm.controls.pincode.value),
-      addressType: new FormControl(shipmentForm.controls.addressType.value),
-      paymentMode: new FormControl(shipmentForm.controls.paymentMode.value),
-      totalAmount: new FormControl(shipmentForm.controls.totalAmount.value),
-      shipmentMode: new FormControl(shipmentForm.controls.shipmentMode.value),
-      toPay: new FormControl(shipmentForm.controls.toPay.value),
-      codAmount: new FormControl(shipmentForm.controls.codAmount.value),
-      products: new FormArray(shipmentForm.controls.products.controls),
-    });
-    return shipmentData
   }
 
   public productForm(): FormGroup<productForm> {
@@ -224,7 +172,6 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
       } catch (error) {
         console.error('Error fetching order details:', error);
       }
-      // this.patchOrderDetails(this.referenceData)
     }
     this.locationService.getStateDetails().then(
       (res) => {
@@ -234,39 +181,38 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
       }
     )
 
-    this.newShipmentForm.controls.pincode.valueChanges.subscribe((value) => {
-      if (this.newShipmentForm.controls.pincode.valid) {
+    this.orderForm.controls.forwardShipments.at(0).controls.pincode?.valueChanges.subscribe((value) => {
+      if (this.orderForm.controls.forwardShipments.at(0).controls.pincode.valid) {
         this.shipmentMode = null;
         const data: { pincode: string } = {
-          pincode: this.newShipmentForm.controls.pincode.value!
+          pincode: this.orderForm.controls.forwardShipments.at(0).controls.pincode.value!
         }
-        this.postAPICallPromise<{ pincode: string }, Identity<IPincodeDetails>>(ApiRoutes.ratecard.getPincodeDetails(parseInt(this.newShipmentForm.controls.pincode.value!)), data, this.headerOption).then(
+        this.postAPICallPromise<{ pincode: string }, Identity<IPincodeDetails>>(ApiRoutes.ratecard.getPincodeDetails(parseInt(this.orderForm.controls.forwardShipments.at(0).controls.pincode.value!)), data, this.headerOption).then(
           (res) => {
             this.shipmentMode = res.data
           })
       }
     })
 
-    this.orderForm.controls.forwardShipments.controls.pop();
-    this.newShipmentForm.get('paymentMode')?.valueChanges.subscribe(value => {
+    this.orderForm.controls.forwardShipments.at(0).get('paymentMode')?.valueChanges.subscribe(value => {
       if (value === 'COD') {
         this.isCODRequired = true;
-        this.newShipmentForm.controls.codAmount.enable();
-        this.newShipmentForm.controls.codAmount.setValidators([Validators.required]);
-        this.newShipmentForm.controls.codAmount.markAsTouched();  // Mark it as touched
+        this.orderForm.controls.forwardShipments.at(0).controls.codAmount.enable();
+        this.orderForm.controls.forwardShipments.at(0).controls.codAmount.setValidators([Validators.required]);
+        this.orderForm.controls.forwardShipments.at(0).controls.codAmount.markAsTouched();  // Mark it as touched
 
       } else {
         this.isCODRequired = false;
-        this.newShipmentForm.controls.codAmount.disable();
-        this.newShipmentForm.controls.codAmount.reset();
-        this.newShipmentForm.controls.codAmount.clearValidators();
+        this.orderForm.controls.forwardShipments.at(0).controls.codAmount.disable();
+        this.orderForm.controls.forwardShipments.at(0).controls.codAmount.reset();
+        this.orderForm.controls.forwardShipments.at(0).controls.codAmount.clearValidators();
       }
-      this.newShipmentForm.controls.codAmount.updateValueAndValidity();
+      this.orderForm.controls.forwardShipments.at(0).controls.codAmount.updateValueAndValidity();
 
     });
 
-    this.newShipmentForm.controls.products.at(0).controls.quantity.valueChanges.subscribe((res) => {
-      this.onVolumeQuantityChange(0, this.newShipmentForm.controls.products.at(0).controls.volumes.length - 1, 0);
+    this.orderForm.controls.forwardShipments.at(0).controls.products.at(0).controls.quantity.valueChanges.subscribe((res) => {
+      this.onVolumeQuantityChange(0, this.orderForm.controls.forwardShipments.at(0).controls.products.at(0).controls.volumes.length - 1, 0);
     })
   }
 
@@ -301,30 +247,28 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     let volumeFormLength = this.orderDetails.forwardShipments.at(0)?.products.at(0)?.volumes.length;
     if (volumeFormLength != 0) {
       while (volumeFormLength != 1) {
-        this.newShipmentForm.controls.products.at(0).controls.volumes.push(this.volumeForm());
+        this.orderForm.controls.forwardShipments.at(0).controls.products.at(0).controls.volumes.push(this.volumeForm());
         volumeFormLength!--;
       }
     }
     this.orderForm.controls.id.setValue(this.orderDetails.id)
     this.orderForm.controls.paymentType.setValue(this.orderDetails.paymentType);
-    this.newShipmentForm.patchValue(shipmentData);
-    this.warehouse.patchValue(warehouseData);
-    // this.warehouse.disable({ emitEvent: false });
+    this.orderForm.controls.forwardShipments.at(0).patchValue(shipmentData);
+    this.orderForm.controls.warehouse.patchValue(warehouseData);
 
-
-    if (this.newShipmentForm.controls.pincode.valid) {
+    if (this.orderForm.controls.forwardShipments.at(0).controls.pincode.valid) {
       this.shipmentMode = null;
       const data: { pincode: string } = {
-        pincode: this.newShipmentForm.controls.pincode.value!
+        pincode: this.orderForm.controls.forwardShipments.at(0).controls.pincode.value!
       }
-      this.postAPICallPromise<{ pincode: string }, Identity<IPincodeDetails>>(ApiRoutes.ratecard.getPincodeDetails(parseInt(this.newShipmentForm.controls.pincode.value!)), data, this.headerOption).then(
+      this.postAPICallPromise<{ pincode: string }, Identity<IPincodeDetails>>(ApiRoutes.ratecard.getPincodeDetails(parseInt(this.orderForm.controls.forwardShipments.at(0).controls.pincode.value!)), data, this.headerOption).then(
         (res) => {
           this.shipmentMode = res.data
         })
     }
 
-    if (this.newShipmentForm.controls.products.at(0).controls.quantity.value == 0) {
-      this.newShipmentForm.controls.products.at(0).controls.quantity.setValue(null);
+    if (this.orderForm.controls.forwardShipments.at(0).controls.products.at(0).controls.quantity.value == 0) {
+      this.orderForm.controls.forwardShipments.at(0).controls.products.at(0).controls.quantity.setValue(null);
     }
   }
 
@@ -342,11 +286,10 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     }
   }
 
-
   public onStateChange(type: string) {
     if (type == "warehouse") {
       this.cities = [];
-      let state = this.warehouse.controls.state.value!;
+      let state = this.orderForm.controls.warehouse.controls.state.value!;
       if (state) {
         this.locationService.getCitiesDetails(state).then(
           (res) => {
@@ -359,7 +302,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     }
     else if (type == 'shipment') {
       this.shipmentCities = [];
-      let state = this.newShipmentForm.controls.state.value!;
+      let state = this.orderForm.controls.forwardShipments.at(0).controls.state.value!;
       if (state) {
         this.locationService.getCitiesDetails(state).then(
           (res) => {
@@ -387,8 +330,8 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
       )
     }
     else {
-      this.warehouse.enable()
-      this.warehouse.reset();
+      this.orderForm.controls.warehouse.enable()
+      this.orderForm.controls.warehouse.reset();
       this.warehouseId = 0;
       this.isWarehouseSelected = false;
     }
@@ -396,64 +339,56 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
 
   public next() {
     if (this.steps === 1) {
-      this.warehouse.markAllAsTouched();
-      if (this.warehouse.valid) {
+      this.orderForm.controls.warehouse.markAllAsTouched();
+      if (this.orderForm.controls.warehouse.valid) {
         if (this.warehouseId === 0) {
           const warehouseData: warehouseFormData = {
             id: 0,
-            name: this.warehouse.controls.name.value!,
-            phone: this.warehouse.controls.phone.value!,
-            address: this.warehouse.controls.address.value!,
-            pincode: this.warehouse.controls.pincode.value!,
-            city: this.warehouse.controls.city.value!,
-            state: this.warehouse.controls.state.value!,
-            country: this.warehouse.controls.country.value!,
+            name: this.orderForm.controls.warehouse.controls.name.value!,
+            phone: this.orderForm.controls.warehouse.controls.phone.value!,
+            address: this.orderForm.controls.warehouse.controls.address.value!,
+            pincode: this.orderForm.controls.warehouse.controls.pincode.value!,
+            city: this.orderForm.controls.warehouse.controls.city.value!,
+            state: this.orderForm.controls.warehouse.controls.state.value!,
+            country: this.orderForm.controls.warehouse.controls.country.value!,
             isActive: true,
           }
-          // this.warehouse.patchValue(warehouseData);
-
           this.orderForm.controls.warehouse.patchValue(warehouseData)
         }
         else {
           this.orderForm.controls.warehouseId.setValue(this.warehouseId);
           this.orderForm.controls.warehouse.controls.id.setValue(this.warehouseId);
         }
-        this.orderForm.controls.sourcePincode.setValue(this.warehouse.controls.pincode.value);
-        console.log(this.orderForm.value)
+        this.orderForm.controls.sourcePincode.setValue(this.orderForm.controls.warehouse.controls.pincode.value);
         this.steps++;
       }
     }
     else if (this.steps === 2) {
-      this.newShipmentForm.markAllAsTouched();
-      if (this.newShipmentForm.controls.pincode.valid && this.newShipmentForm.controls.shipmentMode.valid) {
+      console.log(this.orderForm.value)
+      this.orderForm.controls.forwardShipments.at(0).markAllAsTouched();
+      if (this.orderForm.controls.forwardShipments.at(0).controls.pincode.valid && this.orderForm.controls.forwardShipments.at(0).controls.shipmentMode.valid) {
         this.steps++;
-        this.newShipmentForm.markAsUntouched()
+        this.orderForm.controls.forwardShipments.at(0).markAsUntouched()
       }
       if (this.isEditCase && this.orderDetails.forwardShipments.at(0)?.products.at(0)?.volumes.length !== 0) {
-        this.onVolumeQuantityChange(0, this.newShipmentForm.controls.products.at(0).controls.volumes.length - 1, 0);
+        this.onVolumeQuantityChange(0, this.orderForm.controls.forwardShipments.at(0).controls.products.at(0).controls.volumes.length - 1, 0);
       }
     }
     else if (this.steps === 3) {
-      // this.newShipmentForm.controls.products.markAllAsTouched()
-      // if(this.newShipmentForm.controls.products.at(0).controls.volumes.at(0).controls.barcodes.length == 0){
-      //   console.log(this.newShipmentForm.controls.products.at(0).controls.volumes.value)
-      //   this.updateBarcodesFormArray(this.newShipmentForm.controls.products.at(0).controls.volumes);
-      // }
+      console.log(this.orderForm.value)
       if (this.remainingQuantity == 0) {
         this.steps++;
-        // if (this.isEditCase) {
-        //   this.onVolumeQuantityChange(0, this.newShipmentForm.controls.products.at(0).controls.volumes.length - 1, 0);
-        // }
       }
     }
     else if (this.steps === 4) {
-      this.newShipmentForm.controls.products.at(0).controls.volumes.markAllAsTouched()
-      if (this.newShipmentForm.controls.products.at(0).controls.volumes.length == 0) {
-        this.newShipmentForm.controls.products.at(0).controls.volumes.controls.pop();
+      console.log(this.orderForm.value)
+      this.orderForm.controls.forwardShipments.at(0).controls.products.at(0).controls.volumes.markAllAsTouched()
+      if (this.orderForm.controls.forwardShipments.at(0).controls.products.at(0).controls.volumes.length == 0) {
+        this.orderForm.controls.forwardShipments.at(0).controls.products.at(0).controls.volumes.controls.pop();
         this.calculatePrice();
       }
       else {
-        if (this.newShipmentForm.controls.products.at(0).controls.volumes.at(0).controls.barcodes.valid) {
+        if (this.orderForm.controls.forwardShipments.at(0).controls.products.at(0).controls.volumes.at(0).controls.barcodes.valid) {
           if (this.remainingQuantity == 0) {
             this.calculatePrice();
           }
@@ -461,7 +396,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
       }
     }
     else if (this.steps === 5) {
-      this.removeBarcodeValidation(this.newShipmentForm.controls.products.at(0).controls.volumes);
+      this.removeBarcodeValidation(this.orderForm.controls.forwardShipments.at(0).controls.products.at(0).controls.volumes);
       this.isSubmitting = true;
       console.log(this.orderForm.controls.paymentType.value)
       if (this.orderForm.controls.paymentType.valid && this.orderForm.controls.totalAmount.value !== 0) {
@@ -518,18 +453,18 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
   }
 
   public skipBarcodes() {
-    if (this.newShipmentForm.controls.products.at(0).controls.quantity.value == 0) {
-      this.newShipmentForm.controls.products.at(0).controls.volumes.controls.pop();
+    if (this.orderForm.controls.forwardShipments.at(0).controls.products.at(0).controls.quantity.value == 0) {
+      this.orderForm.controls.forwardShipments.at(0).controls.products.at(0).controls.volumes.controls.pop();
     }
-    this.removeBarcodeValidation(this.newShipmentForm.controls.products.at(0).controls.volumes);
+    this.removeBarcodeValidation(this.orderForm.controls.forwardShipments.at(0).controls.products.at(0).controls.volumes);
     this.calculatePrice();
     this.skipBarcodeEntry = true;
   }
 
   private calculatePrice() {
     const data: IRateRequest = {
-      destinationPincode: this.newShipmentForm.controls.pincode.value!,
-      serviceType: this.newShipmentForm.controls.shipmentMode.value!,
+      destinationPincode: this.orderForm.controls.forwardShipments.at(0).controls.pincode.value!,
+      serviceType: this.orderForm.controls.forwardShipments.at(0).controls.shipmentMode.value!,
       sourcePincode: this.orderForm.controls.sourcePincode.value!,
       boxInfos: this.boxInfo()
     }
@@ -538,11 +473,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
         (res) => {
           if (res?.data) {
             this.orderForm.controls.totalAmount.setValue(Math.round(res.data.totalPrice));
-            this.newShipmentForm.controls.totalAmount.setValue(Math.round(res.data.totalPrice));
-            if (this.orderForm.controls.forwardShipments.length == 1) {
-              this.orderForm.controls.forwardShipments.controls.pop();
-            }
-            this.orderForm.controls.forwardShipments.push(this.shipmentFormWithData(this.newShipmentForm))
+            this.orderForm.controls.forwardShipments.at(0).controls.totalAmount.setValue(Math.round(res.data.totalPrice));
             this.steps++;
           }
           else {
@@ -560,7 +491,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
 
   private boxInfo() {
     let boxInfoDetails: BoxInfo[] = []
-    this.newShipmentForm.controls.products.controls.forEach((res, i) => {
+    this.orderForm.controls.forwardShipments.at(0).controls.products.controls.forEach((res, i) => {
       const data: BoxInfo = {
         quantity: res.controls.quantity.value!,
         weight: res.controls.weight.value!,
@@ -573,7 +504,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
 
   private getVolume(index: number) {
     const obj: Array<Volume> = []
-    this.newShipmentForm.controls.products.controls.at(index)?.controls.volumes.controls.forEach((res) => {
+    this.orderForm.controls.forwardShipments.at(0).controls.products.controls.at(index)?.controls.volumes.controls.forEach((res) => {
       const newObj: Volume = {
         quantity: res.controls.quantity.value!,
         width: res.controls.width.value!,
@@ -586,8 +517,8 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
   }
 
   private productDetailsValidation() {
-    return this.newShipmentForm.controls.products.controls.map((res, i) => {
-      this.newShipmentForm.controls.products.at(i).controls.hsnCode && this.newShipmentForm.controls.products.at(i).controls.quantity && this.newShipmentForm.controls.products.at(i).controls.waybillNo && this.newShipmentForm.controls.products.at(i).controls.weight && this.newShipmentForm.controls.products.at(i).controls.quantity && this.newShipmentForm.controls.products.at(i).controls.productDescription && this.newShipmentForm.controls.products.at(i).controls.volumes.valid
+    return this.orderForm.controls.forwardShipments.at(0).controls.products.controls.map((res, i) => {
+      this.orderForm.controls.forwardShipments.at(0).controls.products.at(i).controls.hsnCode && this.orderForm.controls.forwardShipments.at(0).controls.products.at(i).controls.quantity && this.orderForm.controls.forwardShipments.at(0).controls.products.at(i).controls.waybillNo && this.orderForm.controls.forwardShipments.at(0).controls.products.at(i).controls.weight && this.orderForm.controls.forwardShipments.at(0).controls.products.at(i).controls.quantity && this.orderForm.controls.forwardShipments.at(0).controls.products.at(i).controls.productDescription && this.orderForm.controls.forwardShipments.at(0).controls.products.at(i).controls.volumes.valid
     })
   }
 
@@ -596,13 +527,13 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
       this.steps--;
 
     if (this.steps == 4) {
-      this.onVolumeQuantityChange(0, this.newShipmentForm.controls.products.at(0).controls.volumes.length - 1, 0);
+      this.onVolumeQuantityChange(0, this.orderForm.controls.forwardShipments.at(0).controls.products.at(0).controls.volumes.length - 1, 0);
       this.skipBarcodeEntry = false;
     }
   }
 
   public addNewProduct() {
-    this.newShipmentForm.controls.products.push(this.productForm());
+    this.orderForm.controls.forwardShipments.at(0).controls.products.push(this.productForm());
   }
 
   //todo
@@ -610,69 +541,69 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     this.newQuantity = 0;
     let inputValue;
     if (vIndex === -1 && this.remainingQuantity == 0) {
-      vIndex = this.newShipmentForm.controls.products.at(pIndex).controls.volumes.length - 1;
-      inputValue = this.newShipmentForm.controls.products.at(pIndex)?.controls.volumes.at(vIndex).controls.quantity.value!
+      vIndex = this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex).controls.volumes.length - 1;
+      inputValue = this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex)?.controls.volumes.at(vIndex).controls.quantity.value!
     }
     else if (vIndex === -1 && this.remainingQuantity != 0) {
       vIndex = 0;
-      if (this.newShipmentForm.controls.products.at(pIndex).controls.volumes.length >= 2) {
-        inputValue = this.newShipmentForm.controls.products.at(pIndex)?.controls.volumes.at(vIndex).controls.quantity.value!
+      if (this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex).controls.volumes.length >= 2) {
+        inputValue = this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex)?.controls.volumes.at(vIndex).controls.quantity.value!
       }
       else {
         inputValue = 0;
       }
     }
     else {
-      inputValue = this.newShipmentForm.controls.products.at(pIndex)?.controls.volumes.at(vIndex).controls.quantity.value
+      inputValue = this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex)?.controls.volumes.at(vIndex).controls.quantity.value
     }
 
-    const totalQuantity = this.newShipmentForm.controls.products.at(pIndex)?.controls.quantity.value!;
+    const totalQuantity = this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex)?.controls.quantity.value!;
     //check == -1 -> case of remove
     //check == 0 -> form input field
     if (check == 0) {
-      for (let i = 0; i < this.newShipmentForm.controls.products.at(pIndex).controls.volumes.length; i++) {
-        if (this.newShipmentForm.controls.products.at(pIndex).controls.volumes.controls.at(i)?.controls.quantity.value != null)
-          this.newQuantity += parseInt(this.newShipmentForm.controls.products.at(pIndex).controls.volumes.controls.at(i)?.controls.quantity.value + "");
+      for (let i = 0; i < this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex).controls.volumes.length; i++) {
+        if (this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex).controls.volumes.controls.at(i)?.controls.quantity.value != null)
+          this.newQuantity += parseInt(this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex).controls.volumes.controls.at(i)?.controls.quantity.value + "");
       }
     }
     else {
       if (this.remainingQuantity == 0) {
-        for (let i = 0; i < this.newShipmentForm.controls.products.at(pIndex).controls.volumes.length; i++) {
-          this.newQuantity += parseInt(this.newShipmentForm.controls.products.at(pIndex).controls.volumes.controls.at(i)?.controls.quantity.value + "");
+        for (let i = 0; i < this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex).controls.volumes.length; i++) {
+          this.newQuantity += parseInt(this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex).controls.volumes.controls.at(i)?.controls.quantity.value + "");
         }
       }
       else {
-        for (let i = 0; i < this.newShipmentForm.controls.products.at(pIndex).controls.volumes.length - 1; i++) {
-          this.newQuantity += parseInt(this.newShipmentForm.controls.products.at(pIndex).controls.volumes.controls.at(i)?.controls.quantity.value + "");
+        for (let i = 0; i < this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex).controls.volumes.length - 1; i++) {
+          this.newQuantity += parseInt(this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex).controls.volumes.controls.at(i)?.controls.quantity.value + "");
         }
       }
     }
     if (totalQuantity >= this.newQuantity) {
       if (check == 0 && inputValue != 0 && inputValue != null && totalQuantity > this.newQuantity) {
-        this.newShipmentForm.controls.products.at(pIndex).controls.volumes.push(this.volumeForm())
+        this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex).controls.volumes.push(this.volumeForm())
       }
       else if (check == -1 && this.remainingQuantity == 0 && totalQuantity > this.newQuantity) {
-        this.newShipmentForm.controls.products.at(pIndex).controls.volumes.push(this.volumeForm())
+        this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex).controls.volumes.push(this.volumeForm())
       }
     }
     this.remainingQuantity = totalQuantity - this.newQuantity;
 
     if (this.remainingQuantity == 0) {
-      this.updateBarcodesFormArray(this.newShipmentForm.controls.products.at(0).controls.volumes);
+      this.updateBarcodesFormArray(this.orderForm.controls.forwardShipments.at(0).controls.products.at(0).controls.volumes);
     }
   }
 
   public remove(pIndex: number, vIndex: number) {
-    if (this.remainingQuantity != 0 && vIndex != this.newShipmentForm.controls.products.at(pIndex).controls.volumes.length - 1) {
-      this.newShipmentForm.controls.products.at(pIndex).controls.volumes.controls.splice(vIndex, 1);
+    if (this.remainingQuantity != 0 && vIndex != this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex).controls.volumes.length - 1) {
+      this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex).controls.volumes.controls.splice(vIndex, 1);
       this.onVolumeQuantityChange(pIndex, vIndex - 1, -1)
     }
-    else if (this.remainingQuantity == 0 && this.newShipmentForm.controls.products.at(pIndex).controls.volumes.length > 0) {
-      this.newShipmentForm.controls.products.at(pIndex).controls.volumes.controls.splice(vIndex, 1);
+    else if (this.remainingQuantity == 0 && this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex).controls.volumes.length > 0) {
+      this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex).controls.volumes.controls.splice(vIndex, 1);
       this.onVolumeQuantityChange(pIndex, vIndex - 1, -1)
     }
     // else if(this.remainingQuantity ==0){
-    //   this.newShipmentForm.controls.products.at(pIndex).controls.volumes.at(vIndex).reset();
+    //   this.orderForm.controls.forwardShipments.at(0).controls.products.at(pIndex).controls.volumes.at(vIndex).reset();
     // }
   }
 
@@ -689,8 +620,8 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
       isActive: data.isActive,
     }
     this.warehouseId = data.id;
-    this.warehouse.patchValue(warehouse);
-    // this.warehouse.disable({ emitEvent: false });
+    this.orderForm.controls.warehouse.patchValue(warehouse);
+    this.orderForm.controls.warehouse.patchValue(warehouse)
   }
 
   private updateBarcodesFormArray(volumeArray: FormArray) {
@@ -728,8 +659,8 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
 
   public onPincodeChange(type: string) {
     if (this.steps == 1 && type == 'warehouse') {
-      const pincode = this.warehouse.controls.pincode.value;
-      if (pincode && this.warehouse.controls.pincode.valid) {
+      const pincode = this.orderForm.controls.warehouse.controls.pincode.value;
+      if (pincode && this.orderForm.controls.warehouse.controls.pincode.valid) {
         this.locationService.getDetailsUsingPincode(pincode).then(
           (res) => {
             if (res[0].Status == "Success") {
@@ -745,8 +676,8 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
               const StateName = this.getStateAbbreviation(res[0].PostOffice[0].State);
               const fullCityName = res[0].PostOffice[0].District;
 
-              this.warehouse.controls.state.setValue(StateName);
-              this.warehouse.controls.city.setValue(fullCityName);
+              this.orderForm.controls.warehouse.controls.state.setValue(StateName);
+              this.orderForm.controls.warehouse.controls.city.setValue(fullCityName);
               this.onStateChange(type);
             }
             else {
@@ -757,8 +688,10 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
       }
     }
     else if (this.steps == 2 && type == 'shipment') {
-      const pincode = this.newShipmentForm.controls.pincode.value;
-      if (pincode && this.newShipmentForm.controls.pincode.valid) {
+      // I only set state and city on the basis of 1st forwardShipment pincode
+      // If in future there is functionality to add multiple shipment then we can loop it or send index in this method and using it set state and city
+      const pincode = this.orderForm.controls.forwardShipments.at(0).controls.pincode.value;
+      if (pincode && this.orderForm.controls.forwardShipments.at(0).controls.pincode.valid) {
         this.locationService.getDetailsUsingPincode(pincode).then(
           (res) => {
             if (res[0].Status == "Success") {
@@ -774,8 +707,8 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
               const StateName = this.getStateAbbreviation(res[0].PostOffice[0].State);
               const fullCityName = res[0].PostOffice[0].District;
 
-              this.newShipmentForm.controls.state.setValue(StateName);
-              this.newShipmentForm.controls.city.setValue(fullCityName);
+              this.orderForm.controls.forwardShipments.at(0).controls.state.setValue(StateName);
+              this.orderForm.controls.forwardShipments.at(0).controls.city.setValue(fullCityName);
               this.onStateChange(type);
             }
             else {

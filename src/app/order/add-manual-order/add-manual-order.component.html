@@ -7,8 +7,8 @@
     </button>
 </div>
 
-<div class="modal-body input-text-modal modal-overflow-fix">
-    <form [formGroup]="warehouse" *ngIf="steps==1">
+<div class="modal-body input-text-modal modal-overflow-fix" [formGroup]="orderForm">
+    <form formGroupName="warehouse" *ngIf="steps==1">
         <div class="row g-2">
             <div class="row">
                 <div class="col-sm-5 d-flex justify-content-between border-end border-dark">
@@ -50,11 +50,13 @@
                 <input type="text" class="form-control" placeholder="Enter name" aria-label="name"
                     formControlName="name">
                 <div
-                    *ngIf="this.warehouse.controls.name && this.warehouse.controls.name.invalid && this.warehouse.controls.name.touched">
-                    <small class="text-danger" *ngIf="this.warehouse.controls.name.hasError('required')">
+                    *ngIf="this.orderForm.controls.warehouse.controls.name && this.orderForm.controls.warehouse.controls.name.invalid && this.orderForm.controls.warehouse.controls.name.touched">
+                    <small class="text-danger"
+                        *ngIf="this.orderForm.controls.warehouse.controls.name.hasError('required')">
                         This field is required.
                     </small>
-                    <small class="text-danger" *ngIf="this.warehouse.controls.name.hasError('pattern')">
+                    <small class="text-danger"
+                        *ngIf="this.orderForm.controls.warehouse.controls.name.hasError('pattern')">
                         Enter valid name.
                     </small>
                 </div>
@@ -63,24 +65,29 @@
                 <label class="form-label" for="phoneNumber">Phone <span class="required">*</span></label>
                 <input type="text" class="form-control" maxlength="10" formControlName="phone" />
                 <div
-                    *ngIf="this.warehouse.controls.phone && this.warehouse.controls.phone.invalid && this.warehouse.controls.phone.touched">
-                    <small class="text-danger" *ngIf="this.warehouse.controls.phone.hasError('required')">
+                    *ngIf="this.orderForm.controls.warehouse.controls.phone && this.orderForm.controls.warehouse.controls.phone.invalid && this.orderForm.controls.warehouse.controls.phone.touched">
+                    <small class="text-danger"
+                        *ngIf="this.orderForm.controls.warehouse.controls.phone.hasError('required')">
                         This field is required.
                     </small>
-                    <small class="text-danger" *ngIf="this.warehouse.controls.phone.hasError('pattern')">
+                    <small class="text-danger"
+                        *ngIf="this.orderForm.controls.warehouse.controls.phone.hasError('pattern')">
                         Enter valid phone number
                     </small>
                 </div>
             </div>
             <div class="col-6 ">
                 <label for="formGroupExampleInput" class="form-label">Pincode <span class="required">*</span></label>
-                <input type="text" class="form-control" formControlName="pincode" maxlength="6" (change)="onPincodeChange('warehouse')" />
+                <input type="text" class="form-control" formControlName="pincode" maxlength="6"
+                    (change)="onPincodeChange('warehouse')" />
                 <div
-                    *ngIf="this.warehouse.controls.pincode && this.warehouse.controls.pincode.invalid && this.warehouse.controls.pincode.touched">
-                    <small class="text-danger" *ngIf="this.warehouse.controls.pincode.hasError('required')">
+                    *ngIf="this.orderForm.controls.warehouse.controls.pincode && this.orderForm.controls.warehouse.controls.pincode.invalid && this.orderForm.controls.warehouse.controls.pincode.touched">
+                    <small class="text-danger"
+                        *ngIf="this.orderForm.controls.warehouse.controls.pincode.hasError('required')">
                         This field is required.
                     </small>
-                    <small class="text-danger" *ngIf="this.warehouse.controls.pincode.hasError('pattern')">
+                    <small class="text-danger"
+                        *ngIf="this.orderForm.controls.warehouse.controls.pincode.hasError('pattern')">
                         Enter valid pin code.
                     </small>
                 </div>
@@ -89,22 +96,24 @@
                 <label class="form-label">Address <span class="required">*</span></label>
                 <input type="text" class="form-control" formControlName="address" />
                 <div
-                    *ngIf="this.warehouse.controls.address && this.warehouse.controls.address.invalid && this.warehouse.controls.address.touched">
-                    <small class="text-danger" *ngIf="this.warehouse.controls.address.hasError('required')">
+                    *ngIf="this.orderForm.controls.warehouse.controls.address && this.orderForm.controls.warehouse.controls.address.invalid && this.orderForm.controls.warehouse.controls.address.touched">
+                    <small class="text-danger"
+                        *ngIf="this.orderForm.controls.warehouse.controls.address.hasError('required')">
                         This field is required.
                     </small>
                 </div>
             </div>
             <div class="col-6">
                 <label for="state" class="form-label select-label">State <span class="required">*</span></label>
-                <select class="select form-select" (change)="onStateChange('warehouse')" aria-label="Default select example"
-                    formControlName="state">
+                <select class="select form-select" (change)="onStateChange('warehouse')"
+                    aria-label="Default select example" formControlName="state">
                     <option selected disabled>Choose option</option>
                     <option *ngFor="let state of states; index as i" [ngValue]="state.iso2">{{state.name}}</option>
                 </select>
                 <div
-                    *ngIf="this.warehouse.controls.state && this.warehouse.controls.state.invalid && this.warehouse.controls.state.touched">
-                    <small class="text-danger" *ngIf="this.warehouse.controls.state.hasError('required')">
+                    *ngIf="this.orderForm.controls.warehouse.controls.state && this.orderForm.controls.warehouse.controls.state.invalid && this.orderForm.controls.warehouse.controls.state.touched">
+                    <small class="text-danger"
+                        *ngIf="this.orderForm.controls.warehouse.controls.state.hasError('required')">
                         This field is required.
                     </small>
                 </div>
@@ -116,8 +125,9 @@
                     <option *ngFor="let city of cities; index as i" [ngValue]="city.name">{{city.name}}</option>
                 </select>
                 <div
-                    *ngIf="this.warehouse.controls.city && this.warehouse.controls.city.invalid && this.warehouse.controls.city.touched">
-                    <small class="text-danger" *ngIf="this.warehouse.controls.city.hasError('required')">
+                    *ngIf="this.orderForm.controls.warehouse.controls.city && this.orderForm.controls.warehouse.controls.city.invalid && this.orderForm.controls.warehouse.controls.city.touched">
+                    <small class="text-danger"
+                        *ngIf="this.orderForm.controls.warehouse.controls.city.hasError('required')">
                         This field is required.
                     </small>
                 </div>
@@ -126,8 +136,9 @@
                 <label class="form-label select-label">Country <span class="required">*</span></label>
                 <input type="text" class="form-control" formControlName="country" />
                 <div
-                    *ngIf="this.warehouse.controls.country && this.warehouse.controls.country.invalid && this.warehouse.controls.country.touched">
-                    <small class="text-danger" *ngIf="this.warehouse.controls.country.hasError('required')">
+                    *ngIf="this.orderForm.controls.warehouse.controls.country && this.orderForm.controls.warehouse.controls.country.invalid && this.orderForm.controls.warehouse.controls.country.touched">
+                    <small class="text-danger"
+                        *ngIf="this.orderForm.controls.warehouse.controls.country.hasError('required')">
                         This field is required.
                     </small>
                 </div>
@@ -135,7 +146,7 @@
 
         </div>
     </form>
-    <form [formGroup]="newShipmentForm">
+    <div [formGroup]="shipmentForm" *ngFor="let shipmentForm of orderForm.controls.forwardShipments.controls">
         <div class="row g-2" *ngIf="steps==2">
             <div class="row">
                 <div class="col-sm-6 d-flex justify-content-between">
@@ -168,12 +179,14 @@
             <div class="col-6">
                 <label for="formGroupExampleInput" class="form-label">Name <span class="required">*</span></label>
                 <input type="text" class="form-control" formControlName="name">
+
+                <!-- todo -->
                 <div
-                    *ngIf="this.newShipmentForm.controls.name && this.newShipmentForm.controls.name.invalid && this.newShipmentForm.controls.name.touched">
-                    <small class="text-danger" *ngIf="this.newShipmentForm.controls.name.hasError('required')">
+                    *ngIf="shipmentForm.controls.name && shipmentForm.controls.name.invalid && shipmentForm.controls.name.touched">
+                    <small class="text-danger" *ngIf="shipmentForm.controls.name.hasError('required')">
                         This field is required.
                     </small>
-                    <small class="text-danger" *ngIf="this.newShipmentForm.controls.name.hasError('pattern')">
+                    <small class="text-danger" *ngIf="shipmentForm.controls.name.hasError('pattern')">
                         Enter valid name.
                     </small>
                 </div>
@@ -182,11 +195,11 @@
                 <label for="formGroupExampleInput" class="form-label">Phone <span class="required">*</span></label>
                 <input type="text" class="form-control" formControlName="phone" maxlength="10">
                 <div
-                    *ngIf="this.newShipmentForm.controls.phone && this.newShipmentForm.controls.phone.invalid && this.newShipmentForm.controls.phone.touched">
-                    <small class="text-danger" *ngIf="this.newShipmentForm.controls.phone.hasError('required')">
+                    *ngIf="shipmentForm.controls.phone && shipmentForm.controls.phone.invalid && shipmentForm.controls.phone.touched">
+                    <small class="text-danger" *ngIf="shipmentForm.controls.phone.hasError('required')">
                         This field is required.
                     </small>
-                    <small class="text-danger" *ngIf="this.newShipmentForm.controls.phone.hasError('pattern')">
+                    <small class="text-danger" *ngIf="shipmentForm.controls.phone.hasError('pattern')">
                         Enter phone number.
                     </small>
                 </div>
@@ -195,8 +208,8 @@
                 <label class="form-label">Address <span class="required">*</span></label>
                 <input type="tel" class="form-control" formControlName="address" />
                 <div
-                    *ngIf="this.newShipmentForm.controls.address && this.newShipmentForm.controls.address.invalid && this.newShipmentForm.controls.address.touched">
-                    <small class="text-danger" *ngIf="this.newShipmentForm.controls.address.hasError('required')">
+                    *ngIf="shipmentForm.controls.address && shipmentForm.controls.address.invalid && shipmentForm.controls.address.touched">
+                    <small class="text-danger" *ngIf="shipmentForm.controls.address.hasError('required')">
                         This field is required.
                     </small>
                 </div>
@@ -204,27 +217,27 @@
             <div class="col-6">
                 <label class="form-label">Pincode <span class="required">*</span></label>
                 <input type="text" class="form-control" formControlName="pincode" maxlength="6"
-                (change)="onPincodeChange('shipment')" placeholder="Enter pincode *" />
+                    (change)="onPincodeChange('shipment')" placeholder="Enter pincode *" />
                 <div
-                    *ngIf="this.newShipmentForm.controls.pincode && this.newShipmentForm.controls.pincode.invalid && this.newShipmentForm.controls.pincode.touched">
-                    <small class="text-danger" *ngIf="this.newShipmentForm.controls.pincode.hasError('required')">
+                    *ngIf="shipmentForm.controls.pincode && shipmentForm.controls.pincode.invalid && shipmentForm.controls.pincode.touched">
+                    <small class="text-danger" *ngIf="shipmentForm.controls.pincode.hasError('required')">
                         This field is required.
                     </small>
-                    <small class="text-danger" *ngIf="this.newShipmentForm.controls.pincode.hasError('pattern')">
+                    <small class="text-danger" *ngIf="shipmentForm.controls.pincode.hasError('pattern')">
                         Enter valid pin code.
                     </small>
                 </div>
             </div>
             <div class="col-6">
                 <label for="state" class="form-label select-label">State <span class="required">*</span></label>
-                <select class="select form-select" (change)="onStateChange('shipment')" aria-label="Default select example"
-                    formControlName="state">
+                <select class="select form-select" (change)="onStateChange('shipment')"
+                    aria-label="Default select example" formControlName="state">
                     <option selected disabled>Choose option</option>
                     <option *ngFor="let state of states; index as i" [ngValue]="state.iso2">{{state.name}}</option>
                 </select>
                 <div
-                    *ngIf="this.newShipmentForm.controls.state && this.newShipmentForm.controls.state.invalid && this.newShipmentForm.controls.state.touched">
-                    <small class="text-danger" *ngIf="this.newShipmentForm.controls.state.hasError('required')">
+                    *ngIf="shipmentForm.controls.state && shipmentForm.controls.state.invalid && shipmentForm.controls.state.touched">
+                    <small class="text-danger" *ngIf="shipmentForm.controls.state.hasError('required')">
                         This field is required.
                     </small>
                 </div>
@@ -233,16 +246,17 @@
                 <label class="form-label select-label">City <span class="required">*</span></label>
                 <select class="select form-select" aria-label="Default select example" formControlName="city">
                     <option selected disabled>Choose option </option>
-                    <option *ngFor="let city of shipmentCities; index as i" [ngValue]="city.name">{{city.name}}</option>
+                    <option *ngFor="let city of shipmentCities; index as i" [ngValue]="city.name">{{city.name}}
+                    </option>
                 </select>
                 <div
-                    *ngIf="this.newShipmentForm.controls.city && this.newShipmentForm.controls.city.invalid && this.newShipmentForm.controls.city.touched">
-                    <small class="text-danger" *ngIf="this.newShipmentForm.controls.city.hasError('required')">
+                    *ngIf="shipmentForm.controls.city && shipmentForm.controls.city.invalid && shipmentForm.controls.city.touched">
+                    <small class="text-danger" *ngIf="shipmentForm.controls.city.hasError('required')">
                         This field is required.
                     </small>
                 </div>
             </div>
-          
+
             <div class="col-6">
                 <label class="form-label">Address Type <span class="required">*</span></label>
                 <select class="select form-select" aria-label="Default select example" formControlName="addressType">
@@ -251,8 +265,8 @@
                     <option [ngValue]="'Office'">Office</option>
                 </select>
                 <div
-                    *ngIf="this.newShipmentForm.controls.addressType && this.newShipmentForm.controls.addressType.invalid && this.newShipmentForm.controls.addressType.touched">
-                    <small class="text-danger" *ngIf="this.newShipmentForm.controls.addressType.hasError('required')">
+                    *ngIf="shipmentForm.controls.addressType && shipmentForm.controls.addressType.invalid && shipmentForm.controls.addressType.touched">
+                    <small class="text-danger" *ngIf="shipmentForm.controls.addressType.hasError('required')">
                         This field is required.
                     </small>
                 </div>
@@ -268,9 +282,8 @@
                             <option [ngValue]="'COD'">COD</option>
                         </select>
                         <div
-                            *ngIf="this.newShipmentForm.controls.paymentMode && this.newShipmentForm.controls.paymentMode.invalid && this.newShipmentForm.controls.paymentMode.touched">
-                            <small class="text-danger"
-                                *ngIf="this.newShipmentForm.controls.paymentMode.hasError('required')">
+                            *ngIf="shipmentForm.controls.paymentMode && shipmentForm.controls.paymentMode.invalid && shipmentForm.controls.paymentMode.touched">
+                            <small class="text-danger" *ngIf="shipmentForm.controls.paymentMode.hasError('required')">
                                 This field is required.
                             </small>
                         </div>
@@ -280,9 +293,8 @@
                                 class="required">*</span></label>
                         <input type="text" class="form-control" formControlName="codAmount" />
                         <div
-                            *ngIf="this.newShipmentForm.controls.codAmount && this.newShipmentForm.controls.codAmount.invalid && this.newShipmentForm.controls.codAmount.touched">
-                            <small class="text-danger"
-                                *ngIf="this.newShipmentForm.controls.codAmount.hasError('required')">
+                            *ngIf="shipmentForm.controls.codAmount && shipmentForm.controls.codAmount.invalid && shipmentForm.controls.codAmount.touched">
+                            <small class="text-danger" *ngIf="shipmentForm.controls.codAmount.hasError('required')">
                                 This field is required.
                             </small>
                         </div>
@@ -294,19 +306,21 @@
                 <label class="form-label">Shipment Mode <span class="required">*</span></label>
                 <select class="select form-select" aria-label="Default select example" formControlName="shipmentMode">
                     <option selected disabled>Choose option</option>
-                    <option *ngIf="shipmentMode?.surface || shipmentMode?.oda" [ngValue]="'Surface'">Surface</option>
-                    <option *ngIf="shipmentMode?.surfacePremium" [ngValue]="'SurfacePremium'">Surface Premium</option>
+                    <option *ngIf="shipmentMode?.surface || shipmentMode?.oda" [ngValue]="'Surface'">Surface
+                    </option>
+                    <option *ngIf="shipmentMode?.surfacePremium" [ngValue]="'SurfacePremium'">Surface Premium
+                    </option>
                     <option *ngIf="shipmentMode?.air" [ngValue]="'Air'">Air</option>
                     <option *ngIf="shipmentMode?.airPremium" [ngValue]="'AirPremium'">Air Premium</option>
                     <!-- <option *ngIf="shipmentMode?.oda" [ngValue]="'Default'">Default (ODA)</option> -->
                 </select>
                 <small class="text-danger"
-                    *ngIf="this.newShipmentForm.controls.pincode.valid && !shipmentMode?.airPremium && !shipmentMode?.air && !shipmentMode?.surface && !shipmentMode?.surfacePremium && !shipmentMode?.oda">
+                    *ngIf="shipmentForm.controls.pincode.valid && !shipmentMode?.airPremium && !shipmentMode?.air && !shipmentMode?.surface && !shipmentMode?.surfacePremium && !shipmentMode?.oda">
                     Shipment not allow in this zone
                 </small>
                 <div
-                    *ngIf="this.newShipmentForm.controls.shipmentMode && this.newShipmentForm.controls.shipmentMode.invalid && this.newShipmentForm.controls.shipmentMode.touched">
-                    <small class="text-danger" *ngIf="this.newShipmentForm.controls.shipmentMode.hasError('required')">
+                    *ngIf="shipmentForm.controls.shipmentMode && shipmentForm.controls.shipmentMode.invalid && shipmentForm.controls.shipmentMode.touched">
+                    <small class="text-danger" *ngIf="shipmentForm.controls.shipmentMode.hasError('required')">
                         This field is required.
                     </small>
                 </div>
@@ -342,25 +356,25 @@
                     </div>
                 </div>
                 <!-- <div class="col-6" style="margin: auto 0px;">
-                    <button class="btn btn-sm btn-primary" (click)="addNewProduct()">Add New Product</button>
-                </div> -->
+                        <button class="btn btn-sm btn-primary" (click)="addNewProduct()">Add New Product</button>
+                    </div> -->
             </div>
             <div class="col-sm-12 pt-4">
                 <h5 class="text-gray">Package Details</h5>
             </div>
-            <div *ngFor="let child of newShipmentForm.controls.products.controls; let pi = index"
-                formArrayName="products">
-                <div class="row product-details" [formGroupName]="pi">
+            <!-- product form - child -->
+            <div *ngFor="let productForm of shipmentForm.controls.products.controls; let pi = index">
+                <div class="row product-details" [formGroup]="productForm">
                     <div class="col-6">
                         <label for="formGroupExampleInput" class="form-label">HSN Code <span
-                            class="required">*</span></label>
+                                class="required">*</span></label>
                         <input type="text" class="form-control" formControlName="hsnCode">
                         <div
-                            *ngIf="child.controls.hsnCode && child.controls.hsnCode.invalid && child.controls.hsnCode.touched">
-                            <small class="text-danger" *ngIf="child.controls.hsnCode.hasError('required')">
+                            *ngIf="productForm.controls.hsnCode && productForm.controls.hsnCode.invalid && productForm.controls.hsnCode.touched">
+                            <small class="text-danger" *ngIf="productForm.controls.hsnCode.hasError('required')">
                                 This field is required.
                             </small>
-                            <small class="text-danger" *ngIf="child.controls.hsnCode.hasError('pattern')">
+                            <small class="text-danger" *ngIf="productForm.controls.hsnCode.hasError('pattern')">
                                 Enter valid code.
                             </small>
                         </div>
@@ -371,26 +385,26 @@
                         <input type="number" class="form-control" formControlName="quantity" min="0"
                             oninput="validity.valid||(value='');">
                         <div
-                            *ngIf="child.controls.quantity && child.controls.quantity.invalid && child.controls.quantity.touched">
-                            <small class="text-danger" *ngIf="child.controls.quantity.hasError('required')">
+                            *ngIf="productForm.controls.quantity && productForm.controls.quantity.invalid && productForm.controls.quantity.touched">
+                            <small class="text-danger" *ngIf="productForm.controls.quantity.hasError('required')">
                                 This field is required.
                             </small>
-                            <small class="text-danger" *ngIf="child.controls.quantity.hasError('pattern')">
+                            <small class="text-danger" *ngIf="productForm.controls.quantity.hasError('pattern')">
                                 Enter valid quantity
                             </small>
                         </div>
                     </div>
                     <div class="col-6">
-                        <label for="formGroupExampleInput" class="form-label">Total Weight of Packages ( in Kg ) <span
-                                class="required">*</span></label>
+                        <label for="formGroupExampleInput" class="form-label">Total Weight of Packages ( in Kg )
+                            <span class="required">*</span></label>
                         <input type="number" class="form-control" formControlName="weight" min="0"
                             oninput="validity.valid||(value='');">
                         <div
-                            *ngIf="child.controls.weight && child.controls.weight.invalid && child.controls.weight.touched">
-                            <small class="text-danger" *ngIf="child.controls.weight.hasError('required')">
+                            *ngIf="productForm.controls.weight && productForm.controls.weight.invalid && productForm.controls.weight.touched">
+                            <small class="text-danger" *ngIf="productForm.controls.weight.hasError('required')">
                                 This field is required.
                             </small>
-                            <small class="text-danger" *ngIf="child.controls.weight.hasError('pattern')">
+                            <small class="text-danger" *ngIf="productForm.controls.weight.hasError('pattern')">
                                 Enter valid quantity
                             </small>
                         </div>
@@ -401,8 +415,8 @@
                         <input type="number" class="form-control" formControlName="productAmount" min="0"
                             oninput="validity.valid||(value='');">
                         <div
-                            *ngIf="child.controls.productAmount && child.controls.productAmount.invalid && child.controls.productAmount.touched">
-                            <small class="text-danger" *ngIf="child.controls.productAmount.hasError('required')">
+                            *ngIf="productForm.controls.productAmount && productForm.controls.productAmount.invalid && productForm.controls.productAmount.touched">
+                            <small class="text-danger" *ngIf="productForm.controls.productAmount.hasError('required')">
                                 This field is required.
                             </small>
                         </div>
@@ -412,8 +426,8 @@
                                 class="required">*</span></label>
                         <input type="text" class="form-control" formControlName="invoiceNo">
                         <div
-                            *ngIf="child.controls.invoiceNo && child.controls.invoiceNo.invalid && child.controls.invoiceNo.touched">
-                            <small class="text-danger" *ngIf="child.controls.invoiceNo.hasError('required')">
+                            *ngIf="productForm.controls.invoiceNo && productForm.controls.invoiceNo.invalid && productForm.controls.invoiceNo.touched">
+                            <small class="text-danger" *ngIf="productForm.controls.invoiceNo.hasError('required')">
                                 This field is required.
                             </small>
                         </div>
@@ -421,13 +435,14 @@
                     <div class="col-6">
                         <label for="formGroupExampleInput" class="form-label">Invoice Date <span
                                 class="required">*</span></label>
-                        <input type="date" class="form-control" formControlName="invoiceDate" (input)="onDateChange($event)">
+                        <input type="date" class="form-control" formControlName="invoiceDate"
+                            (input)="onDateChange($event)">
                         <div
-                            *ngIf="child.controls.invoiceDate && child.controls.invoiceDate.invalid && child.controls.invoiceDate.touched">
-                            <small class="text-danger" *ngIf="child.controls.invoiceDate.hasError('required')">
+                            *ngIf="productForm.controls.invoiceDate && productForm.controls.invoiceDate.invalid && productForm.controls.invoiceDate.touched">
+                            <small class="text-danger" *ngIf="productForm.controls.invoiceDate.hasError('required')">
                                 This field is required.
                             </small>
-                            <small class="text-danger" *ngIf="child.controls.weight.hasError('pattern')">
+                            <small class="text-danger" *ngIf="productForm.controls.weight.hasError('pattern')">
                                 Enter valid quantity
                             </small>
                         </div>
@@ -437,16 +452,16 @@
                                 class="required">*</span></label>
                         <textarea class="form-control" formControlName="productDescription"></textarea>
                         <div
-                            *ngIf="child.controls.productDescription && child.controls.productDescription.invalid && child.controls.productDescription.touched">
-                            <small class="text-danger" *ngIf="child.controls.productDescription.hasError('required')">
+                            *ngIf="productForm.controls.productDescription && productForm.controls.productDescription.invalid && productForm.controls.productDescription.touched">
+                            <small class="text-danger"
+                                *ngIf="productForm.controls.productDescription.hasError('required')">
                                 This field is required.
                             </small>
                         </div>
                     </div>
                     <div class="col-12">
-                        <div *ngFor="let volume of child.controls.volumes.controls; let vi = index"
-                            formArrayName="volumes">
-                            <div class="row" [formGroupName]="vi">
+                        <div *ngFor="let volumeForm of productForm.controls.volumes.controls; let vi = index">
+                            <div class="row" [formGroup]="volumeForm">
                                 <div class="col-2">
                                     <label for="formGroupExampleInput" class="form-label">Quantity <span
                                             class="required">*</span></label>
@@ -454,13 +469,13 @@
                                         oninput="validity.valid||(value='');"
                                         (change)="onVolumeQuantityChange(pi,vi,0)">
                                     <div
-                                        *ngIf="volume.controls.quantity && volume.controls.quantity.invalid && volume.controls.quantity.touched">
+                                        *ngIf="volumeForm.controls.quantity && volumeForm.controls.quantity.invalid && volumeForm.controls.quantity.touched">
                                         <small class="text-danger"
-                                            *ngIf="volume.controls.quantity.hasError('required')">
+                                            *ngIf="volumeForm.controls.quantity.hasError('required')">
                                             This field is required.
                                         </small>
                                         <small class="text-danger"
-                                            *ngIf="volume.controls.quantity.hasError('quantityMismatch')">
+                                            *ngIf="volumeForm.controls.quantity.hasError('quantityMismatch')">
                                             Volume quantity exceeds the allowed product quantity.
                                         </small>
                                     </div>
@@ -471,8 +486,9 @@
                                     <input type="number" class="form-control" formControlName="length" min="0"
                                         oninput="validity.valid||(value='');">
                                     <div
-                                        *ngIf="volume.controls.length && volume.controls.length.invalid && volume.controls.length.touched">
-                                        <small class="text-danger" *ngIf="volume.controls.length.hasError('required')">
+                                        *ngIf="volumeForm.controls.length && volumeForm.controls.length.invalid && volumeForm.controls.length.touched">
+                                        <small class="text-danger"
+                                            *ngIf="volumeForm.controls.length.hasError('required')">
                                             This field is required.
                                         </small>
                                     </div>
@@ -483,8 +499,9 @@
                                     <input type="number" class="form-control" formControlName="width" min="0"
                                         oninput="validity.valid||(value='');">
                                     <div
-                                        *ngIf="volume.controls.width && volume.controls.width.invalid && volume.controls.width.touched">
-                                        <small class="text-danger" *ngIf="volume.controls.width.hasError('required')">
+                                        *ngIf="volumeForm.controls.width && volumeForm.controls.width.invalid && volumeForm.controls.width.touched">
+                                        <small class="text-danger"
+                                            *ngIf="volumeForm.controls.width.hasError('required')">
                                             This field is required.
                                         </small>
                                     </div>
@@ -495,14 +512,15 @@
                                     <input type="number" class="form-control" formControlName="height" min="0"
                                         oninput="validity.valid||(value='');">
                                     <div
-                                        *ngIf="volume.controls.height && volume.controls.height.invalid && volume.controls.height.touched">
-                                        <small class="text-danger" *ngIf="volume.controls.height.hasError('required')">
+                                        *ngIf="volumeForm.controls.height && volumeForm.controls.height.invalid && volumeForm.controls.height.touched">
+                                        <small class="text-danger"
+                                            *ngIf="volumeForm.controls.height.hasError('required')">
                                             This field is required.
                                         </small>
                                     </div>
                                 </div>
                                 <div class="col-1" style="margin: auto 0px;">
-                                    <span *ngIf="child.controls.volumes.length>1" class="cancel-pin"
+                                    <span *ngIf="productForm.controls.volumes.length>1" class="cancel-pin"
                                         (click)="remove(pi,vi)">X</span>
                                 </div>
                             </div>
@@ -510,7 +528,8 @@
                         <div class="row">
                             @if(remainingQuantity>0){
                             <p>
-                                Add <span style="color: red;">{{ remainingQuantity }} more product</span>, to complete
+                                Add <span style="color: red;">{{ remainingQuantity }} more product</span>, to
+                                complete
                                 order.
                             </p>
                             }
@@ -549,17 +568,16 @@
                     </div>
                 </div>
                 <!-- <div class="col-6" style="margin: auto 0px;">
-                    <button class="btn btn-sm btn-primary" (click)="addNewProduct()">Add New Product</button>
-                </div> -->
+                        <button class="btn btn-sm btn-primary" (click)="addNewProduct()">Add New Product</button>
+                    </div> -->
             </div>
             <div class="col-sm-12 pt-4">
                 <h5 class="text-gray">Add Barcode</h5>
             </div>
             <div formArrayName="products">
-                <div *ngFor="let child of newShipmentForm.controls.products.controls; let pi = index"
-                    [formGroupName]="pi">
+                <div *ngFor="let child of shipmentForm.controls.products.controls; let pi = index" [formGroupName]="pi">
                     <div formArrayName="volumes">
-                        <div *ngFor="let volume of newShipmentForm.controls.products.at(0).controls.volumes.controls; let vi = index"
+                        <div *ngFor="let volume of shipmentForm.controls.products.at(0).controls.volumes.controls; let vi = index"
                             [formGroupName]="vi">
                             <div class="accordion" id="accordionExample">
                                 <div class="accordion-item">
@@ -588,7 +606,8 @@
                                                         class="iconbox-dash d-flex bg-white px-2 py-1 border border-1 rounded-3">
                                                         <div class="textbox-dash">
                                                             <p class="mb-1 newfs">Length</p>
-                                                            <h6 class="mb-0">{{volume.controls.length.value}} cm</h6>
+                                                            <h6 class="mb-0">{{volume.controls.length.value}} cm
+                                                            </h6>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -606,7 +625,8 @@
                                                         class="iconbox-dash d-flex bg-white px-2 py-1 border border-1 rounded-3">
                                                         <div class="textbox-dash">
                                                             <p class="mb-1 newfs">Height</p>
-                                                            <h6 class="mb-0">{{volume.controls.height.value}} cm</h6>
+                                                            <h6 class="mb-0">{{volume.controls.height.value}} cm
+                                                            </h6>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -638,8 +658,8 @@
                 </div>
             </div>
         </div>
-    </form>
-    <form [formGroup]="orderForm" *ngIf="steps==5">
+    </div>
+    <div *ngIf="steps==5">
         <div class="row g-2">
             <div class="row">
                 <div class="col-sm-6 d-flex justify-content-between">
@@ -675,14 +695,14 @@
             </div>
             <div class="col-12">
                 <label class="form-label">Payment Mode <span class="required">*</span></label>
-                <select *ngIf="!newShipmentForm.controls.toPay.value" class="select form-select"
-                    aria-label="Default select example" formControlName="paymentType">
+                <select *ngIf="!orderForm.controls.forwardShipments.at(0).controls.toPay.value"
+                    class="select form-select" aria-label="Default select example" formControlName="paymentType">
                     <option selected disabled>Choose option</option>
                     <option *ngIf="loginUserdata?.isWallet" [ngValue]="'WalletPayment'">Wallet Payment</option>
                     <option [ngValue]="'OnlinePayment'">Online Payment</option>
                 </select>
-                <select *ngIf="newShipmentForm.controls.toPay.value" class="select form-select"
-                    aria-label="Default select example" formControlName="paymentType">
+                <select *ngIf="orderForm.controls.forwardShipments.at(0).controls.toPay.value"
+                    class="select form-select" aria-label="Default select example" formControlName="paymentType">
                     <option selected [ngValue]="'ToPay'">Topay</option>
                 </select>
                 <div
@@ -693,7 +713,7 @@
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 </div>
 
 <div class="modal-footer border-t-0 save-employe-details -flex justify-content-between align-items-center">

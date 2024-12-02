@@ -15,7 +15,8 @@
         <div class="customer-details mt-4 overflow-hidden border-bottom-0">
             <h3 class="mb-0"><span> Order Details </span>
                 <div>
-                    <button *ngIf="orderDetails.pickups.length == 0" class="btn btn-sm btn-danger me-3" (click)="generatePickup()">Add Pickup</button>
+                    <button *ngIf="orderDetails.pickups.length == 0" class="btn btn-sm btn-danger me-3"
+                        (click)="generatePickup()">Add Pickup</button>
                     <button class="btn btn-sm btn-addemployee" (click)="addQuery(orderDetails.id.toString())">Add
                         Query</button>
                 </div>
@@ -73,68 +74,74 @@
             </div>
         </div>
     </div>
-    
-    <div class="col-sm-6 mt-4 customer-details px-0">
-        <h3 class="px-3">Shipment Details</h3>
-        <ul class="mb-0">
-            <li>
-                <p>Name</p>
-                <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.name}}</span>
-            </li>
-            <li>
-                <p>Phone</p>
-                <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.phone}}</span>
-            </li>
-            <li>
-                <p>Pincode</p>
-                <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.pincode}}</span>
-            </li>
-            <li>
-                <p>Address</p>
-                <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.address}}</span>
-            </li>
-            <li>
-                <p>State</p>
-                <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.state}}</span>
-            </li>
-            <li>
-                <p>City</p>
-                <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.city}}</span>
-            </li>
-        </ul>
-        <div class="px-2">
-            <hr class="border-gray">
-        </div>
-        <ul class="mb-0">
-            <li>
-                <p>HSN Code</p>
-                <div class="dash-left">-</div>
-                <span>{{orderDetails.forwardShipments.at(0)?.products?.at(0)?.hsnCode}}</span>
-            </li>
-            <li>
-                <p>Way Bill</p>
-                <div class="dash-left">-</div>
-                <span>{{orderDetails.waybillNo}}</span>
-            </li>
-            <li>
-                <p>Total Wt</p>
-                <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.products?.at(0)?.weight}}
-                    kg</span>
-            </li>
-            <li>
-                <p>Total Qty</p>
-                <div class="dash-left">-</div>
-                <span>{{orderDetails.forwardShipments.at(0)?.products?.at(0)?.quantity}}</span>
-            </li>
-        </ul>
-        <h5>Package Details</h5>
-        <div class="packagebox">
-            <div class="card-package" [ngStyle]="package.isMatchBarcode ? {border:'2px solid blue'}:{}"
-                *ngFor="let package of orderDetails.forwardShipments.at(0)?.products?.at(0)?.volumes, index as i">
-                <p class="">Package {{i+1}} </p>
-                <span class="me-2 d-inline-block">Qty: {{package.quantity}}</span>
-                <span class="mx-2 d-inline-block">Wt(V): {{package.height * package.width * package.length}}
-                    m<sup>3</sup></span>
+
+    <div class="col-sm-12">
+        <div class="customer-details mt-4 overflow-hidden border-bottom-0">
+            <h3 class="px-3">Shipment Details</h3>
+            <div class="row">
+                <div class="col-6 border-end border-gray">
+                    <ul class="mb-0 border-right-4">
+                        <li>
+                            <p>Name</p>
+                            <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.name}}</span>
+                        </li>
+                        <li>
+                            <p>Phone</p>
+                            <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.phone}}</span>
+                        </li>
+                        <li>
+                            <p>Pincode</p>
+                            <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.pincode}}</span>
+                        </li>
+                        <li>
+                            <p>Address</p>
+                            <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.address}}</span>
+                        </li>
+                        <li>
+                            <p>State</p>
+                            <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.state}}</span>
+                        </li>
+                        <li>
+                            <p>City</p>
+                            <div class="dash-left">-</div><span>{{orderDetails.forwardShipments.at(0)?.city}}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-6">
+                    <ul class="mb-0">
+                        <li>
+                            <p>HSN Code</p>
+                            <div class="dash-left">-</div>
+                            <span>{{orderDetails.forwardShipments.at(0)?.products?.at(0)?.hsnCode}}</span>
+                        </li>
+                        <li>
+                            <p>Way Bill</p>
+                            <div class="dash-left">-</div>
+                            <span>{{orderDetails.waybillNo}}</span>
+                        </li>
+                        <li>
+                            <p>Total Wt</p>
+                            <div class="dash-left">-</div>
+                            <span>{{orderDetails.forwardShipments.at(0)?.products?.at(0)?.weight}}
+                                kg</span>
+                        </li>
+                        <li>
+                            <p>Total Qty</p>
+                            <div class="dash-left">-</div>
+                            <span>{{orderDetails.forwardShipments.at(0)?.products?.at(0)?.quantity}}</span>
+                        </li>
+                    </ul>
+                    <h5>Package Details</h5>
+                    <div class="packagebox">
+                        <div class="card-package" [ngStyle]="package.isMatchBarcode ? {border:'2px solid blue'}:{}"
+                            *ngFor="let package of orderDetails.forwardShipments.at(0)?.products?.at(0)?.volumes, index as i">
+                            <p class="">Package {{i+1}} </p>
+                            <span class="me-2 d-inline-block">Qty: {{package.quantity}}</span>
+                            <span class="mx-2 d-inline-block">Wt(V): {{package.height * package.width * package.length}}
+                                m<sup>3</sup></span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
