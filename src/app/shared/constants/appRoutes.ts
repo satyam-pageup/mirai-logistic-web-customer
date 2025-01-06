@@ -26,5 +26,6 @@ export const appRoutes = {
         base:"/cod",
         paidCod:"cod-returns"
     },
+    ratecard:'ratecard'
 
 }

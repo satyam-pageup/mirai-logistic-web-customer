@@ -17,6 +17,7 @@ const routes: Routes = [
       { path: 'wallet', loadChildren: () => import('./wallet/wallet.module').then(m => m.WalletModule), canActivate: [authGuard], title: "Wallet" },
       { path: 'rate-calculator', loadChildren: () => import('./rate-calculator/rate-calculator.module').then(m => m.RateCalculatorModule), canActivate: [authGuard], title: "Rate Calculator" },
       { path: 'cod', loadChildren: () => import('./cod-management/cod-management.module').then(m => m.CodManagementModule), canActivate: [authGuard], title: "COD Returns" },
+      { path: 'ratecard', loadChildren: () => import('./ratecard/ratecard.module').then(m => m.RatecardModule), canActivate: [authGuard], title: "Ratecard" },
  
     ]
   },

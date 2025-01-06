@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="d-flex align-items-center justify-content-center text-label-container">
+                    <label>Service</label>
+                    <select class="form-select" [(ngModel)]="payload.serviceType" (change)="onSelectionChange($event)">
+                        <option [ngValue]="'Surface'">Surface</option>
+                        <option [ngValue]="'SurfacePremium'">Surface Premium</option>
+                        <option [ngValue]="'Air'">Air</option>
+                        <option [ngValue]="'AirPremium'">Air Premium</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 mt-3 mb-2">
+        <div class="zone-price-modal">
+            <div class="zone-price-body">
+                <div class="zone-matrix">
+                    <div class="zone-header">
+                        <div class="zone-cell" style="color: #000;">#</div>
+                        <div class="zone-cell" *ngFor="let zone of zoneList" [attr.title]="zone.name">{{
+                            zone.shortName }}</div>
+                    </div>
+                    <ng-content>
+                        <div class="zone-row" *ngFor="let sourceZone of zoneList; let i = index">
+                            <div class="zone-cell header" [attr.title]="sourceZone.name">{{ sourceZone.shortName }}
+                            </div>
+
+                            <div class="zone-cell" *ngFor="let destinationZone of zoneList; let j = index">
+                                ₹{{ getRateForZones(sourceZone.id, destinationZone.id) }}
+                            </div>
+                        </div>
+                    </ng-content>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isErrorComing">
+        <div class="d-flex align-items-center justify-content-center flex-column mb-3 w-100">
+            <img src="../../../assets/images/no-data-found.png" alt="" style="width: 320px;">
+            <h3>
+                {{this.errorMessage}}
+            </h3>
+        </div>
+    </div>
+</div>

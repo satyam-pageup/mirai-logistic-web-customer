@@ -109,6 +109,8 @@ export const ApiRoutes = {
     //notification
     notification:{
         getNotification:'Notification'
-    }
+    },
+
+    zonecombo:'Zone/Combo',
     
 }

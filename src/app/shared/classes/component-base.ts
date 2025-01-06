@@ -10,6 +10,7 @@ import { ToastrService } from "ngx-toastr";
 import { LoaderService } from "../services/loader.service";
 import { Customer } from "../interface/response/auth.response";
 import { AuthService } from "../services/auth.service";
+import { ApiRoutes } from "../constants/apiRoutes";
 
 @Component({
     template: ``,
@@ -20,6 +21,7 @@ export class ComponentBase implements OnDestroy {
     public subscritionsArray: Array<Subscription> = [];
     public baseUrl: string = environment.baseUrl;
     public appRoute = appRoutes;
+    public apiRoute = ApiRoutes;
     public userDetail: Customer = inject(AuthService).loginUserDetail;
     // public baseUrl: string = "http://localhost:3000";
     public dialogService: DialogService = inject(DialogService);
