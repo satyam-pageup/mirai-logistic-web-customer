@@ -62,8 +62,26 @@
                 </div>
             </div>
         </div>
-        <div class="notification mx-3">
-            <img src="../../../assets/images/notification.png" alt="">
+        <div class="notification mx-3" (click)="toggleNotifications()">
+            <!-- <img src="../../../assets/images/notification.png" alt=""> -->
+            <i class="bx bx-bell"></i>
+            <span class="notification-count" *ngIf="totalUnreadNotification > 0">{{totalUnreadNotification}}</span>
+        </div>
+        <div *ngIf="showNotifications" class="scroll-container" id="scrollable-container" (scroll)="onScroll($event)">
+            <div *ngFor="let item of notificationList" class="list-group">
+                <a class="list-group-item list-group-item-action mb-1"
+                    [ngClass]="{'read-class': item.isRead, 'unread-class': !item.isRead}">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{item.title}}</h5>
+                    </div>
+                    <p class="mb-1">{{item.body}}</p>
+                </a>
+            </div>
+            <div *ngIf="isLoading" class="loading">
+                <div class="d-flex justify-content-center align-items-center">
+                    <app-new-loader *ngIf="true"></app-new-loader>
+                </div>
+            </div>
         </div>
         <div class="separateborder mx-2"></div>
         <div class="userprofile-img mx-3 dropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -80,7 +98,6 @@
 
 <ng-template #updateOrderTemplate>
     <ng-container>
-        <app-update-profile [referenceData]="customerData"
-            (EEformValue)="getFormDataE($event)"></app-update-profile>
+        <app-update-profile [referenceData]="customerData" (EEformValue)="getFormDataE($event)"></app-update-profile>
     </ng-container>
-  </ng-template>
+</ng-template>

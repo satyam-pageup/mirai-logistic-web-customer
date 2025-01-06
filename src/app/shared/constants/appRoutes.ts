@@ -25,5 +25,6 @@ export const appRoutes = {
     cod:{
         base:"/cod",
         paidCod:"cod-returns"
-    }
+    },
+
 }

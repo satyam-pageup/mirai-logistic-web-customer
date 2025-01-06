@@ -84,8 +84,8 @@
                             <input type="number" class="form-control w-75" formControlName="quantity" min="0"
                                 oninput="validity.valid||(value='');">
                             <div
-                                *ngIf="this.child.controls.quantity && this.child.controls.quantity.invalid && this.child.controls.quantity.touched">
-                                <small class="text-danger" *ngIf="this.child.controls.quantity.hasError('required')">
+                                *ngIf="child.controls.quantity && child.controls.quantity.invalid && child.controls.quantity.touched">
+                                <small class="text-danger" *ngIf="child.controls.quantity.hasError('required')">
                                     This field is required.
                                 </small>
                             </div>
@@ -95,8 +95,8 @@
                             <input type="number" class="form-control w-75" formControlName="weight" min="0"
                                 oninput="validity.valid||(value='');">
                             <div
-                                *ngIf="this.child.controls.weight && this.child.controls.weight.invalid && this.child.controls.weight.touched">
-                                <small class="text-danger" *ngIf="this.child.controls.weight.hasError('required')">
+                                *ngIf="child.controls.weight && child.controls.weight.invalid && child.controls.weight.touched">
+                                <small class="text-danger" *ngIf="child.controls.weight.hasError('required')">
                                     This field is required.
                                 </small>
                             </div>
@@ -113,12 +113,12 @@
                             <input type="number" class="form-control" formControlName="quantity" min="0"
                                 oninput="validity.valid||(value='');" (change)="onVolumeQuantityChange(pi,vi,0)">
                             <div
-                                *ngIf="this.volume.controls.quantity && this.volume.controls.quantity.invalid && this.volume.controls.quantity.touched">
-                                <small class="text-danger" *ngIf="this.volume.controls.quantity.hasError('required')">
+                                *ngIf="volume.controls.quantity && volume.controls.quantity.invalid && volume.controls.quantity.touched">
+                                <small class="text-danger" *ngIf="volume.controls.quantity.hasError('required')">
                                     This field is required.
                                 </small>
                                 <small class="text-danger"
-                                    *ngIf="this.volume.controls.quantity.hasError('quantityMismatch')">
+                                    *ngIf="volume.controls.quantity.hasError('quantityMismatch')">
                                     Volume quantity exceeds the allowed product quantity.
                                 </small>
                             </div>
@@ -129,8 +129,8 @@
                             <input type="number" class="form-control" formControlName="length" min="0"
                                 oninput="validity.valid||(value='');">
                             <div
-                                *ngIf="this.volume.controls.length && this.volume.controls.length.invalid && this.volume.controls.length.touched">
-                                <small class="text-danger" *ngIf="this.volume.controls.length.hasError('required')">
+                                *ngIf="volume.controls.length && volume.controls.length.invalid && volume.controls.length.touched">
+                                <small class="text-danger" *ngIf="volume.controls.length.hasError('required')">
                                     This field is required.
                                 </small>
                             </div>
@@ -141,8 +141,8 @@
                             <input type="number" class="form-control" formControlName="width" min="0"
                                 oninput="validity.valid||(value='');">
                             <div
-                                *ngIf="this.volume.controls.width && this.volume.controls.width.invalid && this.volume.controls.width.touched">
-                                <small class="text-danger" *ngIf="this.volume.controls.width.hasError('required')">
+                                *ngIf="volume.controls.width && volume.controls.width.invalid && volume.controls.width.touched">
+                                <small class="text-danger" *ngIf="volume.controls.width.hasError('required')">
                                     This field is required.
                                 </small>
                             </div>
@@ -153,8 +153,8 @@
                             <input type="number" class="form-control" formControlName="height" min="0"
                                 oninput="validity.valid||(value='');">
                             <div
-                                *ngIf="this.volume.controls.height && this.volume.controls.height.invalid && this.volume.controls.height.touched">
-                                <small class="text-danger" *ngIf="this.volume.controls.height.hasError('required')">
+                                *ngIf="volume.controls.height && volume.controls.height.invalid && volume.controls.height.touched">
+                                <small class="text-danger" *ngIf="volume.controls.height.hasError('required')">
                                     This field is required.
                                 </small>
                             </div>

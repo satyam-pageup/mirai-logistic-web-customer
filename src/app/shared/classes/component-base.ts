@@ -15,7 +15,6 @@ import { AuthService } from "../services/auth.service";
     template: ``,
 })
 
-
 export class ComponentBase implements OnDestroy {
 
     public subscritionsArray: Array<Subscription> = [];
@@ -31,6 +30,7 @@ export class ComponentBase implements OnDestroy {
         isSilentCall: false,
         isSendNotification: false
     }
+
     public myHeader!: HttpHeaders;
     public _router: Router = inject(Router);
     public _httpClient: HttpClient = inject(HttpClient);

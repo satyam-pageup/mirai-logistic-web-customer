@@ -9,6 +9,8 @@ export class LoaderService {
     public showNewLoaderE: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private apiCount: number = 0;
 
+
+    //todo
     public showLoader() {
         this.apiCount++;
         if (this.apiCount > 0) {

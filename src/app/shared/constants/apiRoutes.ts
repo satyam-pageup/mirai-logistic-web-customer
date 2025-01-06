@@ -105,5 +105,10 @@ export const ApiRoutes = {
         activDeactiveWallet: (id: number) => `Customer/ActiveDeactiveWallet/${id}`,
         rechargeWallet: 'Customer/RechargeWallet',
     },
+
+    //notification
+    notification:{
+        getNotification:'Notification'
+    }
     
 }
