@@ -44,6 +44,7 @@ export const ApiRoutes = {
         singleOrderView: (id: string) => `Order/${id}`,
         deleteOrder: (id: string) => `Order/${id}`,
         addOrder: 'Order',
+        updateOrder: 'Order/Update',
         addBulkOrder: 'Order/Bulk',
         getOrderByScanner: (scannerCode: string) => `Order/Barcode/${scannerCode}`,
 

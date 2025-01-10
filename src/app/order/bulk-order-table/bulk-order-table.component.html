@@ -70,7 +70,8 @@
                                     </div>
                                 </td>
                                 <td formGroupName="warehouse">
-                                    <input type="text" class="form-control" formControlName="wPincode" maxlength="6">
+                                    <input type="text" class="form-control" formControlName="wPincode" maxlength="6"
+                                        (onchange)="onPincodeChange(i,'Warehouse')">
                                     <div
                                         *ngIf="item.controls.warehouse.controls.wPincode && item.controls.warehouse.controls.wPincode.invalid && item.controls.warehouse.controls.wPincode.touched">
                                         <small class="text-danger"
@@ -114,8 +115,14 @@
                                 </td>
                                 <td>
                                     <input type="text" class="form-control" formControlName="phone" maxlength="10">
-                                    <div *ngIf="item.controls.phone.invalid && item.controls.phone.touched">
-                                        <small class="text-danger">This field is required.</small>
+                                    <div
+                                        *ngIf="item.controls.phone && item.controls.phone.invalid && item.controls.phone.touched">
+                                        <small class="text-danger" *ngIf="item.controls.phone.hasError('required')">
+                                            This field is required.
+                                        </small>
+                                        <small class="text-danger" *ngIf="item.controls.phone.hasError('pattern')">
+                                            Enter phone number.
+                                        </small>
                                     </div>
                                 </td>
                                 <td>
@@ -126,7 +133,7 @@
                                 </td>
                                 <td>
                                     <input type="text" class="form-control" formControlName="pincode"
-                                        (change)="onPincodeChange(i)" maxlength="6">
+                                        (change)="onPincodeChange(i,'Consignee')" maxlength="6">
                                     <div *ngIf="item.controls.pincode.invalid && item.controls.pincode.touched">
                                         <small class="text-danger">Enter valid pin code.</small>
                                     </div>
@@ -172,12 +179,14 @@
                                     <select class="select form-select " aria-label="Default select example"
                                         formControlName="shipmentMode">
                                         <option selected disabled>Choose option</option>
-                                        <option *ngIf="shipmentMode.at(i)?.surface"
-                                            [ngValue]="'Surface'">Surface</option>
-                                        <option *ngIf="shipmentMode?.at(i)?.surfacePremium" [ngValue]="'SurfacePremium'">
+                                        <option *ngIf="shipmentMode.at(i)?.surface" [ngValue]="'Surface'">Surface
+                                        </option>
+                                        <option *ngIf="shipmentMode?.at(i)?.surfacePremium"
+                                            [ngValue]="'SurfacePremium'">
                                             Surface Premium</option>
                                         <option *ngIf="shipmentMode?.at(i)?.air" [ngValue]="'Air'">Air</option>
-                                        <option *ngIf="shipmentMode?.at(i)?.airPremium" [ngValue]="'AirPremium'">Air Premium
+                                        <option *ngIf="shipmentMode?.at(i)?.airPremium" [ngValue]="'AirPremium'">Air
+                                            Premium
                                         </option>
                                         <!-- <option *ngIf="shipmentMode?.oda" [ngValue]="'Default'">Default (ODA)</option> -->
                                     </select>
@@ -225,15 +234,13 @@
                                 </td>
                                 <td>
                                     <input type="text" class="form-control" formControlName="invoiceNo">
-                                    <div
-                                        *ngIf="item.controls.invoiceNo.invalid && item.controls.invoiceNo.touched">
+                                    <div *ngIf="item.controls.invoiceNo.invalid && item.controls.invoiceNo.touched">
                                         <small class="text-danger">This field is required.</small>
                                     </div>
                                 </td>
                                 <td>
                                     <input type="date" class="form-control" formControlName="invoiceDate">
-                                    <div
-                                        *ngIf="item.controls.invoiceDate.invalid && item.controls.invoiceDate.touched">
+                                    <div *ngIf="item.controls.invoiceDate.invalid && item.controls.invoiceDate.touched">
                                         <small class="text-danger">This field is required.</small>
                                     </div>
                                 </td>

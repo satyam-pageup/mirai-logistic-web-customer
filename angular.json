@@ -38,7 +38,8 @@
                 "input": "public"
               },
               "src/assets",
-              "src/firebase-messaging-sw.js"
+              "src/firebase-messaging-sw.js",
+              "src/web.config"
             ],
             "styles": [
               "src/styles.scss",

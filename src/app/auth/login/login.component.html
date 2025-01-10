@@ -15,12 +15,11 @@
                     <div class="logobox mb-5">
                         <img class="w-100" src="../../../assets/images/mirai-new-logo.png" alt="" />
                     </div>
-
+                    
                     <div id="google-btn"></div>
-
                     <form [formGroup]="loginFormGroup" class="row g-3 mt-5 needs-validation" *ngIf="steps !== 3">
                         <div class="col-md-12 position-relative" *ngIf="steps == 1">
-                            <input type="text" class="form-control" maxlength="10" placeholder="Enter phone number"
+                            <input type="text" class="form-control border border-secondary" maxlength="10" placeholder="Enter phone number"
                                 formControlName="phoneNo" />
                             <div
                                 *ngIf="this.loginFormGroup.controls.phoneNo && this.loginFormGroup.controls.phoneNo.invalid && this.loginFormGroup.controls.phoneNo.touched">

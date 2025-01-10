@@ -467,7 +467,8 @@
                                             class="required">*</span></label>
                                     <input type="number" class="form-control" formControlName="quantity" min="0"
                                         oninput="validity.valid||(value='');"
-                                        (change)="onVolumeQuantityChange(pi,vi,0)">
+                                        (change)="onQuantityChange(pi)">
+                                        <!-- (change)="onVolumeQuantityChange(pi,vi,0)"> -->
                                     <div
                                         *ngIf="volumeForm.controls.quantity && volumeForm.controls.quantity.invalid && volumeForm.controls.quantity.touched">
                                         <small class="text-danger"
@@ -521,7 +522,8 @@
                                 </div>
                                 <div class="col-1" style="margin: auto 0px;">
                                     <span *ngIf="productForm.controls.volumes.length>1" class="cancel-pin"
-                                        (click)="remove(pi,vi)">X</span>
+                                        (click)="removeQuant(pi,vi)">X</span>
+                                        <!-- (click)="remove(pi,vi)">X</span> -->
                                 </div>
                             </div>
                         </div>

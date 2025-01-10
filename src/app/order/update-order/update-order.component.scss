@@ -1,0 +1,224 @@
+.select-property {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-addemployee {
+    background: #5D60EF;
+}
+
+.save-employe-details .btn-addemployee {
+    border-radius: 5px !important;
+}
+
+.btn-addemployee:hover {
+    background: #383cd7;
+}
+
+.modal-header .btn-close-red {
+    background-color: #fef5f5;
+    border: solid thin #DE3333;
+    color: #DE3333;
+    border-radius: 8px !important;
+    padding: 6px 14px;
+}
+
+
+
+$primaryColour: #5d60ef;
+$primaryColourLight: #E6F9F6;
+$baseFont: #444A55;
+$lightGrey: #dee2e6;
+$mediumGrey: #8E9299;
+$errorRed: #d90429;
+
+.file-uploader {
+    width: 100%;
+    border: 2px dashed $lightGrey;
+    border-radius: 6px;
+    transition: 0.22s ease;
+    position: relative;
+    font-weight: 500;
+
+    .primary-icon {
+        transition: 0.2s ease;
+    }
+
+    &:hover {
+        background: #E6F9F6;
+        border: 2px dashed $primaryColour;
+
+        .primary-icon {
+            color: $primaryColour;
+        }
+    }
+
+    .drop-cta {
+        display: none;
+    }
+
+    .downloading-icon {
+        position: absolute;
+        color: $primaryColour;
+        top: -50%;
+        opacity: 0;
+    }
+
+    &.is-dragover {
+        border-color: $primaryColour;
+        background: $primaryColourLight;
+        border-style: solid;
+
+        & * {
+            pointer-events: none;
+        }
+
+        .file-upload-instructions {
+            display: none;
+        }
+
+        .drop-cta {
+            display: block;
+        }
+
+        .primary-icon {
+            color: rgba($primaryColour, 0.16);
+            transition: 0.22s ease;
+        }
+
+        .downloading-icon {
+            animation: fadeInOutSlideInOut 1s ease infinite;
+        }
+
+        &.is-wrong-filetype {
+            border-color: $errorRed;
+            background: rgba($errorRed, 0.08);
+
+            .primary-icon {
+                color: rgba($errorRed, 0.1);
+            }
+
+            .downloading-icon {
+                display: none;
+            }
+
+            .text-danger {
+                animation: fadeInGrow 0.4s ease;
+                font-size: 1.5rem;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                opacity: 1;
+                transform: translate(-0.75rem, -0.75rem);
+            }
+
+            .drop-cta {
+                color: $errorRed;
+            }
+        }
+    }
+
+    // &:hover {
+    //  border-color: $mediumPink;
+    //  .icon-container {
+    //    color: $primaryColour;
+    //  }
+    // }
+    .icon-container {
+        color: $lightGrey;
+        width: 64px;
+        height: 64px;
+        text-align: center;
+        display: block;
+        transition: 0.22s ease;
+        position: relative;
+    }
+
+    .file-uploader-body,
+    .file-uploader-footer {
+        color: $baseFont;
+
+        p {
+            margin: 0;
+        }
+    }
+
+    .file-uploader-body,
+    .file-uploader-footer {
+        a {
+            color: $primaryColour;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        label {
+            color: $primaryColour;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+
+    @media (hover: hover) {}
+
+    @media (hover: none) {}
+}
+
+@media (hover: none) {
+    .hide-non-touch {
+        display: none;
+    }
+}
+
+@keyframes fadeInOutSlideInOut {
+
+    10%,
+    90% {
+        opacity: 1;
+        top: 5%;
+    }
+
+    100% {
+        top: 50%;
+    }
+}
+
+@keyframes fadeInGrow {
+    0% {
+        transform: translate(-0.75rem, -0.75rem) scale(0.5);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translate(-0.75rem, -0.75rem) scale(1);
+        opacity: 1;
+    }
+}
+
+
+button {
+    color: #090909;
+    padding: 4px 20px;
+    margin-left: 3px;
+    font-size: 14px;
+    border-radius: 0.5em;
+    background: #e8e8e8;
+    cursor: pointer;
+    border: 1px solid #e8e8e8;
+    transition: all 0.3s;
+    // box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+}
+
+button:hover {
+    border: 1px solid white;
+}
+
+button:active {
+    box-shadow: 4px 4px 12px #c5c5c5, -4px -4px 12px #ffffff;
+}
+
+
+.required {
+    color: red;
+    font-weight: 500;
+}
+

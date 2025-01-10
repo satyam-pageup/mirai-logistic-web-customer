@@ -18,13 +18,14 @@ import { environment } from '../../../environments/environment.development';
 })
 export class OrderDetailsComponent extends ComponentBase implements OnInit {
   @ViewChild('upsertOrderTemplate') modalTemplate1!: TemplateRef<any>;
-  @ViewChild('generatePickupTemplate') modalTemplate2!: TemplateRef<any>;
   @ViewChild('chooseOrderType') modalTemplate3!: TemplateRef<any>;
+  @ViewChild('updateOrder') updateOrder!: TemplateRef<any>;
   public modelRef?: BsModalRef;
   resolve: any;
   public isEditCase: boolean = false;
+  public orderId: string = '';
 
-  public orderList!: IOrderDetails[];
+  public orderList: IOrderDetails[] = [];
   public isErrorComing: boolean = false;
   public totalCustomerCount: number = 0;
   public totalCount: number = 0;
@@ -33,7 +34,7 @@ export class OrderDetailsComponent extends ComponentBase implements OnInit {
   public searchInput: string = '';
   public userSearchSubject: Subject<string> = new Subject<string>();
   private onDestroy$: Subject<void> = new Subject<void>();
-  
+
   public payload: IOrderDetailsRequest = {
     search: "",
     pageIndex: 1,
@@ -50,27 +51,8 @@ export class OrderDetailsComponent extends ComponentBase implements OnInit {
     customerId: null
   }
 
-  public referenceData: IOrderDetails = {
-    id: 0,
-    customerId: 0,
-    customerName: '',
-    orderDate: '',
-    orderId: '',
-    orderNo: '',
-    totalAmount: 0,
-    deliveryType: '',
-    sourcePincode: '',
-    destinationPincode: '',
-    sourceCity: '',
-    destinationCity: '',
-    orderStatus: '',
-    isActive: false,
-    pickUpCreated: false,
-    pickUpDays: 0,
-    customerOrderStatus: '',
-  };
 
-  constructor( private modalService: BsModalService, private router: Router) {
+  constructor(private modalService: BsModalService, private router: Router) {
     super();
   }
 
@@ -116,78 +98,59 @@ export class OrderDetailsComponent extends ComponentBase implements OnInit {
     this.payload.search = this.searchInput.trim();
     this.loaderService.showLoader();
     this.postAPICall<IOrderDetailsRequest, Identity<IResponseOrder<IOrderDetails>>>(ApiRoutes.order.getAllOrders, this.payload, this.headerOption)
-    .pipe(
-      takeUntil(this.onDestroy$)
-    )
-    .subscribe({
-      next: (res) => {
-        if (res?.data) {
-          this.orderList = res.data.orders;
-          this.totalCustomerCount = res.data.total;
-          this.totalCount = this.totalCustomerCount / this.payload.top;
-          this.isErrorComing = false;
-        }
-        else {
-          this.errorMessage = `Related to the search input '${this.searchInput}', no employee was found.`
-          this.isErrorComing = true;
-        }
-      },
-      error:(err)=>{
-        this.toasterService.error(err);
-      },
-      complete:()=> {
-        this.loaderService.hideLoader();
-      },
-    })
+      .pipe(
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe({
+        next: (res) => {
+          if (res?.data) {
+            this.orderList = res.data.orders;
+            this.totalCustomerCount = res.data.total;
+            this.totalCount = this.totalCustomerCount / this.payload.top;
+            this.isErrorComing = false;
+          }
+          else {
+            this.errorMessage = `Related to the search input '${this.searchInput}', no employee was found.`
+            this.isErrorComing = true;
+          }
+        },
+        error: (err) => {
+          this.toasterService.error(err);
+        },
+        complete: () => {
+          this.loaderService.hideLoader();
+        },
+      })
   }
 
   public onSelectionChange(event: any) {
     this.getOrderList();
   }
 
-  public upsertorder(index:number){
+  public addOrder() {
     const config = {
       ignoreBackdropClick: true,
       class: 'modal-lg'
     };
-    if (index == -1) {
-      this.isEditCase = false;
-      this.referenceData = {
-        id: index,
-        customerId: 0,
-        customerName: '',
-        orderDate: '',
-        orderId: '',
-        orderNo: '',
-        totalAmount: 0,
-        deliveryType: '',
-        sourcePincode: '',
-        destinationPincode: '',
-        sourceCity: '',
-        destinationCity: '',
-        orderStatus: '',
-        isActive: false,
-        pickUpCreated: false,
-        pickUpDays: 0,
-        customerOrderStatus: '',
-      }
-      this.modelRef = this.modalService.show(this.modalTemplate1, config);
-      return new Promise((resolve) => {
-        this.resolve = resolve;
-      })
-    }
-    else {
-      this.isEditCase = true;
-      this.referenceData = this.orderList[index]
-      console.log(this.referenceData)
-      this.modelRef = this.modalService.show(this.modalTemplate1, config);
-      return new Promise((resolve) => {
-        this.resolve = resolve;
-      })
-    }
+    this.modelRef = this.modalService.show(this.modalTemplate1, config);
+    return new Promise((resolve) => {
+      this.resolve = resolve;
+    });
   }
 
-  public bulkOrder(){
+  public upsertorder(id: string) {
+    const config = {
+      ignoreBackdropClick: true,
+      class: 'modal-lg'
+    };
+    this.orderId = id;
+    this.modelRef = this.modalService.show(this.updateOrder, config);
+    return new Promise((resolve) => {
+      this.resolve = resolve;
+    });
+  }
+
+  public bulkOrder() {
     const config = {
       ignoreBackdropClick: true,
       class: 'modal-lg'
@@ -210,15 +173,6 @@ export class OrderDetailsComponent extends ComponentBase implements OnInit {
         }
       }
     )
-  }
-
-  public generatePickup(index: number) {
-    const config = {
-      ignoreBackdropClick: true,
-      class: 'modal-lg'
-    };
-    this.referenceData = this.orderList[index]
-    this.modelRef = this.modalService.show(this.modalTemplate2, config);
   }
 
   public onSearchInputChange() {
@@ -250,7 +204,7 @@ export class OrderDetailsComponent extends ComponentBase implements OnInit {
   public orderView(orderId: string) {
     this.router.navigate([this.appRoute.order.base, this.appRoute.order.summary], { queryParams: { guid: orderId } });
   }
-  
+
   public checkOrderStatus(index: number): boolean {
     const orderStatus = this.orderList.at(index)?.orderStatus;
     const excludedStatuses = [

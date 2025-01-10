@@ -9,7 +9,7 @@ import { NgOtpInputModule } from 'ng-otp-input';
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     CommonModule,

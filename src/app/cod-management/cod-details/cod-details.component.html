@@ -27,9 +27,12 @@
         </table>
     </div>
 
-    <div *ngIf="isErrorComing" class="d-flex align-items-center justify-content-center mb-3">
-        <div style=" border-radius: 10px; background-color: rgb(233, 233, 233); width: 100%; text-align: center;">
-            {{this.errorMessage}}
+    <div *ngIf="isErrorComing">
+        <div class="d-flex align-items-center justify-content-center flex-column mb-3 w-100">
+            <img src="../../../assets/images/no-data-found.png" alt="" style="width: 320px;">
+            <h3>
+                {{this.errorMessage}}
+            </h3>
         </div>
     </div>
 </div>

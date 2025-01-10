@@ -11,6 +11,7 @@ import { PickupGenerateComponent } from './pickup-generate/pickup-generate.compo
 import { SingleOrderViewComponent } from './single-order-view/single-order-view.component';
 import { ChooseOrderTypeComponent } from './choose-order-type/choose-order-type.component';
 import { BulkOrderTableComponent } from './bulk-order-table/bulk-order-table.component';
+import { UpdateOrderComponent } from './update-order/update-order.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { BulkOrderTableComponent } from './bulk-order-table/bulk-order-table.com
     PickupGenerateComponent,
     SingleOrderViewComponent,
     ChooseOrderTypeComponent,
-    BulkOrderTableComponent
+    BulkOrderTableComponent,
+    UpdateOrderComponent
   ],
   imports: [
     CommonModule,

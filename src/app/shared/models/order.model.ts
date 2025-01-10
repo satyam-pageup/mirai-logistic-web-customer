@@ -131,3 +131,41 @@ export interface warehouseFormData {
     country: string;
     isActive: boolean;
 }
+
+
+//update orderform
+export interface UpdateOrderForm {
+    id: FormControl<number | null>,
+    forwardShipments: FormArray<FormGroup<UpdateForwardShipment>>;
+}
+
+export interface UpdateForwardShipment {
+    id: FormControl<number | null>;
+    paymentMode: FormControl<string | null>;
+    codAmount: FormControl<number | null>;
+    products: FormArray<FormGroup<UpdateProductForm>>;
+}
+export interface UpdateProductForm {
+    id: FormControl<number | null>;
+    productDescription: FormControl<string | null>,
+    hsnCode: FormControl<string | null>,
+}
+
+
+export interface UpdateOrderFormData {
+    id: number;
+    forwardShipments: UpdateForwardShipmentData[];
+  }
+  
+  export interface UpdateForwardShipmentData {
+    id: number;
+    paymentMode: string;
+    codAmount: number;
+    products: UpdateProductFormData[];
+  }
+  
+  export interface UpdateProductFormData {
+    id: number;
+    productDescription: string;
+    hsnCode: string;
+  }

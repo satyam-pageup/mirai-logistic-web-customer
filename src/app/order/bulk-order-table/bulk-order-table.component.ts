@@ -10,6 +10,8 @@ import { IRateRequest } from '../../shared/interface/request/rateCalculator.requ
 import { Icharges, IRateDetails } from '../../shared/interface/response/rateCalculator.response';
 import { Router } from '@angular/router';
 import { appRoutes } from '../../shared/constants/appRoutes';
+import { LocationService } from '../../shared/services/location.service';
+import state from '../../shared/jsonFiles/state.json';
 
 @Component({
   selector: 'app-bulk-order-table',
@@ -23,7 +25,11 @@ export class BulkOrderTableComponent extends ComponentBase implements OnInit {
   public totalOrderPrice: number = 0; // Initialize totalOrderPrice
   public bulkOrderForm: FormGroup<{ orders: FormArray<FormGroup<bulkOrderForm>> }>;
 
-  constructor(private dataService: ExcelDataService, private router: Router) {
+  constructor(
+    private dataService: ExcelDataService,
+    private router: Router,
+    private locationService: LocationService
+  ) {
     super();
     this.bulkOrderForm = this.createForm();
   }
@@ -32,7 +38,7 @@ export class BulkOrderTableComponent extends ComponentBase implements OnInit {
     this.excelData = this.dataService.getData();
     this.excelHeaders = this.excelData[0];
     this.excelData = this.excelData.slice(1);
-    console.log("Excel Data",this.excelData)
+    console.log("Excel Data", this.excelData)
 
     const structuredData = this.excelData.map((row: any[]) => {
       const obj: any = {};
@@ -72,7 +78,7 @@ export class BulkOrderTableComponent extends ComponentBase implements OnInit {
     ordersArray.clear();
 
     for (const [index, item] of data.entries()) {
-      console.log("Item",item)
+      console.log("Item", item)
       const orderForm = new FormGroup<bulkOrderForm>({
         id: new FormControl<number | null>(0, [Validators.required]), // Placeholder for ID
         warehouseId: new FormControl<number | null>(0, [Validators.required]), // Placeholder for warehouseId
@@ -115,7 +121,7 @@ export class BulkOrderTableComponent extends ComponentBase implements OnInit {
         }),
       });
 
-      console.log("Order Form",orderForm)
+      console.log("Order Form", orderForm)
 
       if (orderForm.controls.pincode.value) {
         await this.checkShipmentAvailability(orderForm.controls.pincode.value, index); // Assuming this function returns a promise
@@ -142,7 +148,7 @@ export class BulkOrderTableComponent extends ComponentBase implements OnInit {
         this.calculateTotalPrice(orderForm.controls)
       }
 
-      console.log("Shipment",this.shipmentMode)
+      console.log("Shipment", this.shipmentMode)
 
       ordersArray.push(orderForm);// Add the new order form to the FormArray
 
@@ -221,30 +227,43 @@ export class BulkOrderTableComponent extends ComponentBase implements OnInit {
     }
   }
 
-  public onPincodeChange(index: number) {
-    if (this.bulkOrderForm.controls.orders.at(index).controls.pincode.valid) {
-      const data: { pincode: string } = {
-        pincode: this.bulkOrderForm.controls.orders.at(index).controls.pincode.value!
-      }
-      this.postAPICallPromise<{ pincode: string }, Identity<IPincodeDetails>>(ApiRoutes.ratecard.getPincodeDetails(parseInt(this.bulkOrderForm.controls.orders.at(index).controls.pincode.value!)), data, this.headerOption).then(
-        (res) => {
-          if (res?.data) {
-            console.log("first")
-            if (!this.shipmentMode) {
-              this.shipmentMode = [];
-            }
+  public onPincodeChange(index: number, type: string) {
+    // if (type == 'Warehouse' && this.bulkOrderForm.controls.orders.at(index).controls.warehouse.controls.wPincode.valid) {
+    //   const pincode = this.bulkOrderForm.controls.orders.at(index).controls.warehouse.controls.wPincode.value;
+    //   this.locationService.getDetailsUsingPincode(pincode!).then(
+    //     (res) => {
+    //       if (res[0].Status == "Success") {
+    //         console.log("Status")
+    //         this.shipmentStates = res[0].PostOffice
+    //           .map((x: { State: string }) => ({
+    //             name: x.State,
+    //             iso2: this.getStateAbbreviation(x.State),
+    //           }))
+    //           .filter((value: IStateDetails, index: number, self: IStateDetails[]) =>
+    //             index === self.findIndex((t) => t.name === value.name)
+    //           );
+    //         const StateName = this.getStateAbbreviation(res[0].PostOffice[0].State);
+    //         const fullCityName = res[0].PostOffice[0].District;
 
-            this.shipmentMode[index] = res.data;
-            console.log(index, this.shipmentMode)
-          }
-          else {
-            console.log("sec")
-            this.shipmentMode[index] = {} as IPincodeDetails;;
-            this.bulkOrderForm.controls.orders.at(index).controls.shipmentMode.setValue(null);
-            console.log(index, this.shipmentMode)
-          }
-        })
+    //         this.bulkOrderForm.controls.orders.at(index).controls.warehouse.controls.wState.setValue(StateName);
+    //         this.bulkOrderForm.controls.orders.at(index).controls.warehouse.controls.wCity.setValue(fullCityName);
+    //         this.onStateChange(type);
+    //       }
+    //       else {
+    //         this.toasterService.error("Invalid Pincode")
+    //       }
+    //     }
+    //   )
+    // }
+    // else if (type == 'Consignee' && this.bulkOrderForm.controls.orders.at(index).controls.pincode.valid) {
+    if (type == 'Consignee' && this.bulkOrderForm.controls.orders.at(index).controls.pincode.valid) {
+      this.checkShipmentAvailability(this.bulkOrderForm.controls.orders.at(index).controls.pincode.value!, index);
     }
+  }
+
+  private getStateAbbreviation(stateName: string): string {
+    const stateObj: { [key: string]: string } = state;
+    return stateObj[stateName];
   }
 
   // Method to check shipment availability
@@ -258,10 +277,18 @@ export class BulkOrderTableComponent extends ComponentBase implements OnInit {
         data,
         this.headerOption
       );
-      if (!this.shipmentMode) {
-        this.shipmentMode = [];
+      if (res?.data) {
+        if (!this.shipmentMode) {
+          this.shipmentMode = [];
+        }
+        this.shipmentMode[index] = res.data;
       }
-      this.shipmentMode[index] = res.data;
+      else {
+        console.log("sec")
+        this.shipmentMode[index] = {} as IPincodeDetails;;
+        this.bulkOrderForm.controls.orders.at(index).controls.shipmentMode.setValue(null);
+        console.log(index, this.shipmentMode)
+      }
     } catch (error) {
       console.error("Error fetching pincode details:", error);
     }
@@ -302,6 +329,73 @@ export class BulkOrderTableComponent extends ComponentBase implements OnInit {
       this.toasterService.error("Something went wrong");
     }
   }
+
+
+
+
+  // public onPincodeChange123(type: string) {
+  //   if (type == 'warehouse') {
+  //     const pincode = this.orderForm.controls.warehouse.controls.pincode.value;
+  //     if (pincode && this.orderForm.controls.warehouse.controls.pincode.valid) {
+  //       this.locationService.getDetailsUsingPincode(pincode).then(
+  //         (res) => {
+  //           if (res[0].Status == "Success") {
+  //             console.log("Status")
+  //             this.states = res[0].PostOffice
+  //               .map((x: { State: string }) => ({
+  //                 name: x.State,
+  //                 iso2: this.getStateAbbreviation(x.State),
+  //               }))
+  //               .filter((value: IStateDetails, index: number, self: IStateDetails[]) =>
+  //                 index === self.findIndex((t) => t.name === value.name)
+  //               );
+  //             const StateName = this.getStateAbbreviation(res[0].PostOffice[0].State);
+  //             const fullCityName = res[0].PostOffice[0].District;
+
+  //             this.orderForm.controls.warehouse.controls.state.setValue(StateName);
+  //             this.orderForm.controls.warehouse.controls.city.setValue(fullCityName);
+  //             this.onStateChange(type);
+  //           }
+  //           else {
+  //             this.toasterService.error("Invalid Pincode")
+  //           }
+  //         }
+  //       )
+  //     }
+  //   }
+  //   else if (type == 'shipment') {
+  //     // I only set state and city on the basis of 1st forwardShipment pincode
+  //     // If in future there is functionality to add multiple shipment then we can loop it or send index in this method and using it set state and city
+  //     const pincode = this.orderForm.controls.forwardShipments.at(0).controls.pincode.value;
+  //     if (pincode && this.orderForm.controls.forwardShipments.at(0).controls.pincode.valid) {
+  //       this.locationService.getDetailsUsingPincode(pincode).then(
+  //         (res) => {
+  //           if (res[0].Status == "Success") {
+  //             console.log("Status")
+  //             this.shipmentStates = res[0].PostOffice
+  //               .map((x: { State: string }) => ({
+  //                 name: x.State,
+  //                 iso2: this.getStateAbbreviation(x.State),
+  //               }))
+  //               .filter((value: IStateDetails, index: number, self: IStateDetails[]) =>
+  //                 index === self.findIndex((t) => t.name === value.name)
+  //               );
+  //             const StateName = this.getStateAbbreviation(res[0].PostOffice[0].State);
+  //             const fullCityName = res[0].PostOffice[0].District;
+
+  //             this.orderForm.controls.forwardShipments.at(0).controls.state.setValue(StateName);
+  //             this.orderForm.controls.forwardShipments.at(0).controls.city.setValue(fullCityName);
+  //             this.onStateChange(type);
+  //           }
+  //           else {
+  //             this.toasterService.error("Invalid Pincode")
+  //           }
+  //         }
+  //       )
+  //     }
+  //   }
+
+  // }
 
 
 }

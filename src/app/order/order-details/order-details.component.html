@@ -60,7 +60,7 @@
                 <span class="text-white me-1 fs-7">Upload Bulk Order</span>
             </a>
             <a class="btn btn-addemployee float-end d-flex align-items-center justify-content-center"
-                (click)="upsertorder(-1)">
+                (click)="addOrder()">
                 <i class='bx bx-plus fs-4 text-white'></i>
                 <span class="text-white me-1 fs-7">Create Order</span>
             </a>
@@ -89,9 +89,7 @@
                     <td>{{item.totalAmount | priceFormat}}</td>
                     <td>{{item.customerOrderStatus| spaceBeforeCapital}}</td>
                     <td (click)="$event.stopPropagation()">
-                        <!-- <button class="btn btn-sm btn-addemployee text-white"
-                            *ngIf="!item.pickUpCreated && item.pickUpDays<=5" (click)="generatePickup(i)">Add
-                            Pickup</button> -->
+
                         <p disabled
                             *ngIf="item.orderStatus !=='OrderPlaced' && !item.pickUpCreated && item.pickUpDays==0">
                             Canceled <img src="../../../assets/images/red-check.png" alt=""></p>
@@ -100,7 +98,6 @@
                         <p disabled
                             *ngIf="item.orderStatus =='OrderPlaced' && !item.pickUpCreated && item.pickUpDays<=6 && item.pickUpDays>0 ">
                             Not Created </p>
-                        <!-- {{ item.pickUpCreated ?"Yes":"No"}} -->
                     </td>
                     <td>
                         <div class="d-flex justify-content-around align-items-center">
@@ -108,12 +105,12 @@
                             <button class="btn-icon" (click)="orderView(item.orderId)" title="View Order">
                                 <i class='bx bxs-show fs-5'></i>
                             </button>
-                            <button [disabled]="checkOrderStatus(i)" (click)="upsertorder(i)" title="Edit Order"
+                            <button [disabled]="checkOrderStatus(i)" (click)="upsertorder(item.orderId)" title="Edit Order"
                                 class="btn-icon">
                                 <i class="bx bxs-edit fs-5 text-dark" [class.text-muted]="checkOrderStatus(i)"></i>
                             </button>
-                            <div class="dropdown">
-                                <button [disabled]="!item.isActive" class="btn dropdown-toggle action-btn active-btn"
+                            <!-- <div class="dropdown" >
+                                <button [disabled]="!item.isActive && checkOrderStatus(i)" class="btn dropdown-toggle action-btn active-btn"
                                     href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
                                     [ngClass]="item.isActive ? 'active-btn' : 'btn-warning In-active-btn'">
                                     {{item.isActive?"Activate":"Deactive"}}
@@ -123,7 +120,7 @@
                                             (click)="deleteOrder(item.isActive,item.orderId)">{{item.isActive?"Deactive":"Activate"}}</a>
                                     </li>
                                 </ul>
-                            </div>
+                            </div> -->
                         </div>
                     </td>
                 </tr>
@@ -131,9 +128,12 @@
         </table>
     </div>
 
-    <div *ngIf="isErrorComing" class="d-flex align-items-center justify-content-center mb-3">
-        <div style=" border-radius: 10px; background-color: rgb(233, 233, 233); width: 100%; text-align: center;">
-            {{this.errorMessage}}
+    <div *ngIf="isErrorComing">
+        <div class="d-flex align-items-center justify-content-center flex-column mb-3 w-100">
+            <img src="../../../assets/images/no-data-found.png" alt="" style="width: 320px;">
+            <h3>
+                {{this.errorMessage}}
+            </h3>
         </div>
     </div>
     <app-pagination [total]="totalCount" [top]="payload.top" (EEItemPerPage)="itemPerPage($event)"
@@ -143,8 +143,7 @@
 
 <ng-template #upsertOrderTemplate>
     <ng-container>
-        <app-add-manual-order [referenceData]="referenceData"
-            (EEformValue)="getFormDataE($event)"></app-add-manual-order>
+        <app-add-manual-order (EEformValue)="getFormDataE($event)"></app-add-manual-order>
     </ng-container>
 </ng-template>
 
@@ -154,10 +153,11 @@
     </ng-container>
 </ng-template>
 
-<!-- <ng-template #generatePickupTemplate>
+<ng-template #updateOrder>
     <ng-container>
-        <app-pickup-generate [referenceData]="referenceData" (EEformValue)="getFormDataE($event)"></app-pickup-generate>
+        <app-update-order [orderId]="orderId" (EEformValue)="getFormDataE($event)"></app-update-order>
     </ng-container>
-</ng-template> -->
+</ng-template>
+
 
 <!-- <app-barcode-scan></app-barcode-scan> -->

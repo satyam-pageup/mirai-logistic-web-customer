@@ -1,0 +1,84 @@
+<div class="modal-header justify-content-between border-b-0">
+    <h5 class="modal-title text-theme" id="">Update Order</h5>
+    <button type="button" class="btn btn-close-red d-flex justify-content-center align-items-center float-end"
+        data-bs-dismiss="modal" (click)="decline()">
+        <span class="me-2">Close</span>
+        <img src="../../../assets/images/close-icon-red.png" alt="">
+    </button>
+</div>
+
+<div class="modal-body input-text-modal">
+    <form [formGroup]="updateOrderForm">
+        <div [formGroup]="shipmentForm"
+            *ngFor="let shipmentForm of updateOrderForm.controls.forwardShipments.controls; let i = index">
+            <div *ngFor="let product of shipmentForm.controls.products.controls; let j = index">
+                <div class="row product-details" [formGroup]="product">
+                    <div class="col-6">
+                        <label for="formGroupExampleInput" class="form-label">HSN Code <span
+                                class="required">*</span></label>
+                        <input type="text" class="form-control" formControlName="hsnCode">
+                        <div
+                            *ngIf="product.controls.hsnCode && product.controls.hsnCode.invalid && product.controls.hsnCode.touched">
+                            <small class="text-danger" *ngIf="product.controls.hsnCode.hasError('required')">
+                                This field is required.
+                            </small>
+                            <small class="text-danger" *ngIf="product.controls.hsnCode.hasError('pattern')">
+                                Enter valid code.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <label for="formGroupExampleInput" class="form-label">Product Description <span
+                                class="required">*</span></label>
+                        <textarea class="form-control" formControlName="productDescription"></textarea>
+                        <div
+                            *ngIf="product.controls.productDescription && product.controls.productDescription.invalid && product.controls.productDescription.touched">
+                            <small class="text-danger" *ngIf="product.controls.productDescription.hasError('required')">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row g-2">
+                <div class="col-6">
+                    <label class="form-label">Payment Mode <span class="required">*</span></label>
+                    <select class="select form-select" aria-label="Default select example"
+                        formControlName="paymentMode">
+                        <option selected disabled>Choose option</option>
+                        <option [ngValue]="'Prepaid'">Prepaid</option>
+                        <option [ngValue]="'COD'">COD </option>
+                    </select>
+                    <div
+                        *ngIf="shipmentForm.controls.paymentMode && shipmentForm.controls.paymentMode.invalid && shipmentForm.controls.paymentMode.touched">
+                        <small class="text-danger" *ngIf="shipmentForm.controls.paymentMode.hasError('required')">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label class="form-label">COD Amount <span *ngIf="isCODRequired" class="required">*</span></label>
+                    <input type="number" class="form-control " formControlName="codAmount" />
+                    <div
+                        *ngIf="shipmentForm.controls.codAmount && shipmentForm.controls.codAmount.invalid && shipmentForm.controls.codAmount.touched">
+                        <small class="text-danger" *ngIf="shipmentForm.controls.codAmount.hasError('required')">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer border-t-0 save-employe-details">
+    <button *ngIf="!isSubmitting" type="button" class="btn btn-addemployee w-100 d-block text-white p-2 rounded-2"
+        (click)="confirm()">Save Order
+        Details</button>
+    <button *ngIf="isSubmitting" class="btn btn-addemployee w-100 d-block text-white p-2 rounded-2" type="button"
+        disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+    </button>
+</div>

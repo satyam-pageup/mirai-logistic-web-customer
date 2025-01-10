@@ -139,6 +139,14 @@
                             <span class="me-2 d-inline-block">Qty: {{package.quantity}}</span>
                             <span class="mx-2 d-inline-block">Wt(V): {{package.height * package.width * package.length}}
                                 m<sup>3</sup></span>
+                            <div *ngIf="package.wayBills.length > 0">Waybills - <span
+                                    *ngFor="let waybill of package.wayBills; index as j">{{waybill }}@if (j <
+                                        package.wayBills.length - 1) {, }</span>
+                            </div>
+                            <div *ngIf="package.barcodes.length > 0">Barcodes - <span
+                                    *ngFor="let barcode of package.barcodes; index as j">{{barcode}}@if (j <
+                                        package.barcodes.length - 1) {, } </span>
+                            </div>
                         </div>
                     </div>
                 </div>

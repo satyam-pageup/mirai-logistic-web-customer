@@ -27,7 +27,6 @@ export class LoginComponent extends ComponentBase {
   public isSubmitting: boolean = false;
   public steps: number = 1;
   public otp: string = "";
-  public isNewCustomer: boolean = false;
   public states: IStateDetails[] = [];
   public cities: ICityDetails[] = [];
 
@@ -65,7 +64,8 @@ export class LoginComponent extends ComponentBase {
 
   ngOnInit(): void {
     google.accounts.id.initialize({
-      client_id: '275974553025-um4otbnrt0lcs8vk4sdqjcstraik3rq2.apps.googleusercontent.com',
+      // client_id: '275974553025-um4otbnrt0lcs8vk4sdqjcstraik3rq2.apps.googleusercontent.com',
+      client_id: '165717162890-81pk2n612hok22bg4394lgtclf4l0isj.apps.googleusercontent.com',
       callback: (res: any) => {
         console.log(res)
         const data = this.tokenDecodeService.decodeToken(res.credential);
@@ -98,7 +98,6 @@ export class LoginComponent extends ComponentBase {
             }
           }
         })
-
       }
     })
     google.accounts.id.renderButton(document.getElementById("google-btn"), {
@@ -116,7 +115,6 @@ export class LoginComponent extends ComponentBase {
       }
     )
   }
-
 
   public changePhoneNo() {
     this.steps--;
@@ -154,39 +152,43 @@ export class LoginComponent extends ComponentBase {
     }
 
     if (this.steps === 2 && this.loginFormGroup.valid) {
-      this.isSubmitting = true;
-      const data: loginFormData = {
-        phoneNo: this.loginFormGroup.controls.phoneNo.value!,
-        otp: this.loginFormGroup.controls.otp.value!,
-        fcmToken: this.firebaseService.currentToken!,
-      }
-      this.authService.login(data).subscribe({
-        next: (res) => {
-          if (res.data.token) {
-            localStorage.setItem(environment.tokenKey, res.data.token);
-            localStorage.setItem(environment.refreshTokenKey, res.data.refreshToken);
-            localStorage.setItem(environment.customerData, JSON.stringify(res.data.customer));
-            this.toasterService.success("Login Successfully")
-            this.router.navigate(['./dashboard']);
-          }
-          else {
-            this.isNewCustomer = false;
-            this.steps++;
-            const phoneNo = this.loginFormGroup.controls.phoneNo.value;
-            this.registrationFormGroup.controls.contact.setValue(phoneNo);
-            this.registrationFormGroup.controls.contact.disable();
-            // this.toasterService.error(res.errorMessage);
-          }
-        },
-        error: (err) => {
-          this.toasterService.error(err);
-          this.isSubmitting = false;
-        },
-        complete: () => {
-          this.isSubmitting = false;
+      // Check the otp filled by user is correct or not
+      if (this.otp === this.loginFormGroup.value.otp) {
+        this.isSubmitting = true;
+        const data: loginFormData = {
+          phoneNo: this.loginFormGroup.controls.phoneNo.value!,
+          otp: this.loginFormGroup.controls.otp.value!,
+          fcmToken: this.firebaseService.currentToken!,
         }
-      })
-
+        this.authService.login(data).subscribe({
+          next: (res) => {
+            if (res.data.token) {
+              localStorage.setItem(environment.tokenKey, res.data.token);
+              localStorage.setItem(environment.refreshTokenKey, res.data.refreshToken);
+              localStorage.setItem(environment.customerData, JSON.stringify(res.data.customer));
+              this.toasterService.success("Login Successfully")
+              this.router.navigate(['./dashboard']);
+            }
+            else {
+              this.steps++;
+              const phoneNo = this.loginFormGroup.controls.phoneNo.value;
+              this.registrationFormGroup.controls.contact.setValue(phoneNo);
+              this.registrationFormGroup.controls.contact.disable();
+              // this.toasterService.error(res.errorMessage);
+            }
+          },
+          error: (err) => {
+            this.toasterService.error(err);
+            this.isSubmitting = false;
+          },
+          complete: () => {
+            this.isSubmitting = false;
+          }
+        })
+      }
+      else {
+        this.toasterService.error("Enter valid OTP")
+      }
 
     }
   }
