@@ -36,7 +36,7 @@
                                 </div>
                             </td>
 
-                            <td class="border-end border-gray text-theme-table text-center align-middle">Total Amount -
+                            <td *ngIf="!orderDetails.isReceivedOrder" class="border-end border-gray text-theme-table text-center align-middle">Total Amount -
                                 ₹{{orderDetails.totalAmount}} /-</td>
                             <td class="text-theme-table text-center align-middle">Order Date - {{orderDetails.orderDate
                                 | dateFormat}}</td>
@@ -183,7 +183,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12 mb-2">
+    <div class="col-sm-12 mb-2" *ngIf="!orderDetails.isReceivedOrder">
         <div class="customer-details mt-4 overflow-hidden border-bottom-0">
             <h3 class="mb-0">Payment Status Logs</h3>
             <div class="pickup-request">

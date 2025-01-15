@@ -13,6 +13,7 @@ import { IResponseOrder } from '../../shared/interface/response/order.response';
 import { ApiRoutes } from '../../shared/constants/apiRoutes';
 import { NotificationRequest } from '../../shared/interface/request/notification.request';
 import { ITotalNotification, Notification } from '../../shared/interface/response/notification.response';
+import { EmitDate } from '../../shared/models/dateRangePicker.model';
 
 @Component({
   selector: 'app-main-header',
@@ -214,4 +215,5 @@ export class MainHeaderComponent extends ComponentBase {
       }
     })
   }
+
 }

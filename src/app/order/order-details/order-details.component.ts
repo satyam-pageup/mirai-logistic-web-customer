@@ -48,7 +48,8 @@ export class OrderDetailsComponent extends ComponentBase implements OnInit {
     deliveryType: null,
     startDate: null,
     endDate: null,
-    customerId: null
+    customerId: null,
+    receivedOrder: false
   }
 
 
@@ -124,6 +125,10 @@ export class OrderDetailsComponent extends ComponentBase implements OnInit {
   }
 
   public onSelectionChange(event: any) {
+    this.payload.pageIndex=1;
+    this.payload.top = 10;
+    this.payload.search = '';
+    this.totalCount = 0;
     this.getOrderList();
   }
 

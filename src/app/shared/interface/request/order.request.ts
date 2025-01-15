@@ -5,5 +5,6 @@ export interface IOrderDetailsRequest extends IRequest{
     deliveryType: string | null,
     startDate: string | null,
     endDate: string | null,
-    customerId: number | null
+    customerId: number | null,
+    receivedOrder:boolean | null
 }

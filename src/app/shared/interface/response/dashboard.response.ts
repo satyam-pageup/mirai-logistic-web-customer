@@ -9,3 +9,5 @@ export class IDashBoardDetails {
     walletAmount: number=0;
     isWalletActive: boolean=false;
   }
+
+  

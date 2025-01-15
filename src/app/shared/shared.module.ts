@@ -18,6 +18,7 @@ import { UpdateProfileComponent } from './components/update-profile/update-profi
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { UpsertQueryComponent } from './components/upsert-query/upsert-query.component';
 import { FormErrorHandlerDirective } from './directives/form-error-handler.directive';
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { FormErrorHandlerDirective } from './directives/form-error-handler.direc
     UpdateProfileComponent,
     UpsertQueryComponent,
     FormErrorHandlerDirective,
+    DatePickerComponent,
   ],
   imports: [
     CommonModule,
@@ -57,7 +59,9 @@ import { FormErrorHandlerDirective } from './directives/form-error-handler.direc
     UpdateProfileComponent,
     SpaceBeforeCapitalPipe,
     UpsertQueryComponent,
-    FormErrorHandlerDirective
+    FormErrorHandlerDirective,
+    DatePickerComponent,
+
   ]
 })
 export class SharedModule { }

@@ -3,10 +3,11 @@ import { IDashBoardDetails } from '../../shared/interface/response/dashboard.res
 import { ComponentBase } from '../../shared/classes/component-base';
 import { Identity } from '../../shared/interface/response/response';
 import { ApiRoutes } from '../../shared/constants/apiRoutes';
-import { LoaderService } from '../../shared/services/loader.service';
 import { environment } from '../../../environments/environment.development';
 import { Customer } from '../../shared/interface/response/auth.response';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { DashboardRequest } from '../../shared/interface/request/dashboard.request';
+import { EmitDate } from '../../shared/models/dateRangePicker.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +20,10 @@ export class DashboardComponent extends ComponentBase implements OnInit {
   resolve: any;
   public dashboardDetails = new IDashBoardDetails();
   public customerData!: Customer;
-
+  public payload: DashboardRequest = {
+    startDate: this.getFormattedDate(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)),
+    endDate: this.getFormattedDate(new Date())
+  }
   constructor(private modalService: BsModalService) {
     super();
   }
@@ -40,15 +44,18 @@ export class DashboardComponent extends ComponentBase implements OnInit {
 
   private async getDashboardDetails() {
     this.loaderService.showLoader();
-    try {
-      const res = await this.getAPICallPromise<Identity<IDashBoardDetails>>(ApiRoutes.getDashboardDetail, this.headerOption)
-      if (res?.data) {
-        this.dashboardDetails = res.data;
+    const res = await this.postAPICall<DashboardRequest, Identity<IDashBoardDetails>>(ApiRoutes.getDashboardDetail, this.payload, this.headerOption).subscribe({
+      next: (res) => {
+        if (res?.data) {
+          this.dashboardDetails = res.data;
+          this.loaderService.hideLoader();
+        }
+      },
+      error: (err) => {
         this.loaderService.hideLoader();
       }
-    } catch (error) {
-      this.loaderService.hideLoader();
-    }
+    })
+
   }
 
   public getFormDataE(data: boolean) {
@@ -69,6 +76,21 @@ export class DashboardComponent extends ComponentBase implements OnInit {
       class: 'modal-lg'
     };
     this.modelRef = this.modalService.show(this.modalTemplate1, config);
+  }
+
+  private getFormattedDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-indexed
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`; // Format as YYYY-MM-DD
+  }
+  
+  
+  public datePicker(event: EmitDate) {
+    console.log(event)
+    this.payload.startDate = event.startDate;
+    this.payload.endDate = event.endDate;
+    this.getDashboardDetails();
   }
 
 }

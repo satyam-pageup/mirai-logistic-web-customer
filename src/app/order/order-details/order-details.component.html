@@ -5,7 +5,7 @@
 <div class="row" *ngIf="orderList?.length !== 0">
     <div class="col-sm-6">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <div class="d-flex align-items-center justify-content-center text-label-container">
                     <label>Order Status</label>
                     <select class="form-select" [(ngModel)]="payload.orderStatus" (change)="onSelectionChange($event)">
@@ -25,7 +25,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <div class="d-flex align-items-center justify-content-center text-label-container">
                     <label>Delivery Type</label>
                     <select class="form-select" [(ngModel)]="payload.deliveryType" (change)="onSelectionChange($event)">
@@ -35,6 +35,16 @@
                         <option [ngValue]="'Maruti'">Maruti</option>
                         <option [ngValue]="'Bluedart'">Bluedart</option>
                         <option [ngValue]="'Self'">Self</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="d-flex align-items-center justify-content-center text-label-container">
+                    <label>Order Type</label>
+                    <select class="form-select" [(ngModel)]="payload.receivedOrder" (change)="onSelectionChange($event)">
+                        <option selected disabled>Choose option</option>
+                        <option [ngValue]="false">My Orders</option>
+                        <option [ngValue]="true">Receiving Orders</option>
                     </select>
                 </div>
             </div>
@@ -105,8 +115,8 @@
                             <button class="btn-icon" (click)="orderView(item.orderId)" title="View Order">
                                 <i class='bx bxs-show fs-5'></i>
                             </button>
-                            <button [disabled]="checkOrderStatus(i)" (click)="upsertorder(item.orderId)" title="Edit Order"
-                                class="btn-icon">
+                            <button [disabled]="checkOrderStatus(i)" (click)="upsertorder(item.orderId)"
+                                title="Edit Order" class="btn-icon">
                                 <i class="bx bxs-edit fs-5 text-dark" [class.text-muted]="checkOrderStatus(i)"></i>
                             </button>
                             <!-- <div class="dropdown" >

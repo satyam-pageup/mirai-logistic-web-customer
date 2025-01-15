@@ -48,6 +48,8 @@ export class IROrderDetailsData {
   warehouse: Warehouse = new Warehouse();
   pickUpCreated: boolean = false;
   pickUpDays: number = 0;
+  isReceivedOrder:boolean=false;
+  receivedCustomerId:number = 0;
 }
 
 export class PickupRequest {
