@@ -7,15 +7,18 @@ import { ICountryDetails, IResponseState } from '../interface/response/locationS
 })
 export class LocationService {
 
-  private apiKey = 'OHQ2A8NZG3VS6WODUFCXFEX10VEP0I'; // Replace with your actual API key
-  private apiUrl = 'https://pinbinapi.com/api';
+  // private apiKey = 'OHQ2A8NZG3VS6WODUFCXFEX10VEP0I'; // Replace with your actual API key
+  // private apiUrl = 'https://pinbinapi.com/api';
+  private apiKey = 'R29mc1psS0VJTzZ0bUxoNmtzT1I4Y0pjdThyOGVOdkNObXpCOHVYSA=='; // Replace with your actual API key
+  private apiUrl = 'https://api.countrystatecity.in/v1';
 
   constructor(private http: HttpClient) { }
 
   getCountryDetails(): Promise<IResponseState<ICountryDetails[]>> {
     const url = `${this.apiUrl}/countries`;
     const headers = new Headers();
-    headers.append('X-API-KEY', `${this.apiKey}`);
+    // headers.append('X-API-KEY', `${this.apiKey}`);
+    headers.append('X-CSCAPI-KEY', `${this.apiKey}`);
 
     return fetch(url, {
       method: 'GET',
@@ -36,7 +39,8 @@ export class LocationService {
   getStateDetails(): Promise<any> {
     const url = `${this.apiUrl}/countries/IN/states`;
     const headers = new Headers();
-    headers.append('X-API-KEY', `${this.apiKey}`);
+    // headers.append('X-API-KEY', `${this.apiKey}`);
+    headers.append('X-CSCAPI-KEY', `${this.apiKey}`);
 
     return fetch(url, {
       method: 'GET',
@@ -57,7 +61,8 @@ export class LocationService {
   getCitiesDetails(state: string): Promise<any> {
     const url = `${this.apiUrl}/countries/IN/states/${state}/cities`;
     const headers = new Headers();
-    headers.append('X-API-KEY', `${this.apiKey}`);
+    // headers.append('X-API-KEY', `${this.apiKey}`);
+    headers.append('X-CSCAPI-KEY', `${this.apiKey}`);
 
     return fetch(url, {
       method: 'GET',

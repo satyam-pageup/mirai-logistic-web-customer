@@ -42,9 +42,24 @@ export class DashboardComponent extends ComponentBase implements OnInit {
     return (this.customerData.city.length == 0 && this.customerData.state.length == 0 && this.customerData.pinCode.length == 0)
   }
 
+  // private async getDashboardDetails() {
+  //   this.loaderService.showLoader();
+  //   const res = await this.postAPICall<DashboardRequest, Identity<IDashBoardDetails>>(ApiRoutes.getDashboardDetail, this.payload, this.headerOption).subscribe({
+  //     next: (res) => {
+  //       if (res?.data) {
+  //         this.dashboardDetails = res.data;
+  //         this.loaderService.hideLoader();
+  //       }
+  //     },
+  //     error: (err) => {
+  //       this.loaderService.hideLoader();
+  //     }
+  //   })
+  // }
+
   private async getDashboardDetails() {
     this.loaderService.showLoader();
-    const res = await this.postAPICall<DashboardRequest, Identity<IDashBoardDetails>>(ApiRoutes.getDashboardDetail, this.payload, this.headerOption).subscribe({
+    const res = await this.getAPICall<Identity<IDashBoardDetails>>(ApiRoutes.getDashboardDetail, this.headerOption).subscribe({
       next: (res) => {
         if (res?.data) {
           this.dashboardDetails = res.data;
@@ -84,8 +99,8 @@ export class DashboardComponent extends ComponentBase implements OnInit {
     const day = date.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`; // Format as YYYY-MM-DD
   }
-  
-  
+
+
   // public datePicker(event: EmitDate) {
   //   console.log(event)
   //   this.payload.startDate = event.startDate;
