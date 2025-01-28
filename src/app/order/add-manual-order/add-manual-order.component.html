@@ -312,6 +312,7 @@
                     </option>
                     <option *ngIf="shipmentMode?.air" [ngValue]="'Air'">Air</option>
                     <option *ngIf="shipmentMode?.airPremium" [ngValue]="'AirPremium'">Air Premium</option>
+                    <option *ngIf="shipmentMode?.airPremium" [ngValue]="'Self'">Transport</option>
                     <!-- <option *ngIf="shipmentMode?.oda" [ngValue]="'Default'">Default (ODA)</option> -->
                 </select>
                 <small class="text-danger"
