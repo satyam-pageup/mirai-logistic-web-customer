@@ -19,7 +19,7 @@
     height: 25px;
     line-height: 5px;
     font-size: 14px;
-    background: #5D60EF;
+    background: #0157a0;
     color: #fff;
 }
 
@@ -50,8 +50,8 @@ table tbody tr td {
 
 .edit-details {
     background-color: #F8F9FB;
-    border: solid thin #5D60EF;
-    color: #5D60EF;
+    border: solid thin #0157a0;
+    color: #0157a0;
     border-radius: 8px !important;
     padding: 6px 14px;
 }
@@ -91,7 +91,7 @@ table tbody tr td {
     height: 30px;
     width: 30px !important;
     border-radius: 50% !important;
-    background-color: #5D60EF;
+    background-color: #0157a0;
     line-height: 10px;
     text-align: center;
     padding: 0px 8px;
@@ -99,7 +99,7 @@ table tbody tr td {
 }
 
 .customer-information-tabs ul li button.active {
-    background-color: #5D60EF !important;
+    background-color: #0157a0 !important;
     color: #fff !important;
     border: none;
 }
@@ -149,3 +149,9 @@ table tbody tr td {
     color: #fff;
     cursor: pointer;
 }
+
+.btn-addemployee {
+    background: #0157a0;
+    color: #fff;
+}
+  

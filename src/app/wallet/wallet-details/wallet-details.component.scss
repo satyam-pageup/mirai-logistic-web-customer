@@ -1,29 +1,29 @@
-.recharge{
+.recharge {
     background-color: #f8f9fb;
-    border: solid thin #5D60EF;
-    color: #5d60ef;
+    border: solid thin #0157a0;
+    color: #0157a0;
     border-radius: 8px !important;
     padding: 6px 14px;
 }
 
-.add-amount{
+.add-amount {
     text-align: center;
     padding: 18px;
     background: #fff;
     border-radius: 8px;
-    border: solid thin #5D60EF;
+    border: solid thin #0157a0;
 }
 
-.price{
-    border: solid thin #5D60EF;
+.price {
+    border: solid thin #0157a0;
     padding: 5px 25px;
     border-radius: 8px;
     background: #fff;
 }
 
-.wallet-info{
+.wallet-info {
     color: #fff;
-    background: #5D60EF;
+    background: #0157a0;
     border-radius: 10px;
     padding: 20px 15px;
 }
@@ -44,12 +44,12 @@
     color: #A79600;
 }
 
-.name-info{
+.name-info {
     border-right: 2px solid grey;
 }
 
 .customer-information-tabs ul li button.active {
-    background-color: #5D60EF !important;
+    background-color: #0157a0 !important;
     color: #fff !important;
     border: none;
 }
@@ -64,7 +64,7 @@
 }
 
 
-/* From Uiverse.io by Yaya12085 */ 
+/* From Uiverse.io by Yaya12085 */
 .radio-inputs {
     position: relative;
     display: flex;
@@ -76,18 +76,18 @@
     padding: 0.25rem;
     width: 300px;
     font-size: 14px;
-  }
-  
-  .radio-inputs .radio {
+}
+
+.radio-inputs .radio {
     flex: 1 1 auto;
     text-align: center;
-  }
-  
-  .radio-inputs .radio input {
+}
+
+.radio-inputs .radio input {
     display: none;
-  }
-  
-  .radio-inputs .radio .name {
+}
+
+.radio-inputs .radio .name {
     display: flex;
     cursor: pointer;
     align-items: center;
@@ -97,9 +97,14 @@
     padding: .5rem 0;
     color: rgba(51, 65, 85, 1);
     transition: all .15s ease-in-out;
-  }
-  
-  .radio-inputs .radio input:checked + .name {
+}
+
+.radio-inputs .radio input:checked+.name {
     background-color: #fff;
     font-weight: 600;
-  }
+}
+
+.btn-addemployee {
+    background: #0157a0;
+    color: #fff;
+}

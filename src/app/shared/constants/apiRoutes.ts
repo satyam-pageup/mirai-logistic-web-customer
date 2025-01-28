@@ -6,15 +6,6 @@ export const ApiRoutes = {
     sendOtp: 'Login/phoneno',
     verifyOtp: 'Login/phoneno/otp',
     
-    //employee
-    employee: {
-        getEmployees: 'Employee',
-        registerEmployee: 'Login/RegisterEmployee',
-        deleteEmployee: (id: number) => `Employee/${id}`,
-        employeeById: (id: number) => `Employee/${id}`,
-        getEmployeeCombo: 'Employee/Combo',
-    },
-
     //customer
     customer: {
         getCustomer: 'Customer',
@@ -47,46 +38,22 @@ export const ApiRoutes = {
         updateOrder: 'Order/Update',
         addBulkOrder: 'Order/Bulk',
         getOrderByScanner: (scannerCode: string) => `Order/Barcode/${scannerCode}`,
-
-        changeOrderStatus: 'Order/ChangeOrderStatus',
-        changeDeliveryType: 'Order/SetDeliveryType',
         getSearchData: (data: string) => `Order/MasterSearch/${data}`,
-        addSingleWaybill: 'Order/WaybillBarcode',
 
         //cod
         getCodOrderOfCustomer: (customerId: number) => `Order/CODOrders/${customerId}`,
-        getCodOrders: 'Order/PendingCODReturns',
-        payCodAmount:'Order/CODReturn',
         getPaidCODList: 'Order/CompleteCODReturn',
     },
 
     //ratecard
     ratecard: {
-        getAllB2bRatecard: 'Ratecard/B2B/All',
         getAllB2bRatecardTable: 'Ratecard/B2B/Table/All',
-        addB2bRatecard: 'Ratecard/B2B',
-        addB2bRatecardTable: 'Ratecard/B2B/Table',
-        deleteB2bRatecard: (id: number) => `Ratecard/B2B/${id}`,
-
-        getAllCharges: 'Ratecard/Charges/All',
-        deleteCharges: (id: number) => `Ratecard/Charges/${id}`,
-        upsertCharges: 'Ratecard/Charges',
-
-        //Calculate Rate
-        getRateWithId: (id: number) => `Ratecard/CalculateRate/${id}`,
         getRate: 'Ratecard/CalculateRate',
         getPincodeDetails: (pincode: number) => `Ratecard/Pincode/${pincode}`,
     },
 
     //pickup
     pickup: {
-        getAllPickup: 'Pickup/All',
-        getAllPickupRequest: 'PickupRequest/All',
-        addPickupRequest: 'PickupRequest',
-        singlePickupView: (id: number) => `Pickup/${id}`,
-        deletePickupRequest: (id: number) => `PickupRequest/${id}`,
-        singlePickupRequestView: (id: number) => `PickupRequest/${id}`,
-
         generatePickup: 'Pickup',
     },
 
@@ -96,15 +63,6 @@ export const ApiRoutes = {
         deleteQuery: (id: number) => `Query/${id}`,
         addQuery: 'Query',
         singleQueryView: (id: number) => `Query/${id}`,
-        // communication
-        addCommunication: 'Query/Communication',
-    },
-
-    //wallet
-    wallet: {
-        addCreditAmount: 'Customer/UpdateCreditLimit',
-        activDeactiveWallet: (id: number) => `Customer/ActiveDeactiveWallet/${id}`,
-        rechargeWallet: 'Customer/RechargeWallet',
     },
 
     //notification

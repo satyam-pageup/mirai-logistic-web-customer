@@ -86,11 +86,11 @@ export class DashboardComponent extends ComponentBase implements OnInit {
   }
   
   
-  public datePicker(event: EmitDate) {
-    console.log(event)
-    this.payload.startDate = event.startDate;
-    this.payload.endDate = event.endDate;
-    this.getDashboardDetails();
-  }
+  // public datePicker(event: EmitDate) {
+  //   console.log(event)
+  //   this.payload.startDate = event.startDate;
+  //   this.payload.endDate = event.endDate;
+  //   this.getDashboardDetails();
+  // }
 
 }
