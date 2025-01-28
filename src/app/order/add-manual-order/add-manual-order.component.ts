@@ -178,9 +178,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
     //get states
     this.locationService.getStateDetails().then(
       (res) => {
-        if (res.status) {
-          this.states = res.data
-        }
+        this.states = res
       }
     )
 
@@ -285,9 +283,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
       if (state) {
         this.locationService.getCitiesDetails(state).then(
           (res) => {
-            if (res.status) {
-              this.cities = res.data
-            }
+            this.cities = res
           }
         )
       }
@@ -298,9 +294,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
       if (state) {
         this.locationService.getCitiesDetails(state).then(
           (res) => {
-            if (res.status) {
-              this.shipmentCities = res.data
-            }
+            this.shipmentCities = res
           }
         )
       }

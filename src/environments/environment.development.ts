@@ -1,6 +1,7 @@
 export const environment = {
 
     firebase: {
+    firebase: {
         apiKey: "AIzaSyCAH3JSPltdvmP-AaPG7pJaqlsFe1rCF9A",
         authDomain: "mirai-logistics.firebaseapp.com",
         projectId: "mirai-logistics",
@@ -9,6 +10,7 @@ export const environment = {
         appId: "1:165717162890:web:f73655ac23dfe90369a673",
         measurementId: "G-6WPYJKBEGL"
     },
+    vapidKey: "BGQTV_dtJpCHMOsXIyqHDM9kPUDEG-CkViSu55_BOAcdk2-ewp9EEdXRi4148uNjoNrJFn_X-Fo-uXjQeHGjFM8",
     vapidKey: "BGQTV_dtJpCHMOsXIyqHDM9kPUDEG-CkViSu55_BOAcdk2-ewp9EEdXRi4148uNjoNrJFn_X-Fo-uXjQeHGjFM8",
 
     // baseUrl: "http://pageupsoft-001-site13.ktempurl.com/api/",

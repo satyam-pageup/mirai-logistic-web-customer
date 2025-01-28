@@ -109,9 +109,7 @@ export class LoginComponent extends ComponentBase {
 
     this.locationService.getStateDetails().then(
       (res) => {
-        if (res.status) {
-          this.states = res.data
-        }
+        this.states = res
       }
     )
   }
@@ -246,9 +244,7 @@ export class LoginComponent extends ComponentBase {
   private getCities(state: string) {
     this.locationService.getCitiesDetails(state).then(
       (res) => {
-        if (res.status) {
-          this.cities = res.data
-        }
+        this.cities = res
       }
     )
   }
