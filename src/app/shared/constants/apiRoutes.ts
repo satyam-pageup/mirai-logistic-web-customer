@@ -67,7 +67,8 @@ export const ApiRoutes = {
 
     //notification
     notification:{
-        getNotification:'Notification'
+        getNotification:'Notification',
+        readNotification:(id:number)=>`Notification/${id}`
     },
 
     zonecombo:'Zone/Combo',

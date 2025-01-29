@@ -401,6 +401,7 @@ export class AddManualOrderComponent extends ComponentBase implements OnInit {
           }
           console.log(data)
           this.paymentService.createRzpayOrder(data);
+          this.isSubmitting = false;
         }
         else {
           console.log("else")

@@ -12,15 +12,18 @@
             </div>
             <div class="col-sm-5">
                 <div class="login-rightbox d-flex justify-content-center align-items-center h-100 mx-auto">
-                    <div class="logobox mb-5">
-                        <img class="w-100" src="../../../assets/images/miraiFinalLogo.png" alt="" />
+                    <div class="justify-content-center mb-3 d-flex" *ngIf="steps !== 3">
+                        <img class="w-75" src="../../../assets/images/miraiFinalLogo.png" alt="" />
                     </div>
-                    
-                    <div id="google-btn"></div>
-                    <form [formGroup]="loginFormGroup" class="row g-3 mt-5 needs-validation" *ngIf="steps !== 3">
+
+                    <form [formGroup]="loginFormGroup" class="row g-3 my-3 needs-validation w-100" *ngIf="steps !== 3">
+                        
+                        
                         <div class="col-md-12 position-relative" *ngIf="steps == 1">
-                            <input type="text" class="form-control border border-secondary" maxlength="10" placeholder="Enter phone number"
-                                formControlName="phoneNo" />
+                            <label for="phonenumber" class="form-label fw-semibold phonenumber-label">Phone Number <span
+                                class="required">*</span></label>
+                            <input type="text" class="form-control border border-secondary" maxlength="10"
+                                placeholder="Enter phone number" formControlName="phoneNo" />
                             <div
                                 *ngIf="this.loginFormGroup.controls.phoneNo && this.loginFormGroup.controls.phoneNo.invalid && this.loginFormGroup.controls.phoneNo.touched">
                                 <small class="text-danger"
@@ -33,9 +36,12 @@
                                 </small>
                             </div>
                         </div>
+
+
+
                         <div class="col-md-12 position-relative" *ngIf="steps == 2">
-                            <div class="row">
-                                <div class="col-md-12">
+                            <div class="row align-items-center justify-content-center otp-row">
+                                <div class="col-md-10">
                                     <p>The OTP has been sent to
                                         <span class="text-primary">
                                             {{loginFormGroup.controls.phoneNo.value}}
@@ -43,33 +49,26 @@
                                         </span>
                                     </p>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-10">
                                     <p class="mb-3">{{otp}}</p>
                                     <ng-otp-input (onInputChange)="onOtpChange($event)"
                                         [config]="config"></ng-otp-input>
                                 </div>
                             </div>
+                        </div>
 
-                        </div>
-                        <div class="col-md-12 position-relative" >
-                        </div>
-                        <div class="col-12">
-                            <button *ngIf="!isSubmitting" (click)="login()" class="btn btn-primary w-100"
-                                type="submit">{{steps === 1 ? 'Send OTP' : 'Submit'}}</button>
-                            <button *ngIf="isSubmitting" class="btn btn-primary w-100" type="button" disabled>
-                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                Loading...
-                            </button>
-                        </div>
+
                     </form>
                     <form [formGroup]="registrationFormGroup" *ngIf="steps == 3">
-                        <div class="row g-2">
+                        <div class="row g-2 mb-3">
                             <div class="col-12 mb-1">
-                                <h4>Personal Details</h4>
+                                <h4 class="registration-heading">Registration</h4>
+                                <hr class="hr-regis-heading">
                             </div>
                             <div class="col-6">
-                                <label for="formGroupExampleInput" class="form-label">First Name <span class="required">*</span></label>
-                                <input type="text" class="form-control" placeholder="First name" aria-label="First name"
+                                <label for="formGroupExampleInput" class="form-label">First Name <span
+                                        class="required">*</span></label>
+                                <input type="text" class="form-control w-100" placeholder="First name" aria-label="First name"
                                     formControlName="firstName">
                                 <div
                                     *ngIf="this.registrationFormGroup.controls.firstName && this.registrationFormGroup.controls.firstName.invalid && this.registrationFormGroup.controls.firstName.touched">
@@ -83,9 +82,10 @@
                                     </small>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <label for="formGroupExampleInput" class="form-label">Last Name <span class="required">*</span></label>
-                                <input type="text" class="form-control" placeholder="Last name" aria-label="Last name"
+                            <div class="col-6 ps-3">
+                                <label for="formGroupExampleInput" class="form-label">Last Name <span
+                                        class="required">*</span></label>
+                                <input type="text" class="form-control w-100" placeholder="Last name" aria-label="Last name"
                                     formControlName="lastName">
                                 <div
                                     *ngIf="this.registrationFormGroup.controls.lastName && this.registrationFormGroup.controls.lastName.invalid && this.registrationFormGroup.controls.lastName.touched">
@@ -101,40 +101,47 @@
                             </div>
                             <div class="col-6">
                                 <label for="formGroupExampleInput" class="form-label">Email</label>
-                                <input type="email" class="form-control" placeholder="" aria-label="" formControlName="email">
+                                <input type="email" class="form-control w-100" placeholder="" aria-label=""
+                                    formControlName="email">
                                 <div
                                     *ngIf="this.registrationFormGroup.controls.email && this.registrationFormGroup.controls.email.invalid && this.registrationFormGroup.controls.email.touched">
-                                    <small class="text-danger" *ngIf="this.registrationFormGroup.controls.email.hasError('pattern')">
+                                    <small class="text-danger"
+                                        *ngIf="this.registrationFormGroup.controls.email.hasError('pattern')">
                                         Enter valid email.
                                     </small>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <label class="form-label" for="phoneNumber">Phone Number <span class="required">*</span></label>
-                                <input type="text" class="form-control" maxlength="10" formControlName="contact" />
+                            <div class="col-6 ps-3">
+                                <label class="form-label" for="phoneNumber">Phone Number <span
+                                        class="required">*</span></label>
+                                <input type="text" class="form-control w-100" maxlength="10" formControlName="contact" />
                                 <div
                                     *ngIf="this.registrationFormGroup.controls.contact && this.registrationFormGroup.controls.contact.invalid && this.registrationFormGroup.controls.contact.touched">
-                                    <small class="text-danger" *ngIf="this.registrationFormGroup.controls.contact.hasError('required')">
+                                    <small class="text-danger"
+                                        *ngIf="this.registrationFormGroup.controls.contact.hasError('required')">
                                         This field is required.
                                     </small>
-                                    <small class="text-danger" *ngIf="this.registrationFormGroup.controls.contact.hasError('pattern')">
+                                    <small class="text-danger"
+                                        *ngIf="this.registrationFormGroup.controls.contact.hasError('pattern')">
                                         Enter valid phone number
                                     </small>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <label class="form-label">Address <span class="required">*</span></label>
-                                <input type="tel" class="form-control" formControlName="address" />
+                                <input type="tel" class="form-control w-100" formControlName="address" />
                                 <div
                                     *ngIf="this.registrationFormGroup.controls.address && this.registrationFormGroup.controls.address.invalid && this.registrationFormGroup.controls.address.touched">
-                                    <small class="text-danger" *ngIf="this.registrationFormGroup.controls.address.hasError('required')">
+                                    <small class="text-danger"
+                                        *ngIf="this.registrationFormGroup.controls.address.hasError('required')">
                                         This field is required.
                                     </small>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-6 ps-3">
                                 <label class="form-label">Customer Type <span class="required">*</span></label>
-                                <select class="select form-select" aria-label="Default select example" formControlName="customerType">
+                                <select class="select form-select" aria-label="Default select example"
+                                    formControlName="customerType">
                                     <option selected disabled>Choose option</option>
                                     <option [ngValue]="'Personal'">Personal</option>
                                     <option [ngValue]="'Business'">Business</option>
@@ -148,55 +155,79 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <label for="state" class="form-label select-label">State <span class="required">*</span></label>
-                                <select class="select form-select" (change)="onStateChange()" aria-label="Default select example"
-                                    formControlName="state">
+                                <label for="state" class="form-label select-label">State <span
+                                        class="required">*</span></label>
+                                <select class="select form-select" (change)="onStateChange()"
+                                    aria-label="Default select example" formControlName="state">
                                     <option selected disabled>Choose option</option>
-                                    <option *ngFor="let state of states; index as i" [ngValue]="state.iso2">{{state.name}}</option>
+                                    <option *ngFor="let state of states; index as i" [ngValue]="state.iso2">
+                                        {{state.name}}</option>
                                 </select>
                                 <div
                                     *ngIf="this.registrationFormGroup.controls.state && this.registrationFormGroup.controls.state.invalid && this.registrationFormGroup.controls.state.touched">
-                                    <small class="text-danger" *ngIf="this.registrationFormGroup.controls.state.hasError('required')">
+                                    <small class="text-danger"
+                                        *ngIf="this.registrationFormGroup.controls.state.hasError('required')">
                                         This field is required.
                                     </small>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-6 ps-3">
                                 <label class="form-label select-label">City <span class="required">*</span></label>
-                                <select class="select form-select" aria-label="Default select example" formControlName="city">
+                                <select class="select form-select" aria-label="Default select example"
+                                    formControlName="city">
                                     <option selected disabled>Choose option </option>
-                                    <option *ngFor="let city of cities; index as i" [ngValue]="city.name">{{city.name}}</option>
+                                    <option *ngFor="let city of cities; index as i" [ngValue]="city.name">{{city.name}}
+                                    </option>
                                 </select>
                                 <div
                                     *ngIf="this.registrationFormGroup.controls.city && this.registrationFormGroup.controls.city.invalid && this.registrationFormGroup.controls.city.touched">
-                                    <small class="text-danger" *ngIf="this.registrationFormGroup.controls.city.hasError('required')">
+                                    <small class="text-danger"
+                                        *ngIf="this.registrationFormGroup.controls.city.hasError('required')">
                                         This field is required.
                                     </small>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <label class="form-label">Pincode <span class="required">*</span></label>
-                                <input type="text" class="form-control" formControlName="pinCode" maxlength="6" />
+                                <input type="text" class="form-control w-100" formControlName="pinCode" maxlength="6" />
                                 <div
                                     *ngIf="this.registrationFormGroup.controls.pinCode && this.registrationFormGroup.controls.pinCode.invalid && this.registrationFormGroup.controls.pinCode.touched">
-                                    <small class="text-danger" *ngIf="this.registrationFormGroup.controls.pinCode.hasError('required')">
+                                    <small class="text-danger"
+                                        *ngIf="this.registrationFormGroup.controls.pinCode.hasError('required')">
                                         This field is required.
                                     </small>
-                                    <small class="text-danger" *ngIf="this.registrationFormGroup.controls.pinCode.hasError('pattern')">
+                                    <small class="text-danger"
+                                        *ngIf="this.registrationFormGroup.controls.pinCode.hasError('pattern')">
                                         Enter valid pin code.
                                     </small>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <!-- <div class="col-12">
                                 <button *ngIf="!isSubmitting" (click)="registerCustomer()" class="btn btn-primary w-100"
                                     type="submit">Submit</button>
                                 <button *ngIf="isSubmitting" class="btn btn-primary w-100" type="button" disabled>
-                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    <span class="spinner-border spinner-border-sm" role="status"
+                                        aria-hidden="true"></span>
                                     Loading...
                                 </button>
-                            </div>
+                            </div> -->
                         </div>
                     </form>
+
+                    <!-- google and submit button -->
+                    <div class="text-center w-100 mt-3">
+                        <div class="col-12">
+                            <button *ngIf="!isSubmitting" (click)="login()" class="btn 0" type="submit">{{steps === 1 ?
+                                'Send OTP' : 'Submit'}}</button>
+                            <button *ngIf="isSubmitting" class="btn " type="button" disabled>
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Loading...
+                            </button>
+                        </div>
+                        <div class="divider">OR</div>
+                        <div id="google-btn" class="google-btn-1 w-100"></div>
+
+                    </div>
                 </div>
             </div>
         </div>

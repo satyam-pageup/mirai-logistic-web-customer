@@ -27,13 +27,13 @@ export class PaymentService {
     private toasterService: ToastrService
   ) { }
 
-  createRzpayOrder(data: RazorpayFormData) {
+  public createRzpayOrder(data: RazorpayFormData) {
     this.dataProps = data;
     const prop = {
       amount: data.amount
     }
     const url = this.baseUrl + `RazorPay`;
-    this.http.post<Identity<IRazorpayApiResponse>>(url, prop).subscribe(
+    return this.http.post<Identity<IRazorpayApiResponse>>(url, prop).subscribe(
       (res) => {
         this.razorpayResponseData = res.data;
         this.dataProps.orderData = {

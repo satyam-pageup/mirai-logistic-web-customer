@@ -1,65 +1,139 @@
-
-
 .logintext {
-    background-image: url(../../../assets/images/login-bg.png);
-    background-position: center 100%;
-    background-size: cover;
-    height: 100%;
-    width: 100%;
-    position: relative;
-  }
-  
-  .bg-login {
-    height: 100vh;
-    background-color: #fff;
-  }
-  
-  .login-rightbox {
-    flex-direction: column;
-    max-width: 450px;
-  }
-  
-  .login-rightbox input {
-    background: #F8F9FB;
-    border: none;
-    height: 45px;
-  }
-  
-  .login-rightbox button {
-    background: #0157a0;
-    color: #fff;
-    height: 45px;
-    border: none;
-    font-size: 20px;
-    font-weight: 400;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  
-  .text-forgotpwd {
-    color: #0157a0;
-  }
-  
-  .text-deconration-none {
-    text-decoration: none;
-  }
-  
-  .logintext h1 {
-    font-size: 130px;
-    /* text-align: CENTER; */
-    color: #fff;
-    /* margin-top: 100px; */
-    position: ABSOLUTE;
-    top: 80px;
-    left: 150px;
-  }
+  background-image: url(../../../assets/images/login-bg.png);
+  background-position: center 100%;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
 
-  .cp{
-    cursor: pointer;
-  }
+.bg-login {
+  height: 100vh;
+  background-color: #fff;
+}
 
-  
-.required{
+.login-rightbox {
+  flex-direction: column;
+  // max-width: 450px;
+  max-width: 85%;
+}
+
+.login-rightbox input {
+  background: #fdfdfd;
+  border: none;
+  height: 45px;
+  width: 55%;
+  margin: auto;
+  border: 1px solid #d7d7d7;
+}
+
+.login-rightbox .form-label {
+  margin-bottom: .5rem;
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+.login-rightbox button {
+  background: #0157a0;
+  color: #fff;
+  width: 53%;
+  height: 40px;
+  border: none;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.text-forgotpwd {
+  color: #0157a0;
+}
+
+.text-deconration-none {
+  text-decoration: none;
+}
+
+.logintext h1 {
+  font-size: 130px;
+  /* text-align: CENTER; */
+  color: #fff;
+  /* margin-top: 100px; */
+  position: ABSOLUTE;
+  top: 80px;
+  left: 150px;
+}
+
+.cp {
+  cursor: pointer;
+}
+
+.phonenumber-label {
+  margin: 3px auto;
+  width: 53%;
+  display: block;
+}
+
+.required {
   color: red;
   font-weight: 500;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 15px auto;
+  width: 250px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+
+.divider:not(:empty)::before {
+  margin-right: 10px;
+}
+
+.divider:not(:empty)::after {
+  margin-left: 10px;
+}
+
+.google-btn-1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  // background-color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#google-btn iframe {
+  width: 100% !important;
+}
+
+.ng-otp-input-wrapper .otp-input {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 4px;
+  border: solid 1px #c5c5c5;
+  text-align: center;
+  font-size: 32px;
+}
+
+.hr-regis-heading {
+  width: 100px;
+  height: 3px;
+  color: #09579d;
+  opacity: 1;
+  margin: 0;
+}
+.otp-row {
+  width: 70%;
+  margin: auto;
 }

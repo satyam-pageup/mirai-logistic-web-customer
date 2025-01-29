@@ -53,7 +53,16 @@ export class LoginComponent extends ComponentBase {
     length: 6,
     isPasswordInput: false,
     disableAutoFocus: false,
-    placeholder: ''
+    placeholder: '',
+    inputStyles: {
+      'width': '40px',
+      'height': '40px',
+      'border-radius': '10px',
+
+      'margin': '5px',
+      'font-size': '20px',
+      'text-align': 'center',
+    }
   };
 
 
@@ -149,7 +158,7 @@ export class LoginComponent extends ComponentBase {
       }
     }
 
-    if (this.steps === 2 && this.loginFormGroup.valid) {
+    else if (this.steps === 2 && this.loginFormGroup.valid) {
       // Check the otp filled by user is correct or not
       if (this.otp === this.loginFormGroup.value.otp) {
         this.isSubmitting = true;
@@ -188,6 +197,10 @@ export class LoginComponent extends ComponentBase {
         this.toasterService.error("Enter valid OTP")
       }
 
+    }
+
+    else if (this.steps === 3) {
+      this.registerCustomer();
     }
   }
 
@@ -248,7 +261,4 @@ export class LoginComponent extends ComponentBase {
       }
     )
   }
-
-
-
 }

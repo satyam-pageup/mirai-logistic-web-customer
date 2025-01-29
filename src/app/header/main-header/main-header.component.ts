@@ -64,7 +64,7 @@ export class MainHeaderComponent extends ComponentBase {
     if (this.customerData) {
       this.notificationPayload.userId = this.customerData.id;
     }
-    
+
     this.authService.onLoginChange.subscribe((res) => {
       if (typeof document !== 'undefined') {
         let arrow = document.querySelectorAll(".arrow");
@@ -85,7 +85,7 @@ export class MainHeaderComponent extends ComponentBase {
       this.onDestroy$.next();
       this.onSearchOrder();
     })
-    
+
     this.getNotificationList();
   }
 
@@ -159,7 +159,7 @@ export class MainHeaderComponent extends ComponentBase {
     const targetElement = event.target as HTMLElement;
     // Check if the click is outside the search list wrapper
     this.showNotifications = false
-    
+
     if (!targetElement.closest('.search-list-wrapper')) {
       this.isListOpen = false;
     }
@@ -182,7 +182,8 @@ export class MainHeaderComponent extends ComponentBase {
     }
   }
 
-  toggleNotifications() {
+  toggleNotifications(event: Event) {
+    event.stopPropagation();
     this.showNotifications = !this.showNotifications;
 
     if (this.showNotifications && this.notificationList.length === 0) {
@@ -196,7 +197,7 @@ export class MainHeaderComponent extends ComponentBase {
     const scrollThreshold = target.scrollHeight * 0.9;
 
     if (scrollPosition >= scrollThreshold && !this.isLoading) {
-      if(this.notificationPayload.top * this.notificationPayload.pageIndex < this.totalNotification){
+      if (this.notificationPayload.top * this.notificationPayload.pageIndex < this.totalNotification) {
         this.getNotificationList();
       }
     }
@@ -213,6 +214,16 @@ export class MainHeaderComponent extends ComponentBase {
           this.isLoading = false;
         }
       }
+    })
+  }
+
+  public readNotification(id: number) {
+    this.getAPICallPromise<Identity<boolean>>(ApiRoutes.notification.readNotification(id), this.headerOption).then((res) => {
+      if (res.data) {
+        this.getNotificationList();
+      }
+    }).catch((err) => {
+      this.toasterService.error(err.error.message);
     })
   }
 

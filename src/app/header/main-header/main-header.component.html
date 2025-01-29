@@ -63,14 +63,14 @@
                 </div>
             </div>
         </div>
-        <div class="notification mx-3" (click)="toggleNotifications()">
+        <div class="notification mx-3" (click)="toggleNotifications($event)">
             <!-- <img src="../../../assets/images/notification.png" alt=""> -->
             <i class="bx bx-bell"></i>
             <span class="notification-count" *ngIf="totalUnreadNotification > 0">{{totalUnreadNotification}}</span>
         </div>
         <div *ngIf="showNotifications" class="scroll-container" id="scrollable-container" (scroll)="onScroll($event)">
             <div *ngFor="let item of notificationList" class="list-group">
-                <a class="list-group-item list-group-item-action mb-1"
+                <a class="list-group-item list-group-item-action mb-1 cp" (click)="readNotification(item.id)"
                     [ngClass]="{'read-class': item.isRead, 'unread-class': !item.isRead}">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{item.title}}</h5>
